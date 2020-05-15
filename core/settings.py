@@ -104,8 +104,6 @@ connect(
     host="mongodb://localhost:27017/"
 )
 
-
-
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
