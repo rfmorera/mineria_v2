@@ -1,5 +1,5 @@
 from django_mongoengine import Document
-from mongoengine import signals
+import datetime
 from mongoengine import StringField, IntField, DateTimeField, ReferenceField, DictField, DecimalField, ListField
 
 
@@ -29,7 +29,7 @@ class Opinion(Document):
 class Tweet(Opinion):
     tweet_id = IntField()
     tweet_date_created = DateTimeField()
-    tweet_text = StringField() # TODO: check if this property can be removed using raw_content above
+    tweet_text = StringField()  # TODO: check if this property can be removed using raw_content above
 
     @staticmethod
     def create(row):
@@ -46,6 +46,6 @@ class Fuente(Document):
 class Entrada(Document):
     content = StringField()
     processed_content = StringField()
-    fecha = DateTimeField()
+    fecha = DateTimeField(default=datetime.datetime.utcnow)
     fuente = ReferenceField(Fuente)
     opinion_list = ListField(ReferenceField(Opinion))
