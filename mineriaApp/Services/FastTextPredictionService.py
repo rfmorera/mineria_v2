@@ -50,7 +50,7 @@ class FastTextPrediction(object):
 
         sent_list = []
         for i in range(len(predictions[0])):
-            sent = cls.process_predictions(predictions[0][i], predictions[1][i], opinions[i].processed_)
+            sent = cls.process_predictions(predictions[0][i], predictions[1][i], opinions[i].processed_content)
             sent_list.append(sent)
 
         return sent_list
