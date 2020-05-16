@@ -46,11 +46,11 @@ class FastTextPrediction(object):
 
         clf = cls.get_models()
 
-        predictions = clf.predict([op.content for op in opinions], k=3)
+        predictions = clf.predict([op.processed_content for op in opinions], k=3)
 
         sent_list = []
         for i in range(len(predictions[0])):
-            sent = cls.process_predictions(predictions[0][i], predictions[1][i], opinions[i].content)
+            sent = cls.process_predictions(predictions[0][i], predictions[1][i], opinions[i].processed_content)
             sent_list.append(sent)
 
         return sent_list
