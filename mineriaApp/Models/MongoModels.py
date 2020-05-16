@@ -20,7 +20,7 @@ class Opinion(Document):
     content = StringField()
     processed_content = StringField()
     resumen = StringField(default="No procesado.")
-    keywords = StringField(default="No procesado.")
+    keywords = ListField(StringField(default="No procesado."))
     meta = {'allow_inheritance': True}
     sentiment = ReferenceField('Sentiment')
     entrada = ReferenceField('Entrada')
