@@ -4,10 +4,9 @@ from mongoengine import StringField, IntField, DateTimeField, ReferenceField, Di
 
 
 class Sentiment(Document):
-    # external_id = StringField(required=True)
     sentiment = StringField(required=True)
     sentiment_scores = DictField(DecimalField(precision=4))
-    # date_created = DateTimeField(default=datetime.utcnow())
+    date_created = DateTimeField(default=datetime.datetime.utcnow())
 
 
     @staticmethod
@@ -24,6 +23,7 @@ class Opinion(Document):
     keywords = StringField(default="No procesado.")
     meta = {'allow_inheritance': True}
     sentiment = ReferenceField('Sentiment')
+    entrada = ReferenceField('Entrada')
 
 
 class Tweet(Opinion):
@@ -44,8 +44,13 @@ class Fuente(Document):
 
 
 class Entrada(Document):
+    meta = {'allow_inheritance': True}
     content = StringField()
     processed_content = StringField()
     fecha = DateTimeField(default=datetime.datetime.utcnow)
     fuente = ReferenceField(Fuente)
-    opinion_list = ListField(ReferenceField(Opinion))
+    opinion_list = ListField(ReferenceField('Opinion'))
+
+
+class PortalEntrada(Entrada):
+    etiquetas = ListField(StringField())
