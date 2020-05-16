@@ -49,7 +49,6 @@ class Entrada(Document):
     processed_content = StringField()
     fecha = DateTimeField(default=datetime.datetime.utcnow)
     fuente = ReferenceField(Fuente)
-    opinion_list = ListField(ReferenceField('Opinion'))
     resumen = StringField(default="No procesado.")
     keywords = ListField(StringField(default="No procesado."))
 
