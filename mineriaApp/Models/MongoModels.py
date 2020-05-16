@@ -50,6 +50,8 @@ class Entrada(Document):
     fecha = DateTimeField(default=datetime.datetime.utcnow)
     fuente = ReferenceField(Fuente)
     opinion_list = ListField(ReferenceField('Opinion'))
+    resumen = StringField(default="No procesado.")
+    keywords = ListField(StringField(default="No procesado."))
 
 
 class PortalEntrada(Entrada):
