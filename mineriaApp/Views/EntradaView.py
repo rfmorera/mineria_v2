@@ -1,9 +1,10 @@
 import json
+import datetime
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
-from mineriaApp.Models.MongoModels import Opinion
+from mineriaApp.Models.MongoModels import PortalEntrada
 from mineriaApp.Serializers.MongoSerializers import EntradaSerializer
 from mineriaApp.Services.EntradaService import EntradaService
 from mineriaApp.Services.PreprocessorService import PreprocessorService
@@ -27,15 +28,22 @@ class EntradaView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        """Inserta las opiniones"""
+        """Inserta entradas"""
         data = request.data
 
-        opinions_raw = [Opinion(content=r) for r in data]
+        entradas = []
+        for r in data:
+            if "type" in r.keys():
+                if r["type"] == "portal":
+                    entradas.append(PortalEntrada(content=r["content"],
+                                                  fecha=datetime.datetime.strptime(r["fecha"], "%d/%m/%Y"),
+                                                  etiquetas=r["etiquetas"],
+                                                  fuente=r["fuente_id"]))
 
-        opinions = PreprocessorService.preprocess(opinions_raw)
-        opinions_saved = EntradaService.save_opinions(opinions)
+        entradas = PreprocessorService.preprocess(entradas)
+        entradas_saved = EntradaService.save_opinions(entradas)
 
-        op_ids = [str(op.id) for op in opinions_saved]
+        ent_ids = [str(ent.id) for ent in entradas_saved]
 
-        content = {"ids": op_ids}
+        content = {"ids": ent_ids}
         return Response(content)
