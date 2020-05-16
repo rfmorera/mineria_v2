@@ -11,7 +11,7 @@ class ResumenService(object):
             op_list = OpinionService.get_by_ids(ids)
         else:
             op_list = EntradaService.get_by_ids(ids)
-        print(ratio)
+
         for op in op_list:
             op.resumen = summarizer.summarize(op.content, language='spanish', ratio=ratio, words=words)
             op.keywords = keywords.keywords(op.content, language='spanish', split=True, ratio=ratio, words=keywords_words)
