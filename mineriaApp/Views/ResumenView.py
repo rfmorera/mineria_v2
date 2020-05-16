@@ -17,7 +17,7 @@ class ResumenView(APIView):
         data = request.data
 
         opinion_type = True
-        if 'ids_type' in data.keys() and data["ids_type"] == "entrada":
+        if 'type' in data.keys() and data["type"] == "entrada":
             opinion_type = False
 
         if 'ids' in data.keys():
@@ -37,7 +37,7 @@ class ResumenView(APIView):
         data = request.data
 
         opinion_type = True
-        if 'ids_type' in data.keys() and data["ids_type"] == "entrada":
+        if 'type' in data.keys() and data["type"] == "entrada":
             opinion_type = False
 
         ratio = 0.3
