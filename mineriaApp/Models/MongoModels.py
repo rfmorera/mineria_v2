@@ -18,8 +18,8 @@ class Sentiment(Document):
 
 
 class Opinion(Document):
-    raw_content = StringField()
     content = StringField()
+    processed_content = StringField()
     resumen = StringField(default="No procesado.")
     keywords = StringField(default="No procesado.")
     meta = {'allow_inheritance': True}
@@ -44,8 +44,8 @@ class Fuente(Document):
 
 
 class Entrada(Document):
-    raw_content = StringField()
     content = StringField()
+    processed_content = StringField()
     fecha = DateTimeField()
     fuente = ReferenceField(Fuente)
     opinion_list = ListField(ReferenceField(Opinion))

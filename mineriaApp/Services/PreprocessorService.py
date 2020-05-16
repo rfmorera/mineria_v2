@@ -182,7 +182,7 @@ class PreprocessorService(object):
         :return: Devuelve tos textos preprocesados
         """
         for i, op in enumerate(opinions):
-            opinions[i].content = cls.text_cleaning_for_sentiment_analysis(op.raw_content)
+            opinions[i].processed_content = cls.text_cleaning_for_sentiment_analysis(op.content)
             i = i + 1
 
         return opinions
