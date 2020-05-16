@@ -1,4 +1,4 @@
-from mineriaApp.Models.MongoModels import Sentiment, Opinion, Entrada
+from mineriaApp.Models.MongoModels import Sentiment, Opinion, Entrada, Fuente
 from rest_framework_mongoengine.serializers import DocumentSerializer
 
 
@@ -32,3 +32,9 @@ class EntradaSerializer(DocumentSerializer):
         model = Entrada
         depth = 2
         fields = ('id', 'content', 'fecha', 'fuente')
+
+
+class FuenteSerializer(DocumentSerializer):
+    class Meta:
+        model = Fuente
+        fields = ('id', 'nombre')
