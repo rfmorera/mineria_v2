@@ -30,7 +30,13 @@ class OpinionView(APIView):
         """Inserta las opiniones"""
         data = request.data
 
-        opinions_raw = [Opinion(raw_content=r) for r in data]
+        entradaId = None
+        if 'entradaId' in data.keys():
+            entradaId = data["entradaId"]
+
+        opinions_raw = []
+        for r in data["opinions"]:
+            opinions_raw.append(Opinion(content=r, entrada=entradaId))
 
         opinions = PreprocessorService.preprocess(opinions_raw)
         opinions_saved = OpinionService.save_opinions(opinions)

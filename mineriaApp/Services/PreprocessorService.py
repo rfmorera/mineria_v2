@@ -174,15 +174,15 @@ class PreprocessorService(object):
     #####################################################################################
 
     @classmethod
-    def preprocess(cls, opinions):
+    def preprocess(cls, elements):
         """
         Preprocesa los textos
         :param raw_data: Arreglo de String con los texos
         :rtype: Arreglo de string
         :return: Devuelve tos textos preprocesados
         """
-        for i, op in enumerate(opinions):
-            opinions[i].content = cls.text_cleaning_for_sentiment_analysis(op.raw_content)
+        for i, op in enumerate(elements):
+            elements[i].processed_content = cls.text_cleaning_for_sentiment_analysis(op.content)
             i = i + 1
 
-        return opinions
+        return elements

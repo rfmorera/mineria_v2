@@ -1,13 +1,12 @@
 from django_mongoengine import Document
-from mongoengine import signals
+import datetime
 from mongoengine import StringField, IntField, DateTimeField, ReferenceField, DictField, DecimalField, ListField
 
 
 class Sentiment(Document):
-    # external_id = StringField(required=True)
     sentiment = StringField(required=True)
     sentiment_scores = DictField(DecimalField(precision=4))
-    # date_created = DateTimeField(default=datetime.utcnow())
+    date_created = DateTimeField(default=datetime.datetime.utcnow())
 
 
     @staticmethod
@@ -18,18 +17,19 @@ class Sentiment(Document):
 
 
 class Opinion(Document):
-    raw_content = StringField()
     content = StringField()
+    processed_content = StringField()
     resumen = StringField(default="No procesado.")
-    keywords = StringField(default="No procesado.")
+    keywords = ListField(StringField(default="No procesado."))
     meta = {'allow_inheritance': True}
     sentiment = ReferenceField('Sentiment')
+    entrada = ReferenceField('Entrada')
 
 
 class Tweet(Opinion):
     tweet_id = IntField()
     tweet_date_created = DateTimeField()
-    tweet_text = StringField() # TODO: check if this property can be removed using raw_content above
+    tweet_text = StringField()  # TODO: check if this property can be removed using raw_content above
 
     @staticmethod
     def create(row):
@@ -44,8 +44,14 @@ class Fuente(Document):
 
 
 class Entrada(Document):
-    raw_content = StringField()
+    meta = {'allow_inheritance': True}
     content = StringField()
-    fecha = DateTimeField()
+    processed_content = StringField()
+    fecha = DateTimeField(default=datetime.datetime.utcnow)
     fuente = ReferenceField(Fuente)
-    opinion_list = ListField(ReferenceField(Opinion))
+    resumen = StringField(default="No procesado.")
+    keywords = ListField(StringField(default="No procesado."))
+
+
+class PortalEntrada(Entrada):
+    etiquetas = ListField(StringField())

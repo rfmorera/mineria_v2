@@ -1,15 +1,20 @@
 from summa import summarizer
 from summa import keywords
 from mineriaApp.Services.OpinionService import OpinionService
+from mineriaApp.Services.EntradaService import EntradaService
 
 class ResumenService(object):
     @classmethod
-    def summarize_by_ids(cls, ids):
-        op_list = OpinionService.get_by_ids(ids)
-        for op in op_list:
-            op.resumen = summarizer.summarize(op.raw_content, language='spanish', ratio=0.3)
-            op.keywords = keywords.keywords(op.raw_content, language='spanish')
+    def summarize_by_ids(cls, ids, opinion_type, ratio=0.3, words=None, keywords_words=None):
 
+        if opinion_type:
+            op_list = OpinionService.get_by_ids(ids)
+        else:
+            op_list = EntradaService.get_by_ids(ids)
+
+        for op in op_list:
+            op.resumen = summarizer.summarize(op.content, language='spanish', ratio=ratio, words=words)
+            op.keywords = keywords.keywords(op.content, language='spanish', split=True, ratio=ratio, words=keywords_words)
             if op.keywords == "":
                 op.keywords = "Opss!! No ha sido posible extraer palabras claves."
 
