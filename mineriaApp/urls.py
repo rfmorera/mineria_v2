@@ -16,7 +16,7 @@ Including another URLconf
 from django.urls import path, include
 from mineriaApp.Views import HelloView
 from mineriaApp.Views import UserGroupView
-from mineriaApp.Views import SentimentView, ResumenView, OpinionView, EntradaView, FuenteView
+from mineriaApp.Views import SentimentView, ResumenView, OpinionView, EntradaView, FuenteView, EntidadView
 from rest_framework import routers
 
 router = routers.DefaultRouter()
@@ -31,5 +31,6 @@ urlpatterns = [
     path('sentiment', SentimentView.SentimentView.as_view()),
     path('resumen', ResumenView.ResumenView.as_view()),
     path('entrada', EntradaView.EntradaView.as_view()),
-    path('fuente', FuenteView.FuenteView.as_view())
+    path('fuente', FuenteView.FuenteView.as_view()),
+    path('entidad', EntidadView.EntidadView.as_view())
 ]
