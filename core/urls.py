@@ -25,5 +25,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('rest_framework.urls', namespace='rest_framework')),
     path('auth-token', viewsToken.obtain_auth_token),
-    path('', include('mineriaApp.urls')),
+    path('v1/', include('mineriaApp.urls')),
 ]
