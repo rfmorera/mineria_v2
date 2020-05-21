@@ -51,7 +51,13 @@ class Entrada(Document):
     fuente = ReferenceField(Fuente)
     resumen = StringField(default="No procesado.")
     keywords = ListField(StringField(default="No procesado."))
+    entidades = ListField(ReferenceField('Entidad'))
 
 
 class PortalEntrada(Entrada):
     etiquetas = ListField(StringField())
+
+
+class Entidad(object):
+    nombre = StringField()
+    descripcion = StringField()
