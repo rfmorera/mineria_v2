@@ -58,6 +58,6 @@ class PortalEntrada(Entrada):
     etiquetas = ListField(StringField())
 
 
-class Entidad(object):
+class Entidad(Document):
     nombre = StringField()
     descripcion = StringField()
