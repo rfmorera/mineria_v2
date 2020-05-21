@@ -34,11 +34,16 @@ class EntradaView(APIView):
         entradas = []
         for r in data:
             if "type" in r.keys():
+                entidades= []
+                if 'entidades' in r.keys():
+                    entidades= r['entidades']
+
                 if r["type"] == "portal":
                     entradas.append(PortalEntrada(content=r["content"],
                                                   fecha=datetime.datetime.strptime(r["fecha"], "%d/%m/%Y"),
                                                   etiquetas=r["etiquetas"],
-                                                  fuente=r["fuente_id"]))
+                                                  fuente=r["fuente_id"],
+                                                  entidades=entidades))
 
         entradas = PreprocessorService.preprocess(entradas)
         entradas_saved = EntradaService.save_opinions(entradas)

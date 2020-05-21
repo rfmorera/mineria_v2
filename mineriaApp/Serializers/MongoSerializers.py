@@ -31,13 +31,14 @@ class EntradaSerializer(DocumentSerializer):
     class Meta:
         model = Entrada
         depth = 2
-        fields = ('id', 'content', 'fecha', 'fuente')
+        fields = ('id', 'content', 'fecha', 'fuente', 'entidades')
 
 
 class FuenteSerializer(DocumentSerializer):
     class Meta:
         model = Fuente
         fields = ('id', 'nombre')
+
 
 class EntidadSerializer(DocumentSerializer):
     class Meta:
