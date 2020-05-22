@@ -26,6 +26,7 @@ class Opinion(Document):
     entrada = ReferenceField('Entrada')
     fecha = DateTimeField()
 
+
 class Tweet(Opinion):
     tweet_id = IntField()
     tweet_text = StringField()  # TODO: check if this property can be removed using raw_content above
@@ -60,3 +61,13 @@ class PortalEntrada(Entrada):
 class Entidad(Document):
     nombre = StringField()
     descripcion = StringField()
+
+
+class Reporte(Document):
+    total_opinion = IntField()
+    total_positive = IntField()
+    total_negative = IntField()
+    total_neutral = IntField()
+    ratio = DecimalField()
+    fecha = DateTimeField()
+    timedelta = IntField()
