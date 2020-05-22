@@ -55,7 +55,29 @@ class SentimentService(object):
         return sent_list
 
     @classmethod
-    def _construir_reporte(cls, ent_id, start_date, end_date):
+    def build_report(cls, ent_id, start_date, end_date, timedelta):
+        """
+        Construye los reportes entre 'start_date' y 'end_date' con
+        intervalo de 'timedelta'. Devuelve un resumen general.
+        :param ent_id: Id de la entrada a analizar
+        :param start_date: Fecha inicio
+        :param end_date: Fecha fin
+        :param timedelta: Saltos de intervalo para construir reporte
+        :return: Dict
+        """
+        reports = []
+        tot = pos = neg = neu = 0
+        while start_date < end_date:
+            reports.append(cls._build_report(ent_id, start_date, end_date + timedelta))
+            tot += reports[-1]['total']
+            pos += reports[-1]['positive']
+            neg += reports[-1]['negative']
+            neu += reports[-1]['neutral']
+
+        return {'total': tot, 'positive_total': pos, 'negative_total': neg, 'neutral_total': neu, 'reports_interval': reports}
+
+    @classmethod
+    def _build_report(cls, ent_id, start_date, end_date):
         opinions = OpinionService.get_between_dates(ent_id, start_date, end_date)
 
         tot = len(opinions)
@@ -79,4 +101,4 @@ class SentimentService(object):
         pos -= 1
         neg -= 1
 
-        return tot, pos, neg, neu, ratio
+        return {"total": tot, "positive": pos, "negative": neg, "neutral": neu, "ratio": ratio}
