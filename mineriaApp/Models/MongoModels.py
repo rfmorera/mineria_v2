@@ -24,11 +24,10 @@ class Opinion(Document):
     meta = {'allow_inheritance': True}
     sentiment = ReferenceField('Sentiment')
     entrada = ReferenceField('Entrada')
-
+    fecha = DateTimeField()
 
 class Tweet(Opinion):
     tweet_id = IntField()
-    tweet_date_created = DateTimeField()
     tweet_text = StringField()  # TODO: check if this property can be removed using raw_content above
 
     @staticmethod
