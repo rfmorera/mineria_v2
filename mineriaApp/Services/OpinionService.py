@@ -12,3 +12,14 @@ class OpinionService(object):
     @classmethod
     def get_by_ids(cls, ids):
         return Opinion.objects(id__in=ids)
+
+    @classmethod
+    def get_between_dates(cls, ent_id, start_date, end_date):
+        query = {
+            'created_at': {
+                '$gte': start_date,
+                '$lt': end_date
+            }
+        }
+
+        return Opinion.objects(__raw__=query)

@@ -24,22 +24,12 @@ class SentimentService(object):
             sent.save()
 
     @classmethod
-    def list_sentiments(cls):
-        return cls.db.Sentiment.find({})
-
-    @classmethod
     def get_sentiment_by_id(cls, id):
         return Sentiment.objects(external_id=id).first()
 
     @classmethod
     def get_sentiment_by_ids(cls, ids):
         return Sentiment.objects(external_id__in=ids)
-
-    @classmethod
-    def remove_used_sentiments(cls, ids):
-        my_query = {"_id": {"$in": ids}}
-
-        return cls.db.Sentiment.delete_many(my_query)
 
     @classmethod
     def inference_sentiment(cls, ids, inference_enum):
@@ -63,3 +53,30 @@ class SentimentService(object):
             sent.save()
 
         return sent_list
+
+    @classmethod
+    def _construir_reporte(cls, ent_id, start_date, end_date):
+        opinions = OpinionService.get_between_dates(ent_id, start_date, end_date)
+
+        tot = len(opinions)
+        pos = neg = 1  # to avoid division by zero
+        neu = 0
+        for r in opinions:
+            if r.sentiment == 'POSITIVE':
+                pos += 1
+            elif r.sentiment == 'NEGATIVE':
+                neg += 1
+            elif r.sentiment == 'NEUTRAL':
+                neu += 1
+
+        if pos > neg:
+            ratio = pos / neg
+        elif pos < neg:
+            ratio = -1 * neg / pos
+        else:
+            ratio = 0
+
+        pos -= 1
+        neg -= 1
+
+        return tot, pos, neg, neu, ratio
