@@ -63,7 +63,7 @@ class Entidad(Document):
     descripcion = StringField()
 
 
-class Reporte(Document):
+class ReportePolaridad(Document):
     total_opinion = IntField()
     total_positive = IntField()
     total_negative = IntField()
