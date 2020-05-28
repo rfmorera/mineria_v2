@@ -1,5 +1,5 @@
 import mongoengine
-from mineriaApp.Models.MongoModels import Sentiment, Opinion
+from mineriaApp.Models.MongoModels import Sentiment, ReportePolaridad
 from mineriaApp.Services.FastTextPredictionService import FastTextPrediction
 from mineriaApp.Services.Utils.Enum import InferenceModelsEnum
 from mineriaApp.Services.OpinionService import OpinionService
@@ -68,13 +68,18 @@ class SentimentService(object):
         reports = []
         tot = pos = neg = neu = 0
         while start_date < end_date:
-            reports.append(cls._build_report(ent_id, start_date, end_date + timedelta))
+            r = cls._build_report(ent_id, start_date, start_date + timedelta)
+            reports.append(r)
             tot += reports[-1]['total']
             pos += reports[-1]['positive']
             neg += reports[-1]['negative']
             neu += reports[-1]['neutral']
+            start_date += timedelta
 
-        return {'total': tot, 'positive_total': pos, 'negative_total': neg, 'neutral_total': neu, 'reports_interval': reports}
+        ratio = cls.__calc_ratio(pos, neg)
+
+        return {'total': tot, 'positive_total': pos, 'negative_total': neg, 'neutral_total': neu,
+                'ratio': ratio, 'reports_interval': reports}
 
     @classmethod
     def _build_report(cls, ent_id, start_date, end_date):
@@ -84,21 +89,29 @@ class SentimentService(object):
         pos = neg = 1  # to avoid division by zero
         neu = 0
         for r in opinions:
-            if r.sentiment == 'POSITIVE':
+            if r.sentiment is None:
+                continue
+            if r.sentiment.sentiment == 'POSITIVE':
                 pos += 1
-            elif r.sentiment == 'NEGATIVE':
+            elif r.sentiment.sentiment == 'NEGATIVE':
                 neg += 1
-            elif r.sentiment == 'NEUTRAL':
+            elif r.sentiment.sentiment == 'NEUTRAL':
                 neu += 1
 
-        if pos > neg:
-            ratio = pos / neg
-        elif pos < neg:
-            ratio = -1 * neg / pos
-        else:
-            ratio = 0
+        ratio = cls.__calc_ratio(pos, neg)
 
         pos -= 1
         neg -= 1
 
         return {"total": tot, "positive": pos, "negative": neg, "neutral": neu, "ratio": ratio}
+
+    @classmethod
+    def __calc_ratio(cls, pos, neg):
+        if pos > neg:
+            ratio = 1.0 * pos / neg
+        elif pos < neg:
+            ratio = -1.0 * neg / pos
+        else:
+            ratio = 0
+
+        return ratio

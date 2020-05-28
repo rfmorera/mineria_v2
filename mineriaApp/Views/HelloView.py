@@ -8,5 +8,5 @@ class HelloView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
-        content = {'message': 'Holla, bienvenido a nuestro sistema de IA. '}
+        content = {'message': 'Holla, bienvenido a nuestro sistema de IA v1. '}
         return Response(content)
