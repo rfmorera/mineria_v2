@@ -17,6 +17,7 @@ from django.urls import path, include
 from mineriaApp.Views import HelloView
 from mineriaApp.Views import UserGroupView
 from mineriaApp.Views import SentimentView, ResumenView, OpinionView, EntradaView, FuenteView, EntidadView
+from mineriaApp.Views.Reports import SentimentReport
 from rest_framework import routers
 
 router = routers.DefaultRouter()
@@ -32,5 +33,6 @@ urlpatterns = [
     path('resumen', ResumenView.ResumenView.as_view()),
     path('entrada', EntradaView.EntradaView.as_view()),
     path('fuente', FuenteView.FuenteView.as_view()),
-    path('entidad', EntidadView.EntidadView.as_view())
+    path('entidad', EntidadView.EntidadView.as_view()),
+    path('reporte/sentimiento-timeline', SentimentReport.timeline_sentiment)
 ]

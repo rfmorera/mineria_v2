@@ -24,7 +24,7 @@ class Opinion(Document):
     meta = {'allow_inheritance': True}
     sentiment = ReferenceField('Sentiment')
     entrada = ReferenceField('Entrada')
-    fecha = DateTimeField()
+    fecha = DateTimeField(default=datetime.datetime.now())
 
 
 class Tweet(Opinion):
