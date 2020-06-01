@@ -59,8 +59,10 @@ class PortalEntrada(Entrada):
 
 
 class Entidad(Document):
-    nombre = StringField()
+    codigo = IntField(required=True)
+    nombre = StringField(required=True)
     descripcion = StringField()
+    organismo_id = IntField()
 
 
 class ReportePolaridad(Document):
