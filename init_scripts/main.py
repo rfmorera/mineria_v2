@@ -1,5 +1,5 @@
 from mongoengine import connect
-from init_scripts import insert_entidades
+from init_scripts import insert_entidades, insertar_planteamientos
 
 
 def main():
@@ -10,6 +10,10 @@ def main():
     )
 
     insert_entidades.insert_entidades()
+
+    insertar_planteamientos.insertar_provincias()
+
+    insertar_planteamientos.insertar_planteamientos()
 
 
 if __name__ == '__main__':
