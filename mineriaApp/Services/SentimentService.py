@@ -2,6 +2,7 @@ import mongoengine
 from mineriaApp.Models.MongoModels import Sentiment, ReportePolaridad
 from mineriaApp.Services.FastTextPredictionService import FastTextPrediction
 from mineriaApp.Services.Utils.Enum import InferenceModelsEnum
+from mineriaApp.Services.Utils import DatetimeUtils
 from mineriaApp.Services.OpinionService import OpinionService
 
 
@@ -55,7 +56,7 @@ class SentimentService(object):
         return sent_list
 
     @classmethod
-    def build_report(cls, ent_id, start_date, end_date, timedelta):
+    def build_report(cls, ent_id, start_date, end_date, delta, delta_type):
         """
         Construye los reportes entre 'start_date' y 'end_date' con
         intervalo de 'timedelta'. Devuelve un resumen general.
@@ -67,6 +68,8 @@ class SentimentService(object):
         """
         reports = []
         tot = pos = neg = neu = 0
+        timedelta = DatetimeUtils.build_delta(delta, delta_type)
+
         while start_date < end_date:
             r = cls._build_report(ent_id, start_date, start_date + timedelta)
             reports.append(r)

@@ -25,16 +25,7 @@ def timeline_sentiment(request):
     if entrada_id is None:
         raise KeyError('entrada_id no está presente en la petición')
 
-    if delta_type == 'semana':
-        timedelta = datetime.timedelta(weeks=int(delta))
-    elif delta_type == 'dia':
-        timedelta = datetime.timedelta(days=int(delta))
-    elif delta_type == 'hora':
-        timedelta = datetime.timedelta(hours=int(delta))
-    else:
-        timedelta = datetime.timedelta(minutes=int(delta))
-
     inicio = datetime.datetime.strptime(inicio, '%d/%m/%YT%H:%M:%S')
     fin = datetime.datetime.strptime(fin, '%d/%m/%YT%H:%M:%S')
-    report = SentimentService.build_report(entrada_id, inicio, fin, timedelta)
+    report = SentimentService.build_report(entrada_id, inicio, fin, delta, delta_type)
     return Response(report)
