@@ -39,15 +39,33 @@ class Tweet(Opinion):
                      external_id=row["external_id"])
 
 
+class Planteamiento(Opinion):
+    entidades = ListField(ReferenceField('Entidad'))
+
+
 class Fuente(Document):
+    nombre = StringField(unique=True)
+
+
+class Provincia(Document):
+    nombre = StringField(required=True, unique=True)
+    normalized = StringField(required=True, unique=True)
+
+
+class Municipio(Document):
     nombre = StringField()
+    provincia = ReferenceField('Provincia')
+    meta = {
+
+    }
 
 
 class Entrada(Document):
     meta = {'allow_inheritance': True}
+    titulo = StringField()  # TODO Add title support to Endpoint
     content = StringField()
     processed_content = StringField()
-    fecha = DateTimeField(default=datetime.datetime.utcnow)
+    fecha = DateTimeField()
     fuente = ReferenceField(Fuente)
     resumen = StringField(default="No procesado.")
     keywords = ListField(StringField(default="No procesado."))
@@ -58,8 +76,13 @@ class PortalEntrada(Entrada):
     etiquetas = ListField(StringField())
 
 
+class PlanteamientoEntrada(Entrada):
+    provincia = ReferenceField('Provincia')
+    municipio = ReferenceField('Municipio')
+
+
 class Entidad(Document):
-    codigo = IntField(required=True)
+    codigo = IntField(required=True, unique=True)
     nombre = StringField(required=True)
     descripcion = StringField()
     organismo_id = IntField()
