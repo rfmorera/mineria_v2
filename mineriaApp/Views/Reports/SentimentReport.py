@@ -7,11 +7,13 @@ import datetime
 @api_view()
 @permission_classes([IsAuthenticated])
 def timeline_sentiment(request):
-    inicio = request.GET.get('inicio', None)
-    fin = request.GET.get('fin', None)
-    delta = request.GET.get('delta', None)
-    delta_type = request.GET.get('delta_type', None)
-    entrada_id = request.GET.get('entrada_id', None)
+    data = request.data
+    
+    inicio = data['inicio']
+    fin = data['fin']
+    delta = data['delta']
+    delta_type = data['delta_type']
+    entrada_id = data['entrada_id']
 
     if inicio is None:
         raise KeyError('inicio no está presente en la petición')
@@ -25,7 +27,7 @@ def timeline_sentiment(request):
     if entrada_id is None:
         raise KeyError('entrada_id no está presente en la petición')
 
-    inicio = datetime.datetime.strptime(inicio, '%d/%m/%YT%H:%M:%S')
-    fin = datetime.datetime.strptime(fin, '%d/%m/%YT%H:%M:%S')
+    inicio = datetime.datetime.strptime(inicio, '%d/%m/%Y %H:%M:%S')
+    fin = datetime.datetime.strptime(fin, '%d/%m/%Y %H:%M:%S')
     report = SentimentService.build_report(entrada_id, inicio, fin, delta, delta_type)
     return Response(report)

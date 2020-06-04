@@ -15,4 +15,4 @@ class OpinionService(object):
 
     @classmethod
     def get_between_dates(cls, ent_id, start_date, end_date):
-        return Opinion.objects(entrada=ent_id, fecha__gte=start_date, fecha__lt=end_date)
+        return Opinion.objects(entrada=ent_id, fecha__gte=start_date, fecha__lt=end_date, processed_content__ne=None)

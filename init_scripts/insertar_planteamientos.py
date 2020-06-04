@@ -1,7 +1,6 @@
-import csv
-import datetime
 import pandas as pd
 from mineriaApp.Models.MongoModels import Provincia, Municipio, Planteamiento, PlanteamientoEntrada, Entidad, Fuente
+from mineriaApp.Services.PreprocessorService import PreprocessorService
 import unidecode
 
 def insertar_provincias():
@@ -70,6 +69,7 @@ def insertar_planteamientos():
                 enti_q.save()
 
             plant = Planteamiento(content=str(row['descplanteamiento']),
+                                  processed_content=PreprocessorService.text_cleaning_for_sentiment_analysis(str(row['descplanteamiento'])),
                                   entrada=plane_q,
                                   fecha=row['fecha'].date(),
                                   entidades=[enti_q])
