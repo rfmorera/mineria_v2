@@ -35,18 +35,42 @@ class SentimentService(object):
     @classmethod
     def inference_sentiment(cls, ids, inference_enum):
         op_list = OpinionService.get_by_ids(ids)
+
+        return cls.inference_sentiment(op_list, inference_enum)
+
+    @classmethod
+    def inference_sentiment_from_opinions(cls, op_list, inference_enum=None):
+        if len(op_list) == 0:
+            return []
+
+        done = []
+        pending = []
+        for op in op_list:
+            if op.sentiment is None:
+                pending.append(op)
+            else:
+                done.append(op)
+
+        sentiment_pending = cls._inference_sentiment(pending, inference_enum)
+
+        for i, op in enumerate(pending):
+            op.sentiment = sentiment_pending[i]
+
+        OpinionService.save_opinions(pending)
+
+        done.extend(pending)
+
+        return done
+
+    @classmethod
+    def _inference_sentiment(cls, op_list, inference_enum=None):
         sent_list = []
-        if inference_enum == InferenceModelsEnum.FastText:
+        if inference_enum == InferenceModelsEnum.FastText or inference_enum is None:
             sent_list = FastTextPrediction.predict(op_list)
 
         sent_list = cls.save_sentiment(sent_list)
 
-        for i, op in enumerate(op_list):
-            op.sentiment = sent_list[i]
-
-        OpinionService.save_opinions(op_list)
-
-        return op_list
+        return sent_list
 
     @classmethod
     def save_sentiment(cls, sent_list):
@@ -88,9 +112,12 @@ class SentimentService(object):
     def _build_report(cls, ent_id, start_date, end_date):
         opinions = OpinionService.get_between_dates(ent_id, start_date, end_date)
 
+        opinions = cls.inference_sentiment_from_opinions(opinions)
+
         tot = len(opinions)
         pos = neg = 1  # to avoid division by zero
         neu = 0
+
         for r in opinions:
             if r.sentiment is None:
                 continue
