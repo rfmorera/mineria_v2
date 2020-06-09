@@ -12,3 +12,7 @@ class EntidadService(object):
     @classmethod
     def get_by_ids(cls, ids):
         return Entidad.objects(id__in=ids)
+
+    @classmethod
+    def get_all(cls):
+        return Entidad.objects().all()
