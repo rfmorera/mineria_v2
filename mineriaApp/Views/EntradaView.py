@@ -1,9 +1,11 @@
 import json
 import datetime
+from rest_condition import Or
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
+from mineriaApp.Security.GroupsPermission import IsManagerGroup, IsAdminGroup, IsSnifforGroup, IsReportMakerGroup
 from mineriaApp.Models.MongoModels import PortalEntrada
 from mineriaApp.Serializers.MongoSerializers import EntradaSerializer
 from mineriaApp.Services.EntradaService import EntradaService
@@ -12,7 +14,7 @@ from mineriaApp.Services.PreprocessorService import PreprocessorService
 
 class EntradaView(APIView):
     authentication_classes = [BasicAuthentication, TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, Or(IsManagerGroup, IsAdminGroup, IsSnifforGroup, IsReportMakerGroup)]
 
     def get(self, request):
         """Devuelve las entradas"""

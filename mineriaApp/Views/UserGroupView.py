@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets, permissions
 from mineriaApp.Serializers.MySQLSerializers import UserSerializer, GroupSerializer
+from mineriaApp.Security.GroupsPermission import IsAdminGroup
 from rest_framework.authentication import TokenAuthentication
 
 
@@ -11,7 +12,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
     authentication_classes = [TokenAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsAdminGroup]
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -21,5 +22,5 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     authentication_classes = [TokenAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsAdminGroup]
 
