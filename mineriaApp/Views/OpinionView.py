@@ -4,14 +4,16 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
 from mineriaApp.Models.MongoModels import Opinion
+from mineriaApp.Security.GroupsPermission import IsSnifforGroup, IsManagerGroup, IsAdminGroup
 from mineriaApp.Serializers.MongoSerializers import OpinionSerializer
 from mineriaApp.Services.OpinionService import OpinionService
 from mineriaApp.Services.PreprocessorService import PreprocessorService
+from rest_condition import Or
 
 
 class OpinionView(APIView):
     authentication_classes = [BasicAuthentication, TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, Or(IsSnifforGroup, IsManagerGroup, IsAdminGroup)]
 
     def get(self, request):
         """Devuelve las opiniones"""
