@@ -1,8 +1,9 @@
-import json
+from rest_condition import Or
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
+from mineriaApp.Security.GroupsPermission import IsManagerGroup, IsAdminGroup, IsReportMakerGroup
 from mineriaApp.Models.MongoModels import Entidad
 from mineriaApp.Serializers.MongoSerializers import EntidadSerializer
 from mineriaApp.Services.EntidadService import EntidadService
@@ -10,7 +11,7 @@ from mineriaApp.Services.EntidadService import EntidadService
 
 class EntidadView(APIView):
     authentication_classes = [BasicAuthentication, TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, Or(IsManagerGroup, IsAdminGroup, IsReportMakerGroup)]
 
     def get(self, request):
         """Devuelve las entidades"""
