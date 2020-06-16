@@ -23,6 +23,7 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 router.register(r'users', UserGroupView.UserViewSet)
 router.register(r'groups', UserGroupView.GroupViewSet)
+router.register(r'permissions', UserGroupView.PermissionViewSet)
 
 
 urlpatterns = [
