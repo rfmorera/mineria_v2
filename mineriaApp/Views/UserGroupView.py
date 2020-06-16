@@ -1,8 +1,9 @@
-from django.contrib.auth.models import User, Group, Permission
+from django.contrib.auth.models import Group, Permission
 from rest_condition import Or
 from rest_framework import viewsets, permissions
-from mineriaApp.Serializers.MySQLSerializers import UserSerializer, GroupSerializer, PermissionSerializer
+from mineriaApp.Serializers.MySQLSerializers import UserSerializer, GroupSerializer, PermissionSerializer, ClientSerializer
 from mineriaApp.Security.GroupsPermission import IsAdminGroup, IsSuperAdminGroup
+from mineriaApp.models import User, Client
 from rest_framework.authentication import TokenAuthentication
 
 
@@ -34,4 +35,14 @@ class PermissionViewSet(viewsets.ModelViewSet):
     serializer_class = PermissionSerializer
     authentication_classes = [TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated, Or(IsAdminGroup, IsSuperAdminGroup)]
+
+
+class ClientViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows permissions to be viewed or edited.
+    """
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated, Or(IsSuperAdminGroup)]
 

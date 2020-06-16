@@ -17,7 +17,6 @@ from mongoengine import connect
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -28,7 +27,6 @@ SECRET_KEY = '(ys1yw9$)r6w3v7&e&vna(xo69ap^(=f1p=-76+d7-efo$r*7j'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -56,6 +54,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'core.urls'
+AUTH_USER_MODEL = 'mineriaApp.User'
 
 TEMPLATES = [
     {
@@ -76,27 +75,21 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    },
-#     'default': {
-#         'ENGINE' : 'django.db.backends.postgresql',
-#         'NAME' : 'Mineria',
-#         'USER' : 'postgres',
-#         'PASSWORD' : 'admin',
-#         'HOST' : 'localhost',
-#         #'PORT' : '3306',
-#         'PORT' : '5433',
-#         'OPTIONS': {
-#             #'sql_mode' : 'traditional',
-#         }
-#     }
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'mineria',
+        'USER': 'admin',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        # 'PORT': '3306',
+        'OPTIONS': {
+            # 'sql_mode' : 'traditional',
+        }
+    }
 }
 
 connect(
@@ -106,6 +99,8 @@ connect(
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
+
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -127,7 +122,7 @@ REST_FRAMEWORK = {
         # 'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
-    'DEFAULT_PERMISSION_CLASSES':[
+    'DEFAULT_PERMISSION_CLASSES': [
         # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
         'rest_framework.authentication.TokenAuthentication',
     ],
@@ -149,7 +144,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
