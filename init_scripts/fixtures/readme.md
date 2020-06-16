@@ -47,7 +47,7 @@ Now that you have a fixture file, you want to load it into the database. But bef
 Now that the group is deleted, load the fixture using the loaddata command:
 
 ```bash
-python manage.py loaddata group.json
+python manage.py loaddata init_scripts\fixtures\group.json
 ```
 
 To make sure the new group was loaded, open a Django shell and fetch it:
@@ -60,3 +60,4 @@ To make sure the new group was loaded, open a Django shell and fetch it:
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
+

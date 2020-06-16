@@ -1,4 +1,5 @@
-from django.contrib.auth.models import User, Group, Permission
+from django.contrib.auth.models import Group, Permission
+from mineriaApp.models import User, Client
 from rest_framework import serializers
 
 
@@ -18,3 +19,9 @@ class PermissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Permission
         fields = ['name', 'codename', 'url', 'content_type_id']
+
+
+class ClientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Client
+        fields = ['id', 'nombre', 'descripcion', 'url']
