@@ -9,14 +9,19 @@ from mineriaApp.Serializers.MongoSerializers import OpinionSerializer
 from mineriaApp.Services.OpinionService import OpinionService
 from mineriaApp.Services.PreprocessorService import PreprocessorService
 from rest_condition import Or
-
+from rest_framework.schemas.coreapi import AutoSchema
 
 class OpinionView(APIView):
+    """
+    Manejar Opiniones
+    """
     authentication_classes = [BasicAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated, Or(IsSnifforGroup, IsManagerGroup, IsAdminGroup)]
 
     def get(self, request):
-        """Devuelve las opiniones"""
+        """
+        Devuelve las opiniones
+        """
         data = request.data
 
         if 'ids' in data.keys():
@@ -24,7 +29,7 @@ class OpinionView(APIView):
             op_list = OpinionService.get_by_ids(ids)
             serializer = OpinionSerializer(op_list, many=True)
         else:
-            raise AttributeError("Falta el parámetro Ids o está vacio")
+            return Response("Falta el parámetro Ids o está vacio")
 
         return Response(serializer.data)
 
@@ -47,3 +52,6 @@ class OpinionView(APIView):
 
         content = {"ids": op_ids}
         return Response(content)
+
+    def delete(self, request):
+        pass

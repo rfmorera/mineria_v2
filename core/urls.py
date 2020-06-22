@@ -43,7 +43,7 @@ urlpatterns = [
         auth_views.PasswordResetCompleteView.as_view(),
         name='password_reset_complete',
     ),
-    path('api/', include('rest_framework.urls', namespace='rest_framework')),
-    path('auth-token', viewsToken.obtain_auth_token),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('auth-token', viewsToken.obtain_auth_token, name="obtain_token"),
     path('v1/', include('mineriaApp.urls')),
 ]
