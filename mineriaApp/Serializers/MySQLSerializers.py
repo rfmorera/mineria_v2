@@ -18,7 +18,7 @@ class GroupSerializer(serializers.ModelSerializer):
 class PermissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Permission
-        fields = ['name', 'codename', 'url', 'content_type_id']
+        fields = ['name', 'codename', 'url', 'content_type']
 
 
 class ClientSerializer(serializers.ModelSerializer):
