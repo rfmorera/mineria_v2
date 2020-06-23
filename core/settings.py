@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'drf_yasg',
     'mineriaApp',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -127,6 +128,13 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
     'DEFAULT_METADATA_CLASS': 'rest_framework.metadata.SimpleMetadata'
+}
+
+REDOC_SETTINGS = {
+   'LAZY_RENDERING': False,
+   'PATH_IN_MIDDLE': True,
+   'NATIVE_SCROLLBARS': True,
+   'REQUIRED_PROPS_FIRST': True
 }
 
 # Internationalization

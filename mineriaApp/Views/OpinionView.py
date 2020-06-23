@@ -1,4 +1,6 @@
 import json
+
+from drf_yasg import openapi
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -9,7 +11,8 @@ from mineriaApp.Serializers.MongoSerializers import OpinionSerializer
 from mineriaApp.Services.OpinionService import OpinionService
 from mineriaApp.Services.PreprocessorService import PreprocessorService
 from rest_condition import Or
-from rest_framework.schemas.coreapi import AutoSchema
+from drf_yasg.utils import swagger_auto_schema
+
 
 class OpinionView(APIView):
     """
@@ -18,6 +21,7 @@ class OpinionView(APIView):
     authentication_classes = [BasicAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated, Or(IsSnifforGroup, IsManagerGroup, IsAdminGroup)]
 
+    @swagger_auto_schema(responses={200: OpinionSerializer(many=True)})
     def get(self, request):
         """
         Devuelve las opiniones
@@ -33,6 +37,11 @@ class OpinionView(APIView):
 
         return Response(serializer.data)
 
+    test_param = openapi.Parameter('test', openapi.IN_QUERY, description="test manual param", type=openapi.TYPE_BOOLEAN)
+    user_response = openapi.Response('response description', examples={"JSON": {"ids":["string"]}})
+
+    @swagger_auto_schema(operation_description="descripcion del POST", manual_parameters=[test_param],
+                         responses={200: user_response})
     def post(self, request):
         """Inserta las opiniones"""
         data = request.data
@@ -52,6 +61,3 @@ class OpinionView(APIView):
 
         content = {"ids": op_ids}
         return Response(content)
-
-    def delete(self, request):
-        pass
