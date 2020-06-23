@@ -55,9 +55,6 @@ class Provincia(Document):
 class Municipio(Document):
     nombre = StringField()
     provincia = ReferenceField('Provincia')
-    meta = {
-
-    }
 
 
 class Entrada(Document):
@@ -88,11 +85,33 @@ class Entidad(Document):
     organismo_id = IntField()
 
 
-class ReportePolaridad(Document):
-    total_opinion = IntField()
-    total_positive = IntField()
-    total_negative = IntField()
-    total_neutral = IntField()
-    ratio = DecimalField()
-    fecha = DateTimeField()
-    timedelta = IntField()
+class ReportParam(Document):
+    client = StringField(required=True)
+    inicio = DateTimeField(required=True)
+    fin = DateTimeField()
+    delta_type = StringField(required=True)
+    delta_value = IntField(required=True)
+    entradas_id = ListField(ReferenceField(Entrada), required=True)
+
+    meta = {'allow_inheritance': True}
+
+
+class ReportParamPlanteamientos(ReportParam):
+    provincias = ListField(ReferenceField(Provincia))
+    municipios = ListField(ReferenceField(Municipio))
+    entidades = ListField(ReferenceField(Entidad))
+
+
+class ReportData(Document):
+    report_param = ReferenceField(ReportParam, required=True)
+    fecha_inicio = DateTimeField(required=True)
+
+    meta = {'allow_inheritance': True}
+
+
+class ReportePolaridad(ReportData):
+    total_opinion = IntField(required=True)
+    total_positive = IntField(required=True)
+    total_negative = IntField(required=True)
+    total_neutral = IntField(required=True)
+    ratio = DecimalField(required=True)
