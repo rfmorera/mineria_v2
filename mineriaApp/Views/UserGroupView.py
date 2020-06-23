@@ -22,7 +22,6 @@ class UserViewSet(viewsets.ModelViewSet):
         user = self.request.user
         return User.objects.filter(cliente=user.cliente).order_by('-date_joined')
 
-
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated, Or(IsAdminGroup, IsSuperAdminGroup)]
 
