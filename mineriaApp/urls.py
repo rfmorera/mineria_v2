@@ -24,11 +24,14 @@ from rest_framework.authentication import BasicAuthentication, TokenAuthenticati
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
+from mineriaApp.Views.Reports.SentimentReport import ReportParamViewSet
+
 router = routers.DefaultRouter()
 router.register(r'users', UserGroupView.UserViewSet)
 router.register(r'groups', UserGroupView.GroupViewSet)
 router.register(r'permissions', UserGroupView.PermissionViewSet)
 router.register(r'clients', UserGroupView.ClientViewSet)
+router.register(r'report-parameters', ReportParamViewSet, basename="Reporte Parámetros")
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -41,7 +44,7 @@ schema_view = get_schema_view(
     ),
     urlconf='mineriaApp.urls',
     public=True,
-    permission_classes=(permissions.AllowAny,),
+    permission_classes=(permissions.IsAuthenticated,),
     authentication_classes=(BasicAuthentication, TokenAuthentication)
 )
 

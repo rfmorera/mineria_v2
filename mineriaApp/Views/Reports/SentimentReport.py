@@ -1,8 +1,51 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+
+from mineriaApp.Serializers.MongoSerializers import ReportParamSerializer
 from mineriaApp.Services.SentimentService import SentimentService
 import datetime
+from rest_condition import Or, And
+from rest_framework import viewsets, permissions
+from rest_framework import filters
+from mineriaApp.Models.MongoModels import ReportParam
+from mineriaApp.Security.GroupsPermission import IsAdminGroup, IsReportMakerGroup, IsManagerGroup, IsSafeRequest, IsReportViewerGroup
+from rest_framework import status
+
+
+class ReportParamViewSet(viewsets.ModelViewSet):
+    """
+        API endpoint that allows reports to be viewed or edited.
+    """
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+
+    search_fields = ['name', 'description', 'type']  # TODO: check  this
+    ordering_fields = ['name', 'inicio', 'delta_type', 'type']
+    ordering = ['name']  # Default ordering
+
+    queryset = ReportParam.objects.none()
+    permission_classes = [permissions.IsAuthenticated, Or(IsAdminGroup, IsReportMakerGroup, IsManagerGroup,
+                                                          And(IsSafeRequest, IsReportViewerGroup))]
+    serializer_class = ReportParamSerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the report_param
+        for the currently authenticated client.
+        """
+        user = self.request.user
+        return ReportParam.objects.filter(client=user.cliente.id)
+
+    def create(self, request, *args, **kwargs):
+        user = self.request.user
+        data = request.data
+        data['client'] = user.cliente.id
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
 
 @api_view()
 @permission_classes([IsAuthenticated])
