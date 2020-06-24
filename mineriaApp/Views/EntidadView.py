@@ -1,10 +1,11 @@
 from rest_condition import Or
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
-from mineriaApp.Security.GroupsPermission import IsManagerGroup, IsAdminGroup, IsReportMakerGroup
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from mineriaApp.Models.MongoModels import Entidad
+from mineriaApp.Security.GroupsPermission import IsManagerGroup, IsAdminGroup, IsReportMakerGroup
 from mineriaApp.Serializers.MongoSerializers import EntidadSerializer
 from mineriaApp.Services.EntidadService import EntidadService
 

@@ -6,7 +6,7 @@ from django.db import models
 class Organismo(models.Model):
     id = models.CharField(max_length=255, null=False, primary_key=True)
     nombre = models.CharField(max_length=255, null=False)
-    descripcion = models.CharField(max_length=500, null= False)
+    descripcion = models.CharField(max_length=500, null=False)
 
 
 class Client(models.Model):

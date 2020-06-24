@@ -1,17 +1,16 @@
-import json
-
 from drf_yasg import openapi
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from drf_yasg.utils import swagger_auto_schema
+from rest_condition import Or
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from mineriaApp.Models.MongoModels import Opinion
 from mineriaApp.Security.GroupsPermission import IsSnifforGroup, IsManagerGroup, IsAdminGroup
 from mineriaApp.Serializers.MongoSerializers import OpinionSerializer
 from mineriaApp.Services.OpinionService import OpinionService
 from mineriaApp.Services.PreprocessorService import PreprocessorService
-from rest_condition import Or
-from drf_yasg.utils import swagger_auto_schema
 
 
 class OpinionView(APIView):
@@ -38,7 +37,7 @@ class OpinionView(APIView):
         return Response(serializer.data)
 
     test_param = openapi.Parameter('test', openapi.IN_QUERY, description="test manual param", type=openapi.TYPE_BOOLEAN)
-    user_response = openapi.Response('response description', examples={"JSON": {"ids":["string"]}})
+    user_response = openapi.Response('response description', examples={"JSON": {"ids": ["string"]}})
 
     @swagger_auto_schema(operation_description="descripcion del POST", manual_parameters=[test_param],
                          responses={200: user_response})

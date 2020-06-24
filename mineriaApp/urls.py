@@ -14,15 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path, include, re_path
-from mineriaApp.Views import HelloView
-from mineriaApp.Views import UserGroupView
-from mineriaApp.Views import SentimentView, ResumenView, OpinionView, EntradaView, FuenteView, EntidadView
-from mineriaApp.Views.Reports import SentimentReport
-from rest_framework import routers
-from rest_framework import permissions
-from rest_framework.authentication import BasicAuthentication, TokenAuthentication
-from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+from rest_framework import permissions
+from rest_framework import routers
+from rest_framework.authentication import BasicAuthentication, TokenAuthentication
+
+from mineriaApp.Views import SentimentView, ResumenView, OpinionView, EntradaView, FuenteView, EntidadView
+from mineriaApp.Views import UserGroupView
 from mineriaApp.Views.Reports import SentimentReport
 
 router = routers.DefaultRouter()
@@ -30,7 +29,8 @@ router.register(r'users', UserGroupView.UserViewSet)
 router.register(r'groups', UserGroupView.GroupViewSet)
 router.register(r'permissions', UserGroupView.PermissionViewSet)
 router.register(r'clients', UserGroupView.ClientViewSet)
-router.register(r'report-sentiment', SentimentReport.ReportSentimentViewSet, basename="Reporte Parámetros")
+router.register(r'report-sentiment', SentimentReport.ReportSentimentViewSet)
+router.register(r'report-sentiment-planteamiento', SentimentReport.ReportSentimentPlanteamientoViewSet)
 
 schema_view = get_schema_view(
     openapi.Info(

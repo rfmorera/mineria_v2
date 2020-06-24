@@ -1,6 +1,8 @@
-from django_mongoengine import Document
 import datetime
-from mongoengine import StringField, IntField, DateTimeField, ReferenceField, DictField, DecimalField, ListField
+
+from django_mongoengine import Document
+from mongoengine import StringField, IntField, DateTimeField, ReferenceField, DictField, DecimalField, ListField, \
+    FloatField
 
 
 class Sentiment(Document):
@@ -8,12 +10,11 @@ class Sentiment(Document):
     sentiment_scores = DictField(DecimalField(precision=4))
     date_created = DateTimeField(default=datetime.datetime.utcnow())
 
-
     @staticmethod
     def create(external_id, row):
         return Sentiment(
-                         sentiment=row['Sentiment'],
-                         sentiment_scores=str(row['SentimentScore']))
+            sentiment=row['Sentiment'],
+            sentiment_scores=str(row['SentimentScore']))
 
 
 class Opinion(Document):
@@ -102,8 +103,7 @@ class ReportPSentiment(ReportParam):
     pass
 
 
-class ReportPSentimenPlanteamientos(ReportPSentiment):
-
+class ReportPSentimentPlanteamientos(ReportPSentiment):
     # Planteamientos
     provincias = ListField(ReferenceField(Provincia))
     municipios = ListField(ReferenceField(Municipio))
@@ -122,4 +122,4 @@ class ReportDSentiment(ReportData):
     total_positive = IntField(required=True)
     total_negative = IntField(required=True)
     total_neutral = IntField(required=True)
-    ratio = DecimalField(required=True)
+    ratio = FloatField(required=True)
