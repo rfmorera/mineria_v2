@@ -94,12 +94,17 @@ class ReportParam(Document):
     delta_type = StringField(required=True)
     delta_value = IntField(required=True)
     entradas_id = ListField(ReferenceField(Entrada), required=True, max_length=5)
-    type = StringField(required=True, default=None)
 
     meta = {'allow_inheritance': True}
 
 
-class ReportParamPlanteamientos(ReportParam):
+class ReportPSentiment(ReportParam):
+    pass
+
+
+class ReportPSentimenPlanteamientos(ReportPSentiment):
+
+    # Planteamientos
     provincias = ListField(ReferenceField(Provincia))
     municipios = ListField(ReferenceField(Municipio))
     entidades = ListField(ReferenceField(Entidad))
@@ -112,7 +117,7 @@ class ReportData(Document):
     meta = {'allow_inheritance': True}
 
 
-class ReportePolaridad(ReportData):
+class ReportDSentiment(ReportData):
     total_opinion = IntField(required=True)
     total_positive = IntField(required=True)
     total_negative = IntField(required=True)

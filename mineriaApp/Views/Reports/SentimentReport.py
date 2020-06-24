@@ -1,32 +1,33 @@
-from rest_framework.decorators import api_view, permission_classes
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework.decorators import api_view, permission_classes, action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
-from mineriaApp.Serializers.MongoSerializers import ReportParamSerializer
+from mineriaApp.Serializers.MongoSerializers import ReportPSentimentSerializer, ReportDSentimentSerializer
 from mineriaApp.Services.SentimentService import SentimentService
 import datetime
 from rest_condition import Or, And
 from rest_framework import viewsets, permissions
 from rest_framework import filters
-from mineriaApp.Models.MongoModels import ReportParam
-from mineriaApp.Security.GroupsPermission import IsAdminGroup, IsReportMakerGroup, IsManagerGroup, IsSafeRequest, IsReportViewerGroup
+from mineriaApp.Models.MongoModels import ReportPSentiment
+from mineriaApp.Security.GroupsPermission import IsAdminGroup, IsReportMakerGroup, IsManagerGroup, IsSafeRequest, \
+    IsReportViewerGroup
 from rest_framework import status
 
 
-class ReportParamViewSet(viewsets.ModelViewSet):
+class ReportSentimentViewSet(viewsets.ModelViewSet):
     """
         API endpoint that allows reports to be viewed or edited.
     """
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
 
-    search_fields = ['name', 'description', 'type']  # TODO: check  this
+    search_fields = ['name', 'description']
     ordering_fields = ['name', 'inicio', 'delta_type', 'type']
     ordering = ['name']  # Default ordering
 
-    queryset = ReportParam.objects.none()
+    queryset = ReportPSentiment.objects.none()
     permission_classes = [permissions.IsAuthenticated, Or(IsAdminGroup, IsReportMakerGroup, IsManagerGroup,
                                                           And(IsSafeRequest, IsReportViewerGroup))]
-    serializer_class = ReportParamSerializer
+    serializer_class = ReportPSentimentSerializer
 
     def get_queryset(self):
         """
@@ -34,24 +35,32 @@ class ReportParamViewSet(viewsets.ModelViewSet):
         for the currently authenticated client.
         """
         user = self.request.user
-        return ReportParam.objects.filter(client=user.cliente.id)
+        return ReportPSentiment.objects.filter(client=user.cliente.id)
 
     def create(self, request, *args, **kwargs):
         user = self.request.user
-        data = request.data
-        data['client'] = user.cliente.id
         serializer = self.get_serializer(data=request.data)
+        serializer.client = user.cliente.id
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    @action(detail=True, methods=['get'], url_path="report")
+    @swagger_auto_schema(responses={200: ReportDSentimentSerializer(many=True), 400: "Reporte Id Invalido"})
+    def report(self, request, pk):
+        """
+        Devuelve los resultados del reporte
+        """
+        message = "muy bien"
+        return Response(message)
 
 
 @api_view()
 @permission_classes([IsAuthenticated])
 def timeline_sentiment(request):
     data = request.data
-    
+
     inicio = data.get('inicio')
     fin = data.get('fin')
     delta = data.get('delta')

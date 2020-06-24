@@ -1,11 +1,10 @@
-import mongoengine
-from mineriaApp.Models.MongoModels import Sentiment, ReportePolaridad
+from mineriaApp.Models.MongoModels import Sentiment
 from mineriaApp.Services.FastTextPredictionService import FastTextPrediction
 from mineriaApp.Services.EntradaService import EntradaService
 from mineriaApp.Services.Utils.Enum import InferenceModelsEnum
 from mineriaApp.Services.Utils import DatetimeUtils
 from mineriaApp.Services.OpinionService import OpinionService
-from mineriaApp.Services.EntidadService import EntidadService
+
 
 
 class SentimentService(object):
