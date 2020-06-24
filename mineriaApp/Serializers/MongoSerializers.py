@@ -1,4 +1,5 @@
-from mineriaApp.Models.MongoModels import Sentiment, Opinion, Entrada, Fuente, Entidad, ReportePolaridad, ReportParam
+from mineriaApp.Models.MongoModels import Sentiment, Opinion, Entrada, Fuente, Entidad, ReportDSentiment, \
+    ReportPSentiment
 from rest_framework_mongoengine.serializers import DocumentSerializer
 
 
@@ -46,13 +47,15 @@ class EntidadSerializer(DocumentSerializer):
         fields = ('id', 'nombre', 'descripcion')
 
 
-class ReportePolaridadSerializer(DocumentSerializer):
+class ReportPSentimentSerializer(DocumentSerializer):
     class Meta:
-        model = ReportePolaridad
-        fields = ('total_opinion', 'total_positive', 'total_negative', 'total_neutral', 'ratio')
+        model = ReportPSentiment
+        fields = (
+            'id', 'name', 'description', 'inicio', 'fin', 'delta_type', 'delta_value', 'type', 'entradas_id')
 
 
-class ReportParamSerializer(DocumentSerializer):
+class ReportDSentimentSerializer(DocumentSerializer):
     class Meta:
-        model = ReportParam
-        fields = ('id', 'name', 'description', 'inicio', 'fin', 'delta_type', 'delta_value', 'type', 'entradas_id', 'client')
+        model = ReportDSentiment
+        fields = (
+            'fecha_inicio', 'total_opinion', 'total_positive', 'total_negative', 'total_neutral', 'ratio')
