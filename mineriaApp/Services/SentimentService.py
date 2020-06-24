@@ -1,16 +1,16 @@
 from mineriaApp.Models.MongoModels import Sentiment
-from mineriaApp.Services.FastTextPredictionService import FastTextPrediction
 from mineriaApp.Services.EntradaService import EntradaService
-from mineriaApp.Services.Utils.Enum import InferenceModelsEnum
-from mineriaApp.Services.Utils import DatetimeUtils
+from mineriaApp.Services.FastTextPredictionService import FastTextPrediction
 from mineriaApp.Services.OpinionService import OpinionService
-
+from mineriaApp.Services.Utils import DatetimeUtils
+from mineriaApp.Services.Utils.Enum import InferenceModelsEnum
 
 
 class SentimentService(object):
     """
     Realiza análisis de sentimientos sobre opiniones
     """
+
     @classmethod
     def insert_sentiments(cls, ids, predictions):
         """
@@ -21,7 +21,6 @@ class SentimentService(object):
         :param predictions: the resulting predictions, map each Id to predictions
         """
         for i, r in enumerate(predictions):
-
             sent = Sentiment.create(ids[i], r)
             sent.save()
 

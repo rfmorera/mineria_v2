@@ -1,12 +1,13 @@
-import json
 import datetime
+
 from rest_condition import Or
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
-from mineriaApp.Security.GroupsPermission import IsManagerGroup, IsAdminGroup, IsSnifforGroup, IsReportMakerGroup
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from mineriaApp.Models.MongoModels import PortalEntrada
+from mineriaApp.Security.GroupsPermission import IsManagerGroup, IsAdminGroup, IsSnifforGroup, IsReportMakerGroup
 from mineriaApp.Serializers.MongoSerializers import EntradaSerializer
 from mineriaApp.Services.EntradaService import EntradaService
 from mineriaApp.Services.PreprocessorService import PreprocessorService
@@ -36,9 +37,9 @@ class EntradaView(APIView):
         entradas = []
         for r in data:
             if "type" in r.keys():
-                entidades= []
+                entidades = []
                 if 'entidades' in r.keys():
-                    entidades= r['entidades']
+                    entidades = r['entidades']
 
                 if r["type"] == "portal":
                     entradas.append(PortalEntrada(content=r["content"],

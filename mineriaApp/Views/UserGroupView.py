@@ -1,9 +1,10 @@
 from django.contrib.auth.models import Group, Permission
 from rest_condition import Or
 from rest_framework import viewsets, permissions
-from mineriaApp.Serializers.MySQLSerializers import UserSerializer, GroupSerializer, \
-                                                    PermissionSerializer, ClientSerializer
+
 from mineriaApp.Security.GroupsPermission import IsAdminGroup, IsSuperAdminGroup
+from mineriaApp.Serializers.MySQLSerializers import UserSerializer, GroupSerializer, \
+    PermissionSerializer, ClientSerializer
 from mineriaApp.models import User, Client
 
 
@@ -51,4 +52,3 @@ class ClientViewSet(viewsets.ModelViewSet):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
     permission_classes = [permissions.IsAuthenticated, Or(IsSuperAdminGroup)]
-

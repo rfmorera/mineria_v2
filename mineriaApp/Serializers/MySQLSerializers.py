@@ -1,6 +1,7 @@
 from django.contrib.auth.models import Group, Permission
-from mineriaApp.models import User, Client
 from rest_framework import serializers
+
+from mineriaApp.models import User, Client
 
 
 class UserSerializer(serializers.ModelSerializer):

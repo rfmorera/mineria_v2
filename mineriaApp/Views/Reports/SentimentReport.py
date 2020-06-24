@@ -1,33 +1,36 @@
+import datetime
+
 from drf_yasg.utils import swagger_auto_schema
+from rest_condition import Or, And
+from rest_framework import filters
+from rest_framework import status
+from rest_framework import viewsets, permissions
 from rest_framework.decorators import api_view, permission_classes, action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from mineriaApp.Serializers.MongoSerializers import ReportPSentimentSerializer, ReportDSentimentSerializer
+
+from mineriaApp.Models import MongoModels
+from mineriaApp.Security import GroupsPermission
+from mineriaApp.Serializers import MongoSerializers
 from mineriaApp.Services.SentimentService import SentimentService
-import datetime
-from rest_condition import Or, And
-from rest_framework import viewsets, permissions
-from rest_framework import filters
-from mineriaApp.Models.MongoModels import ReportPSentiment
-from mineriaApp.Security.GroupsPermission import IsAdminGroup, IsReportMakerGroup, IsManagerGroup, IsSafeRequest, \
-    IsReportViewerGroup
-from rest_framework import status
 
 
 class ReportSentimentViewSet(viewsets.ModelViewSet):
     """
-        API endpoint that allows reports to be viewed or edited.
+        API endpoint that allows reports sentiment to be viewed or edited.
     """
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
 
     search_fields = ['name', 'description']
-    ordering_fields = ['name', 'inicio', 'delta_type', 'type']
+    ordering_fields = ['name', 'inicio', 'delta_type']
     ordering = ['name']  # Default ordering
 
-    queryset = ReportPSentiment.objects.none()
-    permission_classes = [permissions.IsAuthenticated, Or(IsAdminGroup, IsReportMakerGroup, IsManagerGroup,
-                                                          And(IsSafeRequest, IsReportViewerGroup))]
-    serializer_class = ReportPSentimentSerializer
+    queryset = MongoModels.ReportPSentiment.objects.none()
+    permission_classes = [permissions.IsAuthenticated,
+                          Or(GroupsPermission.IsAdminGroup, GroupsPermission.IsReportMakerGroup,
+                             GroupsPermission.IsManagerGroup,
+                             And(GroupsPermission.IsSafeRequest, GroupsPermission.IsReportViewerGroup))]
+    serializer_class = MongoSerializers.ReportPSentimentSerializer
 
     def get_queryset(self):
         """
@@ -35,7 +38,7 @@ class ReportSentimentViewSet(viewsets.ModelViewSet):
         for the currently authenticated client.
         """
         user = self.request.user
-        return ReportPSentiment.objects.filter(client=user.cliente.id)
+        return MongoModels.ReportPSentiment.objects.filter(client=user.cliente.id)
 
     def create(self, request, *args, **kwargs):
         user = self.request.user
@@ -47,7 +50,53 @@ class ReportSentimentViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     @action(detail=True, methods=['get'], url_path="report")
-    @swagger_auto_schema(responses={200: ReportDSentimentSerializer(many=True), 400: "Reporte Id Invalido"})
+    @swagger_auto_schema(
+        responses={200: MongoSerializers.ReportDSentimentSerializer(many=True), 400: "Reporte Id Invalido"})
+    def report(self, request, pk):
+        """
+        Devuelve los resultados del reporte
+        """
+        message = "muy bien"
+        return Response(message)
+
+
+class ReportSentimentPlanteamientoViewSet(viewsets.ModelViewSet):
+    """
+        API endpoint that allows reports sentiment planteamiento to be viewed or edited.
+    """
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+
+    search_fields = ['name', 'description', 'provincia', 'municipio']
+    ordering_fields = ['name', 'inicio', 'delta_type']
+    ordering = ['name']  # Default ordering
+
+    queryset = MongoModels.ReportPSentimentPlanteamientos.objects.none()
+    permission_classes = [permissions.IsAuthenticated,
+                          Or(GroupsPermission.IsAdminGroup, GroupsPermission.IsReportMakerGroup,
+                             GroupsPermission.IsManagerGroup,
+                             And(GroupsPermission.IsSafeRequest, GroupsPermission.IsReportViewerGroup))]
+    serializer_class = MongoSerializers.ReportPSentimentPlanteamientoSerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the report_param
+        for the currently authenticated client.
+        """
+        user = self.request.user
+        return MongoModels.ReportPSentimentPlanteamientos.objects.filter(client=user.cliente.id)
+
+    def create(self, request, *args, **kwargs):
+        user = self.request.user
+        serializer = self.get_serializer(data=request.data)
+        serializer.client = user.cliente.id
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    @action(detail=True, methods=['get'], url_path="report")
+    @swagger_auto_schema(
+        responses={200: MongoSerializers.ReportDSentimentSerializer(many=True), 400: "Reporte Id Invalido"})
     def report(self, request, pk):
         """
         Devuelve los resultados del reporte
