@@ -1,3 +1,4 @@
+from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import BasePermission
@@ -42,3 +43,8 @@ class IsReportMakerGroup(BasePermission):
 class IsManagerGroup(BasePermission):
     def has_permission(self, request, view):
         return request.user.groups.filter(name=AppGroups.Manager).exists()
+
+
+class IsSafeRequest(BasePermission):
+    def has_permission(self, request, view):
+        return request.method in permissions.SAFE_METHODS

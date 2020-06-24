@@ -86,12 +86,15 @@ class Entidad(Document):
 
 
 class ReportParam(Document):
-    client = StringField(required=True)
+    client = IntField(required=True)
+    name = StringField(required=True)
+    description = StringField(default="")
     inicio = DateTimeField(required=True)
     fin = DateTimeField()
     delta_type = StringField(required=True)
     delta_value = IntField(required=True)
-    entradas_id = ListField(ReferenceField(Entrada), required=True)
+    entradas_id = ListField(ReferenceField(Entrada), required=True, max_length=5)
+    type = StringField(required=True, default=None)
 
     meta = {'allow_inheritance': True}
 

@@ -102,7 +102,6 @@ connect(
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
 
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -127,14 +126,16 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
-    'DEFAULT_METADATA_CLASS': 'rest_framework.metadata.SimpleMetadata'
+    'DEFAULT_METADATA_CLASS': 'rest_framework.metadata.SimpleMetadata',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
 }
 
 REDOC_SETTINGS = {
-   'LAZY_RENDERING': False,
-   'PATH_IN_MIDDLE': True,
-   'NATIVE_SCROLLBARS': True,
-   'REQUIRED_PROPS_FIRST': True
+    'LAZY_RENDERING': False,
+    'PATH_IN_MIDDLE': True,
+    'NATIVE_SCROLLBARS': True,
+    'REQUIRED_PROPS_FIRST': False
 }
 
 # Internationalization
