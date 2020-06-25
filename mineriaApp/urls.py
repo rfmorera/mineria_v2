@@ -59,6 +59,4 @@ urlpatterns = [
     path('entrada', EntradaView.EntradaView.as_view()),
     path('fuente', FuenteView.FuenteView.as_view()),
     path('entidad', EntidadView.EntidadView.as_view()),
-    path('reporte/sentimiento-timeline', SentimentReport.timeline_sentiment),
-    path('reporte/planteamiento-sentimiento', SentimentReport.planteamientos_sentiment)
 ]

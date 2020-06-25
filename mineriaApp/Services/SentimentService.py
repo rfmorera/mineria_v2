@@ -82,17 +82,18 @@ class SentimentService(object):
         return sent_list
 
     @classmethod
-    def build_planteamientos_report(cls, provincia, municipio, entidades, start_date, end_date, delta, delta_type):
-        entradas = EntradaService.get_entradas_planteamientos(provincia, municipio)
+    def build_planteamientos_report(cls, param_id, start_date, end_date, delta_value, delta_type, provincias,
+                                    municipios, entidades):
 
-        entradas_ids = [e.id for e in entradas]
+        entradas = EntradaService.get_entradas_planteamientos(provincias, municipios)
 
-        reports_entrada = cls.build_report(entradas_ids, entidades, start_date, end_date, delta, delta_type)
+        reports_entrada = cls.build_report(param_id, entradas, start_date, end_date, delta_value, delta_type,
+                                           entidades)
 
         return reports_entrada
 
     @classmethod
-    def build_report(cls, param_id, entradas_id, start_date, end_date, delta, delta_type, entidades=None):
+    def build_report(cls, param_id, entradas_id, start_date, end_date, delta_value, delta_type, entidades=None):
         """
         Construye los reportes entre 'start_date' y 'end_date' con
         intervalo de 'timedelta'. Devuelve un resumen general.
@@ -105,7 +106,7 @@ class SentimentService(object):
         """
         reports = []
         tot = pos = neg = neu = 0
-        timedelta = DatetimeUtils.build_delta(delta, delta_type)
+        timedelta = DatetimeUtils.build_delta(delta_value, delta_type)
         if end_date is None:
             end_date = datetime.datetime.now()
 
@@ -119,7 +120,6 @@ class SentimentService(object):
             start_date += timedelta
 
         ratio = cls.__calc_ratio(pos, neg)
-
 
         # TODO: add resumen to report data
         # return {'total': tot, 'positive_total': pos, 'negative_total': neg, 'neutral_total': neu,
