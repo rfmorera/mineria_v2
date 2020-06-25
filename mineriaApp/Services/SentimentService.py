@@ -1,4 +1,6 @@
-from mineriaApp.Models.MongoModels import Sentiment
+import datetime
+
+from mineriaApp.Models.MongoModels import Sentiment, ReportDSentiment
 from mineriaApp.Services.EntradaService import EntradaService
 from mineriaApp.Services.FastTextPredictionService import FastTextPrediction
 from mineriaApp.Services.OpinionService import OpinionService
@@ -90,7 +92,7 @@ class SentimentService(object):
         return reports_entrada
 
     @classmethod
-    def build_report(cls, entradas_id, entidades, start_date, end_date, delta, delta_type):
+    def build_report(cls, param_id, entradas_id, start_date, end_date, delta, delta_type, entidades=None):
         """
         Construye los reportes entre 'start_date' y 'end_date' con
         intervalo de 'timedelta'. Devuelve un resumen general.
@@ -104,23 +106,28 @@ class SentimentService(object):
         reports = []
         tot = pos = neg = neu = 0
         timedelta = DatetimeUtils.build_delta(delta, delta_type)
+        if end_date is None:
+            end_date = datetime.datetime.now()
 
         while start_date < end_date:
-            r = cls._build_report(entradas_id, entidades, start_date, start_date + timedelta)
+            r = cls._build_report(param_id, entradas_id, entidades, start_date, start_date + timedelta)
             reports.append(r)
-            tot += reports[-1]['total']
-            pos += reports[-1]['positive']
-            neg += reports[-1]['negative']
-            neu += reports[-1]['neutral']
+            tot += r.total_opinion
+            pos += r.total_positive
+            neg += r.total_negative
+            neu += r.total_neutral
             start_date += timedelta
 
         ratio = cls.__calc_ratio(pos, neg)
 
-        return {'total': tot, 'positive_total': pos, 'negative_total': neg, 'neutral_total': neu,
-                'ratio': ratio, 'reports_interval': reports}
+
+        # TODO: add resumen to report data
+        # return {'total': tot, 'positive_total': pos, 'negative_total': neg, 'neutral_total': neu,
+        #         'ratio': ratio, 'reports_interval': reports}
+        return reports
 
     @classmethod
-    def _build_report(cls, entradas_id, entidades, start_date, end_date):
+    def _build_report(cls, param_id, entradas_id, entidades, start_date, end_date):
         opinions = OpinionService.get_between_dates(entradas_id, entidades, start_date, end_date)
 
         opinions = cls.inference_sentiment_from_opinions(opinions)
@@ -144,8 +151,8 @@ class SentimentService(object):
         pos -= 1
         neg -= 1
 
-        return {"total": tot, "positive": pos, "negative": neg, "neutral": neu, "ratio": ratio,
-                "start-date": start_date, "end-date": end_date}
+        return ReportDSentiment(report_param=param_id, fecha_inicio=start_date, total_opinion=tot, total_positive=pos,
+                                total_negative=neg, total_neutral=neu, ratio=ratio)
 
     @classmethod
     def __calc_ratio(cls, pos, neg):
