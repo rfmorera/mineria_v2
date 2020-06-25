@@ -94,7 +94,7 @@ class ReportParam(Document):
     fin = DateTimeField()
     delta_type = StringField(required=True)
     delta_value = IntField(required=True)
-    entradas_id = ListField(ReferenceField(Entrada), required=True, max_length=5)
+    entradas_id = ListField(ReferenceField(Entrada), max_length=5)
 
     meta = {'allow_inheritance': True}
 

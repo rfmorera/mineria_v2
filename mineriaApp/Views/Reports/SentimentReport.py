@@ -61,7 +61,7 @@ class ReportSentimentViewSet(viewsets.ModelViewSet):
         """
         try:
             param = MongoModels.ReportPSentiment.objects.get(pk=pk)
-        except MongoModels.ReportPSentiment.DoesNotExist:
+        except param.DoesNotExist:
             raise Http404("No MongoModels.ReportPSentiment matches the given query.")
         reports = SentimentService.build_report(param.id, param.entradas_id, param.inicio, param.fin, param.delta_value,
                                                 param.delta_type)
@@ -98,9 +98,11 @@ class ReportSentimentPlanteamientoViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         user = self.request.user
         serializer = self.get_serializer(data=request.data)
-        serializer.client = user.cliente.id
         serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
+        instance = MongoModels.ReportPSentimentPlanteamientos(**serializer.validated_data)
+        instance.client = user.cliente.id
+        self.perform_create(instance)
+        serializer = MongoSerializers.ReportPSentimentPlanteamientoSerializer(instance)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
@@ -111,56 +113,13 @@ class ReportSentimentPlanteamientoViewSet(viewsets.ModelViewSet):
         """
         Devuelve los resultados del reporte
         """
-        message = "muy bien"
-        return Response(message)
+        try:
+            param = MongoModels.ReportPSentimentPlanteamientos.objects.get(pk=pk)
+        except param.DoesNotExist:
+            raise Http404("No MongoModels.ReportPSentiment matches the given query.")
+        reports = SentimentService.build_planteamientos_report(param.id, param.inicio, param.fin, param.delta_value,
+                                                               param.delta_type, param.provincias, param.municipios,
+                                                               param.entidades)
 
-
-@api_view()
-@permission_classes([IsAuthenticated])
-def planteamientos_sentiment(request):
-    data = request.data
-
-    inicio = data.get('inicio')
-    fin = data.get('fin')
-    delta = data.get('delta')
-    delta_type = data.get('delta_type')
-    provincia = data.get('provincia')
-    municipio = data.get('municipio')
-    entidades = data.get('entidades')
-
-    if inicio is None:
-        raise KeyError('inicio no está presente en la petición')
-
-    if fin is None:
-        raise KeyError('fin no está presente en la petición')
-
-    if delta is None:
-        raise KeyError('delta no está presente en la petición')
-
-    if delta_type is None:
-        raise KeyError('delta_type no está presente en la petición')
-
-    if provincia is None or (type(provincia) == str and provincia != "Todas"):  # TODO check if provincia is an array
-        raise KeyError('provincia no está presente en la petición o su formato es incorrecto')
-
-    if municipio is None or (type(municipio) == str and municipio != "Todos"):  # TODO check if municipio is an array
-        raise KeyError('municipio no está presente en la petición o su formato es incorrecto')
-
-    if entidades is None or (type(entidades) == str and entidades != "Todas"):  # TODO check if entidades is an array
-        raise KeyError('entidades no está presente en la petición o su formato es incorrecto')
-
-    if provincia == "Todas":
-        provincia = None
-
-    if municipio == "Todos":
-        municipio = None
-
-    if entidades == "Todas":
-        entidades = None
-
-    inicio = datetime.datetime.strptime(inicio, '%d/%m/%Y %H:%M:%S')
-    fin = datetime.datetime.strptime(fin, '%d/%m/%Y %H:%M:%S')
-    report = SentimentService.build_planteamientos_report(provincia, municipio, entidades, inicio,
-                                                          fin, delta, delta_type)
-
-    return Response(report)
+        serializer = MongoSerializers.ReportDSentimentSerializer(reports, many=True)
+        return Response(serializer.data)

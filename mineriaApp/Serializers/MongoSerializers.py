@@ -66,5 +66,5 @@ class ReportPSentimentPlanteamientoSerializer(DocumentSerializer):
     class Meta:
         model = ReportPSentimentPlanteamientos
         fields = (
-            'id', 'name', 'description', 'inicio', 'fin', 'delta_type', 'delta_value', 'entradas_id',
+            'id', 'name', 'description', 'inicio', 'fin', 'delta_type', 'delta_value',
             'provincias', 'municipios', 'entidades')
