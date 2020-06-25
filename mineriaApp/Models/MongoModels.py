@@ -1,5 +1,6 @@
 import datetime
 
+import mongoengine
 from django_mongoengine import Document
 from mongoengine import StringField, IntField, DateTimeField, ReferenceField, DictField, DecimalField, ListField, \
     FloatField
@@ -111,8 +112,9 @@ class ReportPSentimentPlanteamientos(ReportPSentiment):
 
 
 class ReportData(Document):
-    report_param = ReferenceField(ReportParam, required=True)
+    report_param = ReferenceField(ReportParam, required=True, reverse_delete_rule=mongoengine.CASCADE)
     fecha_inicio = DateTimeField(required=True)
+    fecha_fin = DateTimeField(required=True)
 
     meta = {'allow_inheritance': True}
 
