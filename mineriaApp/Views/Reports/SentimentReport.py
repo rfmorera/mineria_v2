@@ -1,5 +1,6 @@
 import datetime
 
+from django.http import Http404
 from drf_yasg.utils import swagger_auto_schema
 from rest_condition import Or, And
 from rest_framework import filters
@@ -43,9 +44,11 @@ class ReportSentimentViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         user = self.request.user
         serializer = self.get_serializer(data=request.data)
-        serializer.client = user.cliente.id
         serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
+        instance = MongoModels.ReportPSentiment(**serializer.validated_data)
+        instance.client = user.cliente.id
+        self.perform_create(instance)
+        serializer = MongoSerializers.ReportPSentimentSerializer(instance)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
@@ -56,8 +59,15 @@ class ReportSentimentViewSet(viewsets.ModelViewSet):
         """
         Devuelve los resultados del reporte
         """
-        message = "muy bien"
-        return Response(message)
+        try:
+            param = MongoModels.ReportPSentiment.objects.get(pk=pk)
+        except MongoModels.ReportPSentiment.DoesNotExist:
+            raise Http404("No MongoModels.ReportPSentiment matches the given query.")
+        reports = SentimentService.build_report(param.id, param.entradas_id, param.inicio, param.fin, param.delta_value,
+                                                param.delta_type)
+
+        serializer = MongoSerializers.ReportDSentimentSerializer(reports, many=True)
+        return Response(serializer.data)
 
 
 class ReportSentimentPlanteamientoViewSet(viewsets.ModelViewSet):
@@ -103,38 +113,6 @@ class ReportSentimentPlanteamientoViewSet(viewsets.ModelViewSet):
         """
         message = "muy bien"
         return Response(message)
-
-
-@api_view()
-@permission_classes([IsAuthenticated])
-def timeline_sentiment(request):
-    data = request.data
-
-    inicio = data.get('inicio')
-    fin = data.get('fin')
-    delta = data.get('delta')
-    delta_type = data.get('delta_type')
-    entradas_id = data.get('entradas_id')
-
-    if inicio is None:
-        raise KeyError('inicio no está presente en la petición')
-
-    if fin is None:
-        raise KeyError('fin no está presente en la petición')
-
-    if delta is None:
-        raise KeyError('delta no está presente en la petición')
-
-    if entradas_id is None:
-        raise KeyError('entradas_id no está presente en la petición')
-
-    if delta_type is None:
-        raise KeyError('delta_type no está presente en la petición')
-
-    inicio = datetime.datetime.strptime(inicio, '%d/%m/%Y %H:%M:%S')
-    fin = datetime.datetime.strptime(fin, '%d/%m/%Y %H:%M:%S')
-    report = SentimentService.build_report(entradas_id, inicio, fin, delta, delta_type)
-    return Response(report)
 
 
 @api_view()
