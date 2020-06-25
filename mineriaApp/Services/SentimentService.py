@@ -86,14 +86,13 @@ class SentimentService(object):
                                     municipios, entidades):
 
         entradas = EntradaService.get_entradas_planteamientos(provincias, municipios)
-
         reports_entrada = cls.build_report(param_id, entradas, start_date, end_date, delta_value, delta_type,
                                            entidades)
 
         return reports_entrada
 
     @classmethod
-    def build_report(cls, param_id, entradas_id, start_date, end_date, delta_value, delta_type, entidades=None):
+    def build_report(cls, param_id, entradas_id, start_date, end_date_param, delta_value, delta_type, entidades=None):
         """
         Construye los reportes entre 'start_date' y 'end_date' con
         intervalo de 'timedelta'. Devuelve un resumen general.
@@ -107,11 +106,22 @@ class SentimentService(object):
         reports = []
         tot = pos = neg = neu = 0
         timedelta = DatetimeUtils.build_delta(delta_value, delta_type)
-        if end_date is None:
+        if end_date_param is None or end_date_param > datetime.datetime.now():
             end_date = datetime.datetime.now()
+            end_date_param = None
+        else:
+            end_date = end_date_param
+
+        reports = cls.get_existing_reports(param_id)
+        reports = list(reports)
+        if reports:
+            start_date = reports[-1].fecha_inicio + timedelta
 
         while start_date < end_date:
-            r = cls._build_report(param_id, entradas_id, entidades, start_date, start_date + timedelta)
+            save = True
+            if end_date_param is None and start_date + timedelta >= end_date:
+                save = False
+            r = cls._build_report(param_id, entradas_id, entidades, start_date, start_date + timedelta, save)
             reports.append(r)
             tot += r.total_opinion
             pos += r.total_positive
@@ -127,7 +137,11 @@ class SentimentService(object):
         return reports
 
     @classmethod
-    def _build_report(cls, param_id, entradas_id, entidades, start_date, end_date):
+    def get_existing_reports(cls, param_id):
+        return ReportDSentiment.objects(report_param=param_id).order_by('fecha_inicio')
+
+    @classmethod
+    def _build_report(cls, param_id, entradas_id, entidades, start_date, end_date, save):
         opinions = OpinionService.get_between_dates(entradas_id, entidades, start_date, end_date)
 
         opinions = cls.inference_sentiment_from_opinions(opinions)
@@ -150,9 +164,12 @@ class SentimentService(object):
 
         pos -= 1
         neg -= 1
+        rep = ReportDSentiment(report_param=param_id, fecha_inicio=start_date, fecha_fin=end_date, total_opinion=tot,
+                               total_positive=pos, total_negative=neg, total_neutral=neu, ratio=ratio)
+        if save:
+            rep.save()
 
-        return ReportDSentiment(report_param=param_id, fecha_inicio=start_date, total_opinion=tot, total_positive=pos,
-                                total_negative=neg, total_neutral=neu, ratio=ratio)
+        return rep
 
     @classmethod
     def __calc_ratio(cls, pos, neg):

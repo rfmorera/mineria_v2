@@ -20,10 +20,10 @@ class EntradaService(object):
 
     @classmethod
     def get_entradas_planteamientos(cls, provincia, municipio):
-        if provincia is None:
-            provincia = UbicacionService.get_all_provincias()
+        if provincia is None or provincia == []:
+            return PlanteamientoEntrada.objects(municipio__in=municipio)
 
-        if municipio is None:
-            municipio = UbicacionService.get_all_municipios()
+        if municipio is None or municipio == []:
+            return PlanteamientoEntrada.objects(provincia__in=provincia)
 
         return PlanteamientoEntrada.objects(provincia__in=provincia, municipio__in=municipio)
