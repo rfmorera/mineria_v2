@@ -32,7 +32,7 @@ class ReportSentimentViewSet(viewsets.ModelViewSet):
                              GroupsPermission.IsManagerGroup,
                              And(GroupsPermission.IsSafeRequest, GroupsPermission.IsReportViewerGroup))]
     serializer_class = MongoSerializers.ReportPSentimentSerializer
-
+    http_method_names = ['get', 'post', 'head', 'delete']
     def get_queryset(self):
         """
         This view should return a list of all the report_param
@@ -86,6 +86,7 @@ class ReportSentimentPlanteamientoViewSet(viewsets.ModelViewSet):
                              GroupsPermission.IsManagerGroup,
                              And(GroupsPermission.IsSafeRequest, GroupsPermission.IsReportViewerGroup))]
     serializer_class = MongoSerializers.ReportPSentimentPlanteamientoSerializer
+    http_method_names = ['get', 'post', 'head', 'delete']
 
     def get_queryset(self):
         """
