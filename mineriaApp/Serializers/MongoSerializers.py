@@ -77,4 +77,4 @@ class ReportFullSentintimentSerializer(DocumentSerializer):
         model = ReportPSentiment
         depth = 1
         fields = (
-            'name', 'description', 'inicio', 'fin', 'delta_type', 'delta_value', 'result')
+            'id', 'name', 'description', 'inicio', 'fin', 'delta_type', 'delta_value', 'result')

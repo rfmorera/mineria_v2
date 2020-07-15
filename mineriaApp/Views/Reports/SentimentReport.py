@@ -83,13 +83,13 @@ class ReportSentimentPlanteamientoViewSet(viewsets.ModelViewSet):
     ordering = ['name']  # Default ordering
 
     queryset = MongoModels.ReportPSentimentPlanteamientos.objects.none()
-    permission_classes = [permissions.IsAuthenticated,
-                          Or(GroupsPermission.IsAdminGroup, GroupsPermission.IsReportMakerGroup,
-                             GroupsPermission.IsManagerGroup,
-                             And(GroupsPermission.IsSafeRequest, GroupsPermission.IsReportViewerGroup))]
+    # permission_classes = [permissions.IsAuthenticated,
+    #                       Or(GroupsPermission.IsAdminGroup, GroupsPermission.IsReportMakerGroup,
+    #                          GroupsPermission.IsManagerGroup,
+    #                          And(GroupsPermission.IsSafeRequest, GroupsPermission.IsReportViewerGroup))]
+    permission_classes = [AllowAny, ]
     serializer_class = MongoSerializers.ReportPSentimentPlanteamientoSerializer
     http_method_names = ['get', 'post', 'head', 'delete']
-
     def get_queryset(self):
         """
         This view should return a list of all the report_param
@@ -111,7 +111,7 @@ class ReportSentimentPlanteamientoViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get'], url_path="report")
     @swagger_auto_schema(
-        responses={200: MongoSerializers.ReportDSentimentSerializer(many=True), 400: "Reporte Id Invalido"})
+        responses={200: MongoSerializers.ReportFullSentintimentSerializer(), 400: "Reporte Id Invalido"})
     def report(self, request, pk):
         """
         Devuelve los resultados del reporte
@@ -124,5 +124,6 @@ class ReportSentimentPlanteamientoViewSet(viewsets.ModelViewSet):
                                                                param.delta_type, param.provincias, param.municipios,
                                                                param.entidades)
 
-        serializer = MongoSerializers.ReportDSentimentSerializer(reports, many=True)
+        param.result = reports
+        serializer = MongoSerializers.ReportFullSentintimentSerializer(param)
         return Response(serializer.data)
