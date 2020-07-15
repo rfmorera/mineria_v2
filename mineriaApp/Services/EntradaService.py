@@ -1,4 +1,5 @@
-from mineriaApp.Models.MongoModels import Entrada
+from mineriaApp.Models.MongoModels import Entrada, PlanteamientoEntrada
+from mineriaApp.Services import UbicacionService
 
 
 class EntradaService(object):
@@ -12,3 +13,17 @@ class EntradaService(object):
     @classmethod
     def get_by_ids(cls, ids):
         return Entrada.objects(id__in=ids)
+
+    @classmethod
+    def get_all(cls):
+        return Entrada.objects().all()
+
+    @classmethod
+    def get_entradas_planteamientos(cls, provincia, municipio):
+        if provincia is None or provincia == []:
+            return PlanteamientoEntrada.objects(municipio__in=municipio)
+
+        if municipio is None or municipio == []:
+            return PlanteamientoEntrada.objects(provincia__in=provincia)
+
+        return PlanteamientoEntrada.objects(provincia__in=provincia, municipio__in=municipio)

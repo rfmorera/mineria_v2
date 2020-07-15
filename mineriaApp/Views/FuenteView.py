@@ -1,16 +1,18 @@
-import json
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_condition import Or
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from mineriaApp.Models.MongoModels import Fuente
+from mineriaApp.Security.GroupsPermission import IsManagerGroup, IsAdminGroup
 from mineriaApp.Serializers.MongoSerializers import FuenteSerializer
 from mineriaApp.Services.FuenteService import FuenteService
 
 
 class FuenteView(APIView):
     authentication_classes = [BasicAuthentication, TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, Or(IsManagerGroup, IsAdminGroup)]
 
     def get(self, request):
         """Devuelve las fuentes"""

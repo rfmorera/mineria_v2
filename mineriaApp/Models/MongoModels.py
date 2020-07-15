@@ -1,6 +1,9 @@
-from django_mongoengine import Document
 import datetime
-from mongoengine import StringField, IntField, DateTimeField, ReferenceField, DictField, DecimalField, ListField
+
+import mongoengine
+from django_mongoengine import Document
+from mongoengine import StringField, IntField, DateTimeField, ReferenceField, DictField, DecimalField, ListField, \
+    FloatField
 
 
 class Sentiment(Document):
@@ -8,12 +11,11 @@ class Sentiment(Document):
     sentiment_scores = DictField(DecimalField(precision=4))
     date_created = DateTimeField(default=datetime.datetime.utcnow())
 
-
     @staticmethod
     def create(external_id, row):
         return Sentiment(
-                         sentiment=row['Sentiment'],
-                         sentiment_scores=str(row['SentimentScore']))
+            sentiment=row['Sentiment'],
+            sentiment_scores=str(row['SentimentScore']))
 
 
 class Opinion(Document):
@@ -24,11 +26,11 @@ class Opinion(Document):
     meta = {'allow_inheritance': True}
     sentiment = ReferenceField('Sentiment')
     entrada = ReferenceField('Entrada')
+    fecha = DateTimeField(default=datetime.datetime.now())
 
 
 class Tweet(Opinion):
     tweet_id = IntField()
-    tweet_date_created = DateTimeField()
     tweet_text = StringField()  # TODO: check if this property can be removed using raw_content above
 
     @staticmethod
@@ -39,19 +41,87 @@ class Tweet(Opinion):
                      external_id=row["external_id"])
 
 
+class Planteamiento(Opinion):
+    entidades = ListField(ReferenceField('Entidad'))
+
+
 class Fuente(Document):
+    nombre = StringField(unique=True)
+
+
+class Provincia(Document):
+    nombre = StringField(required=True, unique=True)
+    normalized = StringField(required=True, unique=True)
+
+
+class Municipio(Document):
     nombre = StringField()
+    provincia = ReferenceField('Provincia')
 
 
 class Entrada(Document):
     meta = {'allow_inheritance': True}
+    titulo = StringField()  # TODO Add title support to Endpoint
     content = StringField()
     processed_content = StringField()
-    fecha = DateTimeField(default=datetime.datetime.utcnow)
+    fecha = DateTimeField()
     fuente = ReferenceField(Fuente)
     resumen = StringField(default="No procesado.")
     keywords = ListField(StringField(default="No procesado."))
+    entidades = ListField(ReferenceField('Entidad'))
 
 
 class PortalEntrada(Entrada):
     etiquetas = ListField(StringField())
+
+
+class PlanteamientoEntrada(Entrada):
+    provincia = ReferenceField('Provincia')
+    municipio = ReferenceField('Municipio')
+
+
+class Entidad(Document):
+    codigo = IntField(required=True, unique=True)
+    nombre = StringField(required=True)
+    descripcion = StringField()
+    organismo_id = IntField()
+
+
+class ReportParam(Document):
+    client = IntField(required=True)
+    name = StringField(required=True)
+    description = StringField(default="")
+    inicio = DateTimeField(required=True)
+    fin = DateTimeField()
+    delta_type = StringField(required=True)
+    delta_value = IntField(required=True)
+    entradas_id = ListField(ReferenceField(Entrada), max_length=5)
+
+    meta = {'allow_inheritance': True}
+
+
+class ReportPSentiment(ReportParam):
+    pass
+
+
+class ReportPSentimentPlanteamientos(ReportPSentiment):
+    # Planteamientos
+    provincias = ListField(ReferenceField(Provincia))
+    municipios = ListField(ReferenceField(Municipio))
+    entidades = ListField(ReferenceField(Entidad))
+
+
+class ReportData(Document):
+    report_param = ReferenceField(ReportParam, required=True, reverse_delete_rule=mongoengine.CASCADE)
+    fecha_inicio = DateTimeField(required=True)
+    fecha_fin = DateTimeField(required=True)
+
+    meta = {'allow_inheritance': True}
+
+
+class ReportDSentiment(ReportData):
+    total_opinion = IntField(required=True)
+    total_positive = IntField(required=True)
+    total_negative = IntField(required=True)
+    total_neutral = IntField(required=True)
+    ratio = FloatField(required=True)

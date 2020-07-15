@@ -5,11 +5,11 @@ FastText prediction service
 import os
 
 import fasttext
+# Tweet lexicon sentiment analysis
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 from mineriaApp.Models.MongoModels import Sentiment
 from mineriaApp.Services.Utils import CommonDir
-# Tweet lexicon sentiment analysis
-from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 analyser = SentimentIntensityAnalyzer()
 
