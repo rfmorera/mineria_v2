@@ -165,7 +165,7 @@ class SentimentService(object):
         pos -= 1
         neg -= 1
         rep = ReportDSentiment(report_param=param_id, fecha_inicio=start_date, fecha_fin=end_date, total_opinion=tot,
-                               total_positive=pos, total_negative=neg, total_neutral=neu, ratio=ratio)
+                               total_positive=pos, total_negative=neg, total_neutral=neu, ratio=round(ratio, 2))
         if save:
             rep.save()
 
