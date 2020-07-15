@@ -1,13 +1,10 @@
-import datetime
-
 from django.http import Http404
 from drf_yasg.utils import swagger_auto_schema
 from rest_condition import Or, And
 from rest_framework import filters
 from rest_framework import status
 from rest_framework import viewsets, permissions
-from rest_framework.decorators import api_view, permission_classes, action
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from mineriaApp.Models import MongoModels
@@ -33,6 +30,7 @@ class ReportSentimentViewSet(viewsets.ModelViewSet):
                              And(GroupsPermission.IsSafeRequest, GroupsPermission.IsReportViewerGroup))]
     serializer_class = MongoSerializers.ReportPSentimentSerializer
     http_method_names = ['get', 'post', 'head', 'delete']
+
     def get_queryset(self):
         """
         This view should return a list of all the report_param
@@ -54,7 +52,7 @@ class ReportSentimentViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get'], url_path="report")
     @swagger_auto_schema(
-        responses={200: MongoSerializers.ReportDSentimentSerializer(many=True), 400: "Reporte Id Invalido"})
+        responses={200: MongoSerializers.ReportFullSentintimentSerializer(), 400: "Reporte Id Invalido"})
     def report(self, request, pk):
         """
         Devuelve los resultados del reporte
@@ -66,7 +64,8 @@ class ReportSentimentViewSet(viewsets.ModelViewSet):
         reports = SentimentService.build_report(param.id, param.entradas_id, param.inicio, param.fin, param.delta_value,
                                                 param.delta_type)
 
-        serializer = MongoSerializers.ReportDSentimentSerializer(reports, many=True)
+        param.result = reports
+        serializer = MongoSerializers.ReportFullSentintimentSerializer(param)
         return Response(serializer.data)
 
 
@@ -109,7 +108,7 @@ class ReportSentimentPlanteamientoViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get'], url_path="report")
     @swagger_auto_schema(
-        responses={200: MongoSerializers.ReportDSentimentSerializer(many=True), 400: "Reporte Id Invalido"})
+        responses={200: MongoSerializers.ReportPSentimentSerializer(many=True), 400: "Reporte Id Invalido"})
     def report(self, request, pk):
         """
         Devuelve los resultados del reporte
