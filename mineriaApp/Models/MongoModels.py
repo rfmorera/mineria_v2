@@ -101,7 +101,6 @@ class ReportParam(Document):
 
 
 class ReportPSentiment(ReportParam):
-    result = ListField(ReferenceField('ReportDSentiment'))
     pass
 
 

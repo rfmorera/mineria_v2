@@ -68,13 +68,3 @@ class ReportPSentimentPlanteamientoSerializer(DocumentSerializer):
         fields = (
             'id', 'name', 'description', 'inicio', 'fin', 'delta_type', 'delta_value',
             'provincias', 'municipios', 'entidades')
-
-
-class ReportFullSentintimentSerializer(DocumentSerializer):
-    result = ReportDSentimentSerializer(many=True)
-
-    class Meta:
-        model = ReportPSentiment
-        depth = 1
-        fields = (
-            'name', 'description', 'inicio', 'fin', 'delta_type', 'delta_value', 'result')
