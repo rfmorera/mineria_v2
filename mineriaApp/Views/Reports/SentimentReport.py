@@ -1,5 +1,3 @@
-import datetime
-
 from django.http import Http404
 from drf_yasg.utils import swagger_auto_schema
 from rest_condition import Or, And
@@ -69,7 +67,8 @@ class ReportSentimentViewSet(viewsets.ModelViewSet):
         reports = SentimentService.build_report(param.id, param.entradas_id, param.inicio, param.fin, param.delta_value,
                                                 param.delta_type)
 
-        serializer = MongoSerializers.ReportDSentimentSerializer(reports, many=True)
+        param.result = reports
+        serializer = MongoSerializers.ReportFullSentintimentSerializer(param)
         return Response(serializer.data)
 
 
