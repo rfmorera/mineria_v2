@@ -20,7 +20,7 @@ from rest_framework import permissions
 from rest_framework import routers
 from rest_framework.authentication import BasicAuthentication, TokenAuthentication
 
-from mineriaApp.Views import SentimentView, ResumenView, OpinionView, EntradaView, FuenteView, EntidadView
+from mineriaApp.Views import SentimentView, ResumenView, OpinionView, EntradaView, FuenteView, EntidadView, HelloView
 from mineriaApp.Views import UserGroupView
 from mineriaApp.Views.Reports import SentimentReport
 
@@ -51,7 +51,7 @@ urlpatterns = [
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-    # path('', HelloView.HelloView.as_view()),
+    path('pr', HelloView.HelloView.as_view()),
     path('', include(router.urls)),
     path('opinion', OpinionView.OpinionView.as_view(), name="opinion_handler"),
     path('sentiment', SentimentView.SentimentView.as_view()),

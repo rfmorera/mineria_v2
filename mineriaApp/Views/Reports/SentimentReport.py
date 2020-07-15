@@ -5,9 +5,9 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_condition import Or, And
 from rest_framework import filters
 from rest_framework import status
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, decorators
 from rest_framework.decorators import api_view, permission_classes, action
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
 from mineriaApp.Models import MongoModels
@@ -27,10 +27,11 @@ class ReportSentimentViewSet(viewsets.ModelViewSet):
     ordering = ['name']  # Default ordering
 
     queryset = MongoModels.ReportPSentiment.objects.none()
-    permission_classes = [permissions.IsAuthenticated,
-                          Or(GroupsPermission.IsAdminGroup, GroupsPermission.IsReportMakerGroup,
-                             GroupsPermission.IsManagerGroup,
-                             And(GroupsPermission.IsSafeRequest, GroupsPermission.IsReportViewerGroup))]
+    # permission_classes = [permissions.IsAuthenticated,
+    #                       Or(GroupsPermission.IsAdminGroup, GroupsPermission.IsReportMakerGroup,
+    #                          GroupsPermission.IsManagerGroup,
+    #                          And(GroupsPermission.IsSafeRequest, GroupsPermission.IsReportViewerGroup))]
+    permission_classes = [AllowAny,]
     serializer_class = MongoSerializers.ReportPSentimentSerializer
     http_method_names = ['get', 'post', 'head', 'delete']
     def get_queryset(self):
@@ -39,6 +40,8 @@ class ReportSentimentViewSet(viewsets.ModelViewSet):
         for the currently authenticated client.
         """
         user = self.request.user
+        if user.id is None:
+            return MongoModels.ReportPSentiment.objects.none()
         return MongoModels.ReportPSentiment.objects.filter(client=user.cliente.id)
 
     def create(self, request, *args, **kwargs):
