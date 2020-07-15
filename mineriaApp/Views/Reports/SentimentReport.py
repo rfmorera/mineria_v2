@@ -55,7 +55,7 @@ class ReportSentimentViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get'], url_path="report")
     @swagger_auto_schema(
-        responses={200: MongoSerializers.ReportDSentimentSerializer(many=True), 400: "Reporte Id Invalido"})
+        responses={200: MongoSerializers.ReportFullSentintimentSerializer(), 400: "Reporte Id Invalido"})
     def report(self, request, pk):
         """
         Devuelve los resultados del reporte
