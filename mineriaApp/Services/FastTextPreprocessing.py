@@ -1,5 +1,7 @@
-import nltk
 import csv
+
+import nltk
+
 from mineriaApp.Services.SentimentService import SentimentService
 
 

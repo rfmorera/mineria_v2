@@ -1,0 +1,10 @@
+[
+  {
+    "model": "mineriaApp.client",
+
+    "fields": {
+      "nombre": "System",
+      "descripcion": "Administradores del sistema"
+    }
+  }
+]

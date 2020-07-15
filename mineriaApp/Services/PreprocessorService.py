@@ -3,12 +3,12 @@ Code implementing a preprocessing service for model training - prediction.
 @author: Rafael A. Fernandez - rafael.fernandez@desoft.cu
 """
 
+import re
 
+import emoji
 # Cleaning libraries
 from bs4 import BeautifulSoup
-import re
-import itertools
-import emoji
+
 
 #####################################################################################
 #
