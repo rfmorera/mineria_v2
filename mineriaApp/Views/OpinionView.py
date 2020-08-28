@@ -53,7 +53,7 @@ class OpinionView(APIView):
         for r in data["opinions"]:
             opinions_raw.append(Opinion(content=r, entrada=entradaId))
 
-        opinions = PreprocessorService.preprocess(opinions_raw)
+        opinions = PreprocessorService.text_cleaning(opinions_raw)
         opinions_saved = OpinionService.save_opinions(opinions)
 
         op_ids = [str(op.id) for op in opinions_saved]

@@ -2,7 +2,7 @@
 Code implementing a preprocessing service for model training - prediction.
 @author: Rafael A. Fernandez - rafael.fernandez@desoft.cu
 """
-
+import csv
 import re
 
 import emoji
@@ -15,6 +15,8 @@ from bs4 import BeautifulSoup
 # DATA CLEANING
 #
 #####################################################################################
+from nltk import word_tokenize
+from nltk.corpus import stopwords
 
 
 class PreprocessorService(object):
@@ -114,7 +116,7 @@ class PreprocessorService(object):
         return str(text)
 
     @classmethod
-    def text_cleaning_for_sentiment_analysis(cls, input_str):
+    def text_cleaning_for_sentiment_analysis(cls, input_str, stop_word=False):
         """
         Realiza la limpieza de textos.
         Elimina Emojis, Smlies, Signos de puntuación,
@@ -164,6 +166,13 @@ class PreprocessorService(object):
         input_str = ' '.join(input_str.split())
 
         # DO NOT REMOVE STOP WORDS FOR SENTIMENT ANALYSIS - OR AT LEAST NOT NEGATIVE ONES
+        if stop_word:
+            stop_words = set(stopwords.words('spanish'))
+
+            word_tokens = word_tokenize(input_str)
+
+            input_str = [w for w in word_tokens if not w in stop_words]
+            input_str = ' '.join(input_str)
 
         return input_str
 
@@ -174,7 +183,7 @@ class PreprocessorService(object):
     #####################################################################################
 
     @classmethod
-    def preprocess(cls, elements):
+    def text_cleaning(cls, elements):
         """
         Preprocesa los textos
         :param raw_data: Arreglo de String con los texos
