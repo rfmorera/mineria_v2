@@ -20,7 +20,8 @@ from rest_framework import permissions
 from rest_framework import routers
 from rest_framework.authentication import BasicAuthentication, TokenAuthentication
 
-from mineriaApp.Views import SentimentView, ResumenView, OpinionView, EntradaView, FuenteView, EntidadView, HelloView
+from mineriaApp.Views import SentimentView, ResumenView, OpinionView, EntradaView, FuenteView, EntidadView, HelloView, \
+    PlanteamientoView
 from mineriaApp.Views import UserGroupView
 from mineriaApp.Views.Reports import SentimentReport
 
@@ -31,6 +32,7 @@ router.register(r'permissions', UserGroupView.PermissionViewSet)
 router.register(r'clients', UserGroupView.ClientViewSet)
 router.register(r'report-sentiment', SentimentReport.ReportSentimentViewSet)
 router.register(r'report-sentiment-planteamiento', SentimentReport.ReportSentimentPlanteamientoViewSet)
+router.register(r'planteamiento', PlanteamientoView.PlanteamientoViewSet)
 
 schema_view = get_schema_view(
     openapi.Info(

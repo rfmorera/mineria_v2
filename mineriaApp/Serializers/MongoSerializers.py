@@ -1,7 +1,7 @@
 from rest_framework_mongoengine.serializers import DocumentSerializer
 
 from mineriaApp.Models.MongoModels import Sentiment, Opinion, Entrada, Fuente, Entidad, ReportDSentiment, \
-    ReportPSentiment, ReportPSentimentPlanteamientos
+    ReportPSentiment, ReportPSentimentPlanteamientos, Planteamiento
 
 
 class SentimentSerializer(DocumentSerializer):
@@ -14,6 +14,13 @@ class OpinionSerializer(DocumentSerializer):
     class Meta:
         model = Opinion
         fields = ('id', 'content')
+
+
+class PlanteamientoSerializer(DocumentSerializer):
+    class Meta:
+        model = Planteamiento
+        depth = 2
+        fields = ('id', 'content', 'entidades', 'fecha')
 
 
 class OpinionSummarySerializer(DocumentSerializer):
