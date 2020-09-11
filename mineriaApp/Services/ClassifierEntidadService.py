@@ -11,6 +11,8 @@ from mineriaApp.Services.Utils import CommonDir
 
 
 class ClassifierEntidadService(object):
+    model = None
+
     # Full path to training data.
     base_dir = CommonDir.base_dir
     training_data_path = os.path.join(base_dir, 'Resources', 'preprocessed', 'planteamientos_classify.train')
@@ -90,3 +92,49 @@ class ClassifierEntidadService(object):
 
         except Exception as e:
             print('Exception during training: ' + str(e))
+
+    @classmethod
+    def get_models(cls, model_name="planteamientos_classify-es.ftz"):
+        model_selected = None
+
+        """Get the model object for this instance, loading it if it's not already loaded."""
+        if cls.model is None:
+            cls.model = fasttext.load_model(os.path.join(CommonDir.models_dir, model_name))
+
+        model_selected = cls.model
+
+        return model_selected
+
+    @classmethod
+    def predict(cls, planteamientos):
+        """
+        Dado un arreglo de planteamientos devuelve los sentimientos asociados
+        :param planteamientos: Opinions array with opinions
+        :return: Array of planteamientos with entidad predicted
+        :rtype: object
+        """
+
+        clf = cls.get_models()
+
+        predictions = clf.predict(
+            [PreprocessorService.text_cleaning_for_sentiment_analysis(pl.content.lower(), stop_word=True) for pl in
+             planteamientos], k=3, threshold=0.2)
+
+        for i in range(len(predictions[0])):
+            if not predictions[0][i]:
+                continue
+
+            planteamientos[i].entidades = [None] * len(predictions[0][i])
+            ent = []
+            print(predictions[1][i])
+            for (j, val) in enumerate(predictions[0][i]):
+                # val = predictions[0][i][0]
+                val = val[9:]
+                # print(val)
+                ent.append(val)
+            planteamientos[i].entidades = ent
+
+            print(planteamientos[i].entidades)
+            planteamientos[i].save()
+
+        return planteamientos
