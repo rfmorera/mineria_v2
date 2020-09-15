@@ -72,7 +72,8 @@ venv.bak/
 db.sqlite3
 
 # Data files
-resources/data/
+resources/data/planteamientos
+resources/datasets/
 resources/preprocessed/
 
 # project files
