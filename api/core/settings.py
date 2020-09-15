@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+from decouple import config, Csv
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from mongoengine import connect
 
@@ -21,28 +22,29 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '(ys1yw9$)r6w3v7&e&vna(xo69ap^(=f1p=-76+d7-efo$r*7j'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 # Application definition
 
 INSTALLED_APPS = [
-    'drf_yasg',
-    'corsheaders',
-    'mineriaApp',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
-    'polls',
+    'drf_yasg',
+
+    'mineriaApp',
 ]
 
 MIDDLEWARE = [
@@ -58,10 +60,6 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
-# CORS_ORIGIN_WHITELIST = [
-#     "http://localhost:3000",
-#     "http://127.0.0.1:3000"
-# ]
 
 ROOT_URLCONF = 'core.urls'
 AUTH_USER_MODEL = 'mineriaApp.User'
@@ -88,23 +86,30 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mineria',
-        'USER': 'admin',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',
-        # 'PORT': '3306',
-        'OPTIONS': {
-            # 'sql_mode' : 'traditional',
+if config('DEPLOY_MODE', default='production') == 'production':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': config('DB_NAME'),
+            'USER': config('DB_USER'),
+            'PASSWORD': config('DB_PWD'),
+            'HOST': config('DB_HOST'),
+            'PORT': config('DB_PORT'),
         }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': config('DB_NAME', default=os.path.join(BASE_DIR, 'db.sqlite3')),
+        }
+    }
 
 connect(
-    db='NLPStore',
-    host="mongodb://localhost:27017/"
+    db=config('MONGO_NAME'),
+    host=config('MONGO_HOST'),
+    username=config('MONGO_USER'),
+    password=config('MONGO_PWD')
 )
 
 # Password validation
@@ -146,6 +151,8 @@ REDOC_SETTINGS = {
     'NATIVE_SCROLLBARS': True,
     'REQUIRED_PROPS_FIRST': False
 }
+
+EMAIL_BACKEND = config('EMAIL_BACKEND')
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
