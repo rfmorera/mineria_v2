@@ -97,6 +97,13 @@ if config('DEPLOY_MODE', default='production') == 'production':
             'PORT': config('DB_PORT'),
         }
     }
+    connect(
+        db=config('MONGO_NAME'),
+        host=config('MONGO_HOST'),
+        username=config('MONGO_USER'),
+        password=config('MONGO_PWD')
+    )
+
 else:
     DATABASES = {
         'default': {
@@ -104,13 +111,10 @@ else:
             'NAME': config('DB_NAME', default=os.path.join(BASE_DIR, 'db.sqlite3')),
         }
     }
-
-connect(
-    db=config('MONGO_NAME'),
-    host=config('MONGO_HOST'),
-    username=config('MONGO_USER'),
-    password=config('MONGO_PWD')
-)
+    connect(
+        db=config('MONGO_NAME'),
+        host=config('MONGO_HOST'),
+    )
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
