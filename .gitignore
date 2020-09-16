@@ -72,9 +72,9 @@ venv.bak/
 db.sqlite3
 
 # Data files
-resources/data/planteamientos
-resources/datasets/
-resources/preprocessed/
+api/resources/data/planteamientos
+api/resources/datasets/
+api/resources/preprocessed/
 
 # project files
 config/django/.env*

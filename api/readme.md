@@ -28,9 +28,9 @@ In order to setup a local environment for development you need to follow the fol
 - Start your frontend app at any port. `cd frontend && npm start`
 - Create the local sqlite database for development. `cd api && python manage.py migrate`
 - Load initial data:
-    - ```python manage.py loaddata init_scripts\fixtures\group.json```
-    - ```python manage.py loaddata init_scripts\fixtures\client.json```
-    - ```python init_scripts\main.py```
+    - ```python manage.py loaddata resources\data\fixtures\group.json```
+    - ```python manage.py loaddata resources\data\fixtures\client.json```
+    - ```python initial_data_loader\main.py```
 - Start your backend django app (if you change the port remember also change the `REACT_APP_MINERIA_API_URL` value in the .env of the frontend, otherwise the request to the API will raise 404 errors). `cd api && python manage.py runserver`
 - Happy codding!
 

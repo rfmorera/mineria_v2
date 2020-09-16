@@ -1,7 +1,7 @@
 # Create your tests here.
 from mongoengine import connect
 
-from mineriaApp.Services.ClassifierEntidadService import ClassifierEntidadService
+from mineriaApp.services.ClassifierEntidadService import ClassifierEntidadService
 
 connect(
     db='NLPStore',

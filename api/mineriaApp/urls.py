@@ -20,10 +20,10 @@ from rest_framework import permissions
 from rest_framework import routers
 from rest_framework.authentication import BasicAuthentication, TokenAuthentication
 
-from mineriaApp.Views import SentimentView, ResumenView, OpinionView, EntradaView, FuenteView, EntidadView, HelloView, \
+from mineriaApp.views import SentimentView, ResumenView, OpinionView, EntradaView, FuenteView, EntidadView, HelloView, \
     PlanteamientoView
-from mineriaApp.Views import UserGroupView
-from mineriaApp.Views.Reports import SentimentReport
+from mineriaApp.views import UserGroupView
+from mineriaApp.views.Reports import SentimentReport
 
 router = routers.DefaultRouter()
 router.register(r'users', UserGroupView.UserViewSet)
