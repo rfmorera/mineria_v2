@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from mineriaApp.models.MongoModels import PortalEntrada
+from mineriaApp.models.mongo_models import PortalEntrada
 from mineriaApp.permissions.GroupsPermission import IsManagerGroup, IsAdminGroup, IsSnifforGroup, IsReportMakerGroup
 from mineriaApp.serializers.MongoSerializers import EntradaSerializer
 from mineriaApp.services.EntradaService import EntradaService

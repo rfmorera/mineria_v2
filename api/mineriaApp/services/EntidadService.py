@@ -1,4 +1,4 @@
-from mineriaApp.models.MongoModels import Entidad
+from mineriaApp.models.mongo_models import Entidad
 
 
 class EntidadService(object):

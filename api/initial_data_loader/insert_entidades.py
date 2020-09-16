@@ -1,10 +1,12 @@
 import csv
-from mineriaApp.models.MongoModels import Entidad
+import os
+
+from mineriaApp.models.mongo_models import Entidad
 from mineriaApp.utils.resources_directories import data_dir
 
 
 def insert_entidades():
-    addr = data_dir + 'csv_entidad.csv'
+    addr = os.path.join(data_dir, 'csv_entidad.csv')
     with open(addr, mode='r', encoding="utf8") as csv_file:
         csv_reader = csv.DictReader(csv_file)
         line_count = 0

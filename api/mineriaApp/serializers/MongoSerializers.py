@@ -1,6 +1,6 @@
 from rest_framework_mongoengine.serializers import DocumentSerializer
 
-from mineriaApp.models.MongoModels import Sentiment, Opinion, Entrada, Fuente, Entidad, ReportDSentiment, \
+from mineriaApp.models.mongo_models import Sentiment, Opinion, Entrada, Fuente, Entidad, ReportDSentiment, \
     ReportPSentiment, ReportPSentimentPlanteamientos, Planteamiento
 
 

@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from mineriaApp.models.MongoModels import Opinion
+from mineriaApp.models.mongo_models import Opinion
 from mineriaApp.permissions.GroupsPermission import IsSnifforGroup, IsManagerGroup, IsAdminGroup
 from mineriaApp.serializers.MongoSerializers import OpinionSerializer
 from mineriaApp.services.OpinionService import OpinionService

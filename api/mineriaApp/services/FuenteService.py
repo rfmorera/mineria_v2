@@ -1,4 +1,4 @@
-from mineriaApp.models.MongoModels import Fuente
+from mineriaApp.models.mongo_models import Fuente
 
 
 class FuenteService(object):

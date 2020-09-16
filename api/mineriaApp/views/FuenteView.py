@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from mineriaApp.models.MongoModels import Fuente
+from mineriaApp.models.mongo_models import Fuente
 from mineriaApp.permissions.GroupsPermission import IsManagerGroup, IsAdminGroup
 from mineriaApp.serializers.MongoSerializers import FuenteSerializer
 from mineriaApp.services.FuenteService import FuenteService

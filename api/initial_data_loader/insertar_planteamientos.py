@@ -1,7 +1,12 @@
+import os
+
 import pandas as pd
-from mineriaApp.models.MongoModels import Provincia, Municipio, Planteamiento, PlanteamientoEntrada, Entidad, Fuente
-from mineriaApp.services.PreprocessorService import PreprocessorService
 import unidecode
+
+from mineriaApp.models.mongo_models import Provincia, Municipio, Planteamiento, PlanteamientoEntrada, Entidad, Fuente
+from mineriaApp.services.PreprocessorService import PreprocessorService
+from mineriaApp.utils.resources_directories import planteamientos_dir
+
 
 def insertar_provincias():
     nom = ['Pinar del Río',
@@ -25,9 +30,8 @@ def insertar_provincias():
 
 
 def insertar_planteamientos():
-    base_addr = 'C:\\Users\\Rafael Fernanadez\\Documents\\Desoft\\Base Datos\\Db Granma - Etecsa\\Planteamientos XLS\\'
     for i in range(1, 10, 1):
-        addr = base_addr + str(i) + '.xlsx'
+        addr = os.path.join(planteamientos_dir, str(i) + '.xlsx')
         print(addr)
         df = pd.read_excel(addr)
 
@@ -69,7 +73,8 @@ def insertar_planteamientos():
                 enti_q.save()
 
             plant = Planteamiento(content=str(row['descplanteamiento']),
-                                  processed_content=PreprocessorService.text_cleaning_for_sentiment_analysis(str(row['descplanteamiento'])),
+                                  processed_content=PreprocessorService.text_cleaning_for_sentiment_analysis(
+                                      str(row['descplanteamiento'])),
                                   entrada=plane_q,
                                   fecha=row['fecha'].date(),
                                   entidades=[enti_q])

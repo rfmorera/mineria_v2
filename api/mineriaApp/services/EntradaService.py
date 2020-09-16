@@ -1,4 +1,4 @@
-from mineriaApp.models.MongoModels import Entrada, PlanteamientoEntrada
+from mineriaApp.models.mongo_models import Entrada, PlanteamientoEntrada
 from mineriaApp.services import UbicacionService
 
 

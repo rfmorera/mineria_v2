@@ -4,7 +4,7 @@ from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from mineriaApp.models.MongoModels import Planteamiento
+from mineriaApp.models.mongo_models import Planteamiento
 from mineriaApp.permissions.GroupsPermission import IsAdminGroup, IsSuperAdminGroup
 from mineriaApp.serializers.MongoSerializers import PlanteamientoSerializer
 from mineriaApp.services.ClassifierEntidadService import ClassifierEntidadService

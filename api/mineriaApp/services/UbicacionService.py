@@ -1,4 +1,4 @@
-from mineriaApp.models.MongoModels import Provincia, Municipio
+from mineriaApp.models.mongo_models import Provincia, Municipio
 
 
 def get_all_provincias():
