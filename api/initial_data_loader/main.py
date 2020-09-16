@@ -10,7 +10,6 @@ def main():
     :return:
     """
 
-    print(BASE_DIR)
     connect(
         db='NLPStore',
         host="mongodb://localhost:27017/"

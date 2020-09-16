@@ -4,8 +4,8 @@ from mineriaApp.models.MongoModels import Sentiment, ReportDSentiment
 from mineriaApp.services.EntradaService import EntradaService
 from mineriaApp.services.FastTextPredictionService import FastTextPrediction
 from mineriaApp.services.OpinionService import OpinionService
-from mineriaApp.services.Utils import DatetimeUtils
-from mineriaApp.services.Utils.Enum import InferenceModelsEnum
+from mineriaApp.utils import date_time_utils
+from mineriaApp.utils.Enum import InferenceModelsEnum
 
 
 class SentimentService(object):
@@ -105,7 +105,7 @@ class SentimentService(object):
         """
         reports = []
         tot = pos = neg = neu = 0
-        timedelta = DatetimeUtils.build_delta(delta_value, delta_type)
+        timedelta = date_time_utils.build_delta(delta_value, delta_type)
         if end_date_param is None or end_date_param > datetime.datetime.now():
             end_date = datetime.datetime.now()
             end_date_param = None

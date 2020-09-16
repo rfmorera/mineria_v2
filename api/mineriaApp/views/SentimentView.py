@@ -8,7 +8,7 @@ from mineriaApp.permissions.GroupsPermission import IsSnifforGroup, IsManagerGro
 from mineriaApp.serializers.MongoSerializers import OpinionSentimentSerializer
 from mineriaApp.services.OpinionService import OpinionService
 from mineriaApp.services.SentimentService import SentimentService
-from mineriaApp.services.Utils.Enum import InferenceModelsEnum
+from mineriaApp.utils.Enum import InferenceModelsEnum
 
 
 class SentimentView(APIView):

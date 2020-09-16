@@ -7,14 +7,14 @@ import nltk
 
 from mineriaApp.models.MongoModels import Planteamiento
 from mineriaApp.services.PreprocessorService import PreprocessorService
-from mineriaApp.services.Utils import CommonDir
+from mineriaApp.utils import resources_directories
 
 
 class ClassifierEntidadService(object):
     model = None
 
     # Full path to training data.
-    base_dir = CommonDir.base_dir
+    base_dir = resources_directories.base_dir
     training_data_path = os.path.join(base_dir, 'Resources', 'preprocessed', 'planteamientos_classify.train')
     validation_data_path = os.path.join(base_dir, 'Resources', 'preprocessed', 'planteamientos_classify.validation')
     model_path = os.path.join(base_dir, 'Resources', 'models', "planteamientos_classify-es.ftz")
@@ -99,7 +99,7 @@ class ClassifierEntidadService(object):
 
         """Get the model object for this instance, loading it if it's not already loaded."""
         if cls.model is None:
-            cls.model = fasttext.load_model(os.path.join(CommonDir.models_dir, model_name))
+            cls.model = fasttext.load_model(os.path.join(resources_directories.models_dir, model_name))
 
         model_selected = cls.model
 

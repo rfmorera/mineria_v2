@@ -1,6 +1,6 @@
 import csv
 from mineriaApp.models.MongoModels import Entidad
-from mineriaApp.services.Utils.CommonDir import data_dir
+from mineriaApp.utils.resources_directories import data_dir
 
 
 def insert_entidades():

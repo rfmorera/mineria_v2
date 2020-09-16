@@ -9,7 +9,7 @@ import fasttext
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 from mineriaApp.models.MongoModels import Sentiment
-from mineriaApp.services.Utils import CommonDir
+from mineriaApp.utils import resources_directories
 
 analyser = SentimentIntensityAnalyzer()
 
@@ -29,7 +29,7 @@ class FastTextPrediction(object):
 
         """Get the model object for this instance, loading it if it's not already loaded."""
         if cls.model is None:  # and language.lower() =="en":
-            cls.model = fasttext.load_model(os.path.join(CommonDir.models_dir, model_name))
+            cls.model = fasttext.load_model(os.path.join(resources_directories.models_dir, model_name))
 
         model_selected = cls.model
 
