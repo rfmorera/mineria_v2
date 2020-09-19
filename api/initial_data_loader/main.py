@@ -1,7 +1,7 @@
 import os
 
-from mongoengine import connect
-from initial_data_loader import insert_entidades, insertar_planteamientos
+from mongoengine import connect, disconnect
+from initial_data_loader import insert_entidades, insertar_planteamientos, insert_fixtures
 
 
 def main():
@@ -11,9 +11,12 @@ def main():
     """
 
     connect(
-        db='NLPStore',
-        host="mongodb://localhost:27017/"
+        db='NLPStore_v2',
+        host="mongodb://localhost:27017/",
+        alias='test'
     )
+
+    insert_fixtures.insert_fixtures()
 
     insert_entidades.insert_entidades()
 

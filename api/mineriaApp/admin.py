@@ -2,7 +2,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .models import User, Client
+from mineriaApp.models.models import User, Client
 
 
 class CustomUserAdmin(UserAdmin):

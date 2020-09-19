@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'drf_yasg',
 
     'mineriaApp',
+    'mineriaApp.models',
 ]
 
 MIDDLEWARE = [
@@ -62,7 +63,7 @@ MIDDLEWARE = [
 CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'core.urls'
-AUTH_USER_MODEL = 'mineriaApp.User'
+AUTH_USER_MODEL = 'models.User'
 
 TEMPLATES = [
     {

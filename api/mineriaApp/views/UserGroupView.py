@@ -5,7 +5,7 @@ from rest_framework import viewsets, permissions
 from mineriaApp.permissions.GroupsPermission import IsAdminGroup, IsSuperAdminGroup
 from mineriaApp.serializers.MySQLSerializers import UserSerializer, GroupSerializer, \
     PermissionSerializer, ClientSerializer
-from mineriaApp.models import User, Client
+from mineriaApp.models.models import User, Client
 
 
 class UserViewSet(viewsets.ModelViewSet):

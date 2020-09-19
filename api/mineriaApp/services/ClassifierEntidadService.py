@@ -14,10 +14,9 @@ class ClassifierEntidadService(object):
     model = None
 
     # Full path to training data.
-    base_dir = resources_directories.base_dir
-    training_data_path = os.path.join(base_dir, 'Resources', 'preprocessed', 'planteamientos_classify.train')
-    validation_data_path = os.path.join(base_dir, 'Resources', 'preprocessed', 'planteamientos_classify.validation')
-    model_path = os.path.join(base_dir, 'Resources', 'models', "planteamientos_classify-es.ftz")
+    training_data_path = os.path.join(resources_directories.preprocessed_dir, 'planteamientos_classify.train')
+    validation_data_path = os.path.join(resources_directories.preprocessed_dir, 'planteamientos_classify.validation')
+    model_path = os.path.join(resources_directories.models_dir, "planteamientos_classify-es.ftz")
 
     @classmethod
     def _ftt_transform_instance(cls, row):
