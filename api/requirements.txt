@@ -8,9 +8,7 @@ django-cors-headers==3.4.0
 django-mongoengine==0.4.1
 django-rest-authtoken==1.2.4
 django-rest-framework-mongoengine==3.4.1
-django-templated-mail==1.1.1
 djangorestframework==3.11.0
-djoser==2.0.3
 drf-yasg==1.17.1
 emoji==0.5.4
 enum34==1.1.10
