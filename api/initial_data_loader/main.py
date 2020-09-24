@@ -18,11 +18,11 @@ def main():
 
     insert_fixtures.insert_fixtures()
 
-    insert_entidades.insert_entidades()
-
-    insertar_planteamientos.insertar_provincias()
-
-    insertar_planteamientos.insertar_planteamientos()
+    # insert_entidades.insert_entidades()
+    #
+    # insertar_planteamientos.insertar_provincias()
+    #
+    # insertar_planteamientos.insertar_planteamientos()
 
 
 if __name__ == '__main__':
