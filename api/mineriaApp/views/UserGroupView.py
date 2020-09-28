@@ -2,10 +2,12 @@ from django.contrib.auth.models import Group, Permission
 from rest_condition import Or
 from rest_framework import viewsets, permissions
 
+from mineriaApp.models import Client, User
 from mineriaApp.permissions.GroupsPermission import IsAdminGroup, IsSuperAdminGroup
-from mineriaApp.serializers.MySQLSerializers import UserSerializer, GroupSerializer, \
-    PermissionSerializer, ClientSerializer
-from mineriaApp.models.models import User, Client
+from mineriaApp.serializers.client import ClientSerializer
+from mineriaApp.serializers.group import GroupSerializer
+from mineriaApp.serializers.permission import PermissionSerializer
+from mineriaApp.serializers.user import UserSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):

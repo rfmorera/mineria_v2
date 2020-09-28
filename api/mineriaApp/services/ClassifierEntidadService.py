@@ -5,7 +5,7 @@ import os
 import fasttext
 import nltk
 
-from mineriaApp.models.mongo_models import Planteamiento
+from mineriaApp.models_v2.opinion import Planteamiento
 from mineriaApp.services.PreprocessorService import PreprocessorService
 from mineriaApp.utils import resources_directories
 
