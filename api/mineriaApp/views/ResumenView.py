@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from mineriaApp.permissions.GroupsPermission import IsSnifforGroup, IsManagerGroup, IsAdminGroup
-from mineriaApp.serializers.MongoSerializers import OpinionSummarySerializer
+from mineriaApp.serializers.opinion import OpinionSummarySerializer
 from mineriaApp.services.EntradaService import EntradaService
 from mineriaApp.services.OpinionService import OpinionService
 from mineriaApp.services.ResumenService import ResumenService

@@ -1,6 +1,7 @@
 import datetime
 
-from mineriaApp.models.mongo_models import Sentiment, ReportDSentiment
+from mineriaApp.models_v2.report_data import ReportDSentiment
+from mineriaApp.models_v2.sentiment import Sentiment
 from mineriaApp.services.EntradaService import EntradaService
 from mineriaApp.services.FastTextPredictionService import FastTextPrediction
 from mineriaApp.services.OpinionService import OpinionService

@@ -1,7 +1,7 @@
 import csv
 import os
 
-from mineriaApp.models.mongo_models import Entidad
+from mineriaApp.models_v2.mongo_models import Entidad
 from mineriaApp.utils.resources_directories import data_dir
 
 

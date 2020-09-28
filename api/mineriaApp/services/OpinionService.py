@@ -1,4 +1,4 @@
-from mineriaApp.models.mongo_models import Opinion
+from mineriaApp.models_v2.opinion import Opinion
 
 
 class OpinionService(object):

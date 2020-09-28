@@ -1,5 +1,4 @@
-from mineriaApp.models.mongo_models import Entrada, PlanteamientoEntrada
-from mineriaApp.services import UbicacionService
+from mineriaApp.models_v2.entrada import Entrada, PlanteamientoEntrada
 
 
 class EntradaService(object):

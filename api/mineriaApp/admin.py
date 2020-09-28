@@ -1,8 +1,8 @@
-# Register your models here.
+# Register your models_v2 here.
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from mineriaApp.models.models import User, Client
+from mineriaApp.models import Client, User
 
 
 class CustomUserAdmin(UserAdmin):
