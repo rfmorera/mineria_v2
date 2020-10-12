@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  web:
+    image: mineria:prod_v1
+    tty: true
+    stdin_open: true
+    links:
+      - mongodb
+      - mysql
+    ports:
+      - 8000:8000
+    # env_file:
+    #   - ./api/.env
+    depends_on:
+      - mongodb
+      - mysql
+
+  mongodb:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+
+  mysql:
+   image: mysql:5
+   environment: 
+     - MYSQL_ALLOW_EMPTY_PASSWORD="true"
+     - MYSQL_DATABASE=mineria
+     - MYSQL_USER=admin
+     - MYSQL_PASSWORD=admin
+   ports:
+     - 3306:3306

@@ -9,7 +9,7 @@ coreschema==0.0.4
 Django==3.0.6
 django-cors-headers==3.5.0
 django-filter==2.3.0
-django-mongoengine==0.4.2
+django-mongoengine==0.4.1
 django-rest-framework-mongoengine==3.4.1
 django-templated-mail==1.1.1
 djangorestframework==3.11.1
