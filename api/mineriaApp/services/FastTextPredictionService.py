@@ -8,7 +8,7 @@ import fasttext
 # Tweet lexicon sentiment analysis
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
-from mineriaApp.models.mongo_models import Sentiment
+from mineriaApp.models_v2.sentiment import Sentiment
 from mineriaApp.utils import resources_directories
 
 analyser = SentimentIntensityAnalyzer()

@@ -1,0 +1,39 @@
+FROM node:13.12.0-alpine AS builder
+
+WORKDIR /srv/www/wayamintegral.com/frontend
+COPY frontend/package.json .
+RUN yarn install
+
+COPY frontend/src ./src
+COPY frontend/public ./public
+COPY ./config/frontend/.env.dev ./.env
+
+RUN yarn run build
+
+###################### build django app #################################
+FROM python:3.8
+EXPOSE 8000/tcp
+
+ENV PYTHONUNBUFFERED 1
+
+WORKDIR /srv/www/wayamintegral.com/api
+COPY api/requirements.txt .
+RUN pip install --upgrade pip \
+    && pip install uwsgi \
+    && pip install -r requirements.txt
+
+COPY api .
+COPY --from=builder /srv/www/wayamintegral.com/frontend/build /srv/www/wayamintegral.com/frontend/build
+COPY config/django/.env.dev ./.env
+
+RUN adduser --disabled-password --gecos "" wayam
+RUN mkdir /srv/www/wayamintegral.com/logs
+
+COPY config/django/uwsgi.ini .
+COPY config/django/entrypoint.dev.sh .
+RUN chmod +x entrypoint.dev.sh
+
+ENTRYPOINT ["./entrypoint.dev.sh"]
+
+CMD ["uwsgi", "--ini", "uwsgi.ini"]
+
