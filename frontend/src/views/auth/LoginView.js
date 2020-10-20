@@ -14,7 +14,7 @@ import {
 } from '@material-ui/core';
 import FacebookIcon from 'src/icons/Facebook';
 import GoogleIcon from 'src/icons/Google';
-import Page from 'src/components/Page';
+import Page from 'src/views/components/Page';
 
 const useStyles = makeStyles((theme) => ({
   root: {

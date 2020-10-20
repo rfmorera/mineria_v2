@@ -4,7 +4,7 @@ import {
   Container,
   makeStyles
 } from '@material-ui/core';
-import Page from 'src/components/Page';
+import Page from 'src/views/components/Page';
 import Notifications from './Notifications';
 import Password from './Password';
 

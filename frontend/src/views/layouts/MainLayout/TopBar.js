@@ -7,7 +7,7 @@ import {
   Toolbar,
   makeStyles
 } from '@material-ui/core';
-import Logo from 'src/components/Logo';
+import Logo from 'src/views/components/Logo';
 
 const useStyles = makeStyles(({
   root: {},
