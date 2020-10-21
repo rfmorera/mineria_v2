@@ -14,8 +14,8 @@ import {
   makeStyles
 } from '@material-ui/core';
 
-const user = {
-  avatar: '/static/images/avatars/avatar_6.png',
+const user_default = {
+  avatar: '/static/images/avatars/avatar_12.png',
   city: 'Los Angeles',
   country: 'USA',
   jobTitle: 'Senior Developer',
@@ -31,7 +31,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const Profile = ({ className, ...rest }) => {
+const Profile = ({ className, user, ...rest }) => {
   const classes = useStyles();
 
   return (
@@ -54,9 +54,9 @@ const Profile = ({ className, ...rest }) => {
             gutterBottom
             variant="h3"
           >
-            {user.name}
+            {user.first_name + " " + user.last_name} 
           </Typography>
-          <Typography
+          {/* <Typography
             color="textSecondary"
             variant="body1"
           >
@@ -68,7 +68,7 @@ const Profile = ({ className, ...rest }) => {
             variant="body1"
           >
             {`${moment().format('hh:mm A')} ${user.timezone}`}
-          </Typography>
+          </Typography> */}
         </Box>
       </CardContent>
       <Divider />
@@ -77,8 +77,9 @@ const Profile = ({ className, ...rest }) => {
           color="primary"
           fullWidth
           variant="text"
+          disabled={true}
         >
-          Upload picture
+          Subir foto
         </Button>
       </CardActions>
     </Card>
@@ -86,7 +87,8 @@ const Profile = ({ className, ...rest }) => {
 };
 
 Profile.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  user: PropTypes.object
 };
 
 export default Profile;

@@ -53,7 +53,7 @@ const DashboardLayout = ({ auth, loadUser, history, logout }) => {
     if (isEmpty(auth.token) || (!isEmpty(auth.user) && !auth.user.is_staff)) {
       denyAccess();
     }
-  });
+  }, [auth]);
 
   const denyAccess = () => {
     history.push('/auth/login');
@@ -84,6 +84,7 @@ const DashboardLayout = ({ auth, loadUser, history, logout }) => {
         onMobileClose={() => setMobileNavOpen(false)}
         openMobile={isMobileNavOpen}
         logout={logout}
+        user={auth.user}
       />
       <div className={classes.wrapper}>
         <div className={classes.contentContainer}>
