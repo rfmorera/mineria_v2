@@ -9,12 +9,14 @@ import {
   Hidden,
   IconButton,
   Toolbar,
-  makeStyles
+  makeStyles,
+  Typography
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
 import Logo from 'src/views/components/Logo';
+import AirplayIcon from '@material-ui/icons/Airplay';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -24,24 +26,20 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const TopBar = ({
-  className,
-  onMobileNavOpen,
-  logout,
-  ...rest
-}) => {
+const TopBar = ({ className, onMobileNavOpen, logout, ...rest }) => {
   const classes = useStyles();
   const [notifications] = useState([]);
 
   return (
-    <AppBar
-      className={clsx(classes.root, className)}
-      elevation={0}
-      {...rest}
-    >
+    <AppBar className={clsx(classes.root, className)} elevation={0} {...rest}>
       <Toolbar>
         <RouterLink to="/admin">
           <Logo />
+        </RouterLink>
+        <RouterLink to="/">
+          <IconButton>
+            <AirplayIcon />
+          </IconButton>
         </RouterLink>
         <Box flexGrow={1} />
         <Hidden mdDown>
@@ -59,10 +57,7 @@ const TopBar = ({
           </IconButton>
         </Hidden>
         <Hidden lgUp>
-          <IconButton
-            color="inherit"
-            onClick={onMobileNavOpen}
-          >
+          <IconButton color="inherit" onClick={onMobileNavOpen}>
             <MenuIcon />
           </IconButton>
         </Hidden>

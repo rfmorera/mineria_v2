@@ -25,10 +25,8 @@ import {
 import NavItem from './NavItem';
 import InputIcon from '@material-ui/icons/Input';
 
-const user = {
-  avatar: '/static/images/avatars/avatar_6.png',
-  jobTitle: 'Senior Developer',
-  name: 'Katarina Smith'
+const user_default = {
+  avatar: '/static/images/avatars/avatar_12.png'
 };
 
 const items = [
@@ -58,16 +56,6 @@ const items = [
     title: 'Settings'
   },
   {
-    href: '/login',
-    icon: LockIcon,
-    title: 'Login'
-  },
-  {
-    href: '/register',
-    icon: UserPlusIcon,
-    title: 'Register'
-  },
-  {
     href: '/admin/error404',
     icon: AlertCircleIcon,
     title: 'Error'
@@ -90,7 +78,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const NavBar = ({ onMobileClose, openMobile, logout }) => {
+const NavBar = ({ onMobileClose, openMobile, logout, user }) => {
   const classes = useStyles();
   const location = useLocation();
 
@@ -107,15 +95,17 @@ const NavBar = ({ onMobileClose, openMobile, logout }) => {
         <Avatar
           className={classes.avatar}
           component={RouterLink}
-          src={user.avatar}
+          src={user_default.avatar}
           to="/admin/account"
         />
         <Typography className={classes.name} color="textPrimary" variant="h5">
-          {user.name}
+          {user === undefined
+            ? 'loading'
+            : `${user.first_name} ${user.last_name}`}
         </Typography>
-        <Typography color="textSecondary" variant="body2">
+        {/* <Typography color="textSecondary" variant="body2">
           {user.jobTitle}
-        </Typography>
+        </Typography> */}
       </Box>
       <Divider />
       <Box p={2}>
@@ -134,7 +124,7 @@ const NavBar = ({ onMobileClose, openMobile, logout }) => {
             icon={InputIcon}
             onClick={e => {
               e.preventDefault();
-              logout()
+              logout();
             }}
           />
         </List>
@@ -173,7 +163,8 @@ const NavBar = ({ onMobileClose, openMobile, logout }) => {
 NavBar.propTypes = {
   onMobileClose: PropTypes.func,
   openMobile: PropTypes.bool,
-  logout: PropTypes.func
+  logout: PropTypes.func,
+  user: PropTypes.object
 };
 
 NavBar.defaultProps = {
