@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const DashboardLayout = ({ auth, loadUser, history }) => {
+const DashboardLayout = ({ auth, loadUser, history, logout }) => {
   const classes = useStyles();
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
 
@@ -57,7 +57,6 @@ const DashboardLayout = ({ auth, loadUser, history }) => {
 
   const denyAccess = () => {
     history.push('/auth/login');
-
     toast.error('Debe ser administrador para acceder a estos recursos');
   };
 
@@ -80,10 +79,11 @@ const DashboardLayout = ({ auth, loadUser, history }) => {
 
   return (
     <div className={classes.root}>
-      <TopBar onMobileNavOpen={() => setMobileNavOpen(true)} />
+      <TopBar onMobileNavOpen={() => setMobileNavOpen(true)} logout={logout} />
       <NavBar
         onMobileClose={() => setMobileNavOpen(false)}
         openMobile={isMobileNavOpen}
+        logout={logout}
       />
       <div className={classes.wrapper}>
         <div className={classes.contentContainer}>
@@ -106,6 +106,9 @@ const mapDispatchToProps = dispatch => {
   return {
     loadUser: () => {
       return dispatch(auth.loadUser());
+    },
+    logout: () => {
+      return dispatch(auth.logout());
     }
   };
 };
