@@ -27,6 +27,7 @@ const useStyles = makeStyles(() => ({
 const TopBar = ({
   className,
   onMobileNavOpen,
+  logout,
   ...rest
 }) => {
   const classes = useStyles();
@@ -39,7 +40,7 @@ const TopBar = ({
       {...rest}
     >
       <Toolbar>
-        <RouterLink to="/">
+        <RouterLink to="/admin">
           <Logo />
         </RouterLink>
         <Box flexGrow={1} />
@@ -53,7 +54,7 @@ const TopBar = ({
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <IconButton color="inherit">
+          <IconButton color="inherit" onClick={logout}>
             <InputIcon />
           </IconButton>
         </Hidden>
@@ -72,7 +73,8 @@ const TopBar = ({
 
 TopBar.propTypes = {
   className: PropTypes.string,
-  onMobileNavOpen: PropTypes.func
+  onMobileNavOpen: PropTypes.func,
+  logout: PropTypes.func
 };
 
 export default TopBar;

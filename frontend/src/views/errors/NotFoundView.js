@@ -42,15 +42,15 @@ const NotFoundView = () => {
             color="textPrimary"
             variant="h1"
           >
-            404: The page you are looking for isn’t here
+            404: La página que está buscando no se encuentra
           </Typography>
           <Typography
             align="center"
             color="textPrimary"
             variant="subtitle2"
           >
-            You either tried some shady route or you came here by mistake.
-            Whichever it is, try using the navigation
+            Usted ha usado una ruta equivocada o llegó hasta aquí por error.
+            Intente usando el menú de navegación.
           </Typography>
           <Box textAlign="center">
             <img

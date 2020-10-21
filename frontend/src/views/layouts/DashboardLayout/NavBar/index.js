@@ -23,6 +23,7 @@ import {
   Users as UsersIcon
 } from 'react-feather';
 import NavItem from './NavItem';
+import InputIcon from '@material-ui/icons/Input';
 
 const user = {
   avatar: '/static/images/avatars/avatar_6.png',
@@ -37,9 +38,9 @@ const items = [
     title: 'Dashboard'
   },
   {
-    href: '/admin/customers',
+    href: '/admin/users',
     icon: UsersIcon,
-    title: 'Customers'
+    title: 'Usuarios'
   },
   {
     href: '/admin/products',
@@ -67,7 +68,7 @@ const items = [
     title: 'Register'
   },
   {
-    href: '/404',
+    href: '/admin/error404',
     icon: AlertCircleIcon,
     title: 'Error'
   }
@@ -89,7 +90,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const NavBar = ({ onMobileClose, openMobile }) => {
+const NavBar = ({ onMobileClose, openMobile, logout }) => {
   const classes = useStyles();
   const location = useLocation();
 
@@ -101,41 +102,25 @@ const NavBar = ({ onMobileClose, openMobile }) => {
   }, [location.pathname]);
 
   const content = (
-    <Box
-      height="100%"
-      display="flex"
-      flexDirection="column"
-    >
-      <Box
-        alignItems="center"
-        display="flex"
-        flexDirection="column"
-        p={2}
-      >
+    <Box height="100%" display="flex" flexDirection="column">
+      <Box alignItems="center" display="flex" flexDirection="column" p={2}>
         <Avatar
           className={classes.avatar}
           component={RouterLink}
           src={user.avatar}
           to="/admin/account"
         />
-        <Typography
-          className={classes.name}
-          color="textPrimary"
-          variant="h5"
-        >
+        <Typography className={classes.name} color="textPrimary" variant="h5">
           {user.name}
         </Typography>
-        <Typography
-          color="textSecondary"
-          variant="body2"
-        >
+        <Typography color="textSecondary" variant="body2">
           {user.jobTitle}
         </Typography>
       </Box>
       <Divider />
       <Box p={2}>
         <List>
-          {items.map((item) => (
+          {items.map(item => (
             <NavItem
               href={item.href}
               key={item.title}
@@ -143,10 +128,18 @@ const NavBar = ({ onMobileClose, openMobile }) => {
               icon={item.icon}
             />
           ))}
+          <NavItem
+            href="/auth"
+            title="Salir"
+            icon={InputIcon}
+            onClick={e => {
+              e.preventDefault();
+              logout()
+            }}
+          />
         </List>
       </Box>
       <Box flexGrow={1} />
-      
     </Box>
   );
 
@@ -179,7 +172,8 @@ const NavBar = ({ onMobileClose, openMobile }) => {
 
 NavBar.propTypes = {
   onMobileClose: PropTypes.func,
-  openMobile: PropTypes.bool
+  openMobile: PropTypes.bool,
+  logout: PropTypes.func
 };
 
 NavBar.defaultProps = {

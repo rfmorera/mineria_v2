@@ -24,7 +24,7 @@ function loadUser() {
   }
 
   return axios
-    .get(API_URL + '/djoser-auth/users/me', authConfig)
+    .get(API_URL + '/auth/users/me', authConfig)
     .then(function(response) {
       return response
     })
@@ -48,7 +48,7 @@ function signUp(username, email, password, password2) {
   }
 
   return axios
-    .post(API_URL + '/djoser-auth/users/', payload, authConfig)
+    .post(API_URL + '/auth/users/', payload, authConfig)
     .then(function(response) {
       return response
     })
@@ -77,7 +77,7 @@ function login(username, password) {
   }
 
   return axios
-    .post(`${API_URL}/djoser-auth/token/login/`, payload, authConfig)
+    .post(`${API_URL}/auth/token/login/`, payload, authConfig)
     .then(function(res) {
       return { status: res.status, data: res.data }
     })
@@ -99,7 +99,7 @@ function passwordReset(email) {
   }
 
   return axios
-    .post(`${API_URL}/djoser-auth/users/reset_password/`, params, authConfig)
+    .post(`${API_URL}/auth/users/reset_password/`, params, authConfig)
     .then(function(response) {
       return response
     })
@@ -123,7 +123,7 @@ function passwordResetConfirm(uid, token, password, password2) {
 
   return axios
     .post(
-      `${API_URL}/djoser-auth/users/reset_password_confirm/`,
+      `${API_URL}/auth/users/reset_password_confirm/`,
       params,
       authConfig
     )
@@ -151,7 +151,7 @@ function activateUser(uid, token) {
   }
 
   return axios
-    .post(`${API_URL}/djoser-auth/users/activation/`, payload, authConfig)
+    .post(`${API_URL}/auth/users/activation/`, payload, authConfig)
     .then(function(res) {
       return { status: res.status, data: res.data }
     })
@@ -180,7 +180,7 @@ function changePassword(current_password, password, password2) {
   }
 
   return axios
-    .post(`${API_URL}/djoser-auth/users/set_password/`, payload, authConfig)
+    .post(`${API_URL}/auth/users/set_password/`, payload, authConfig)
     .then(function(res) {
       return { status: res.status, data: res.data }
     })
