@@ -102,7 +102,7 @@ const LoginView = ({
                     gutterBottom
                     variant="body2"
                   >
-                    Use su nombre de usuario
+                    Use su correo o nombre de usuario
                   </Typography>
                 </Box>
                 {/* <Grid
@@ -157,7 +157,7 @@ const LoginView = ({
                   error={Boolean(touched.username && errors.username)}
                   fullWidth
                   helperText={touched.username && errors.username}
-                  label="Nombre de usuario"
+                  label="Correo o Nombre de usuario"
                   margin="normal"
                   name="username"
                   onBlur={handleBlur}
