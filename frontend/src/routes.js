@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+// import { Navigate } from 'react-router-dom';
 import DashboardLayout from 'src/views/layouts/DashboardLayout';
 import MainLayout from 'src/views/layouts/MainLayout';
 import AccountView from 'src/views/account/AccountView';
@@ -13,33 +13,12 @@ import SettingsView from 'src/views/settings/SettingsView';
 import Landing from 'src/views/landing/Landing';
 
 const routes = [
-  {
-    path: 'app',
-    element: <DashboardLayout />,
-    children: [
-      { path: 'account', element: <AccountView /> },
-      { path: 'customers', element: <CustomerListView /> },
-      { path: 'dashboard', element: <DashboardView /> },
-      { path: 'products', element: <ProductListView /> },
-      { path: 'settings', element: <SettingsView /> },
-      { path: '*', element: <Navigate to="/404" /> }
-    ]
-  },
-  {
-    path: '/',
-    element: <MainLayout />,
-    children: [
-      { path: 'login', element: <LoginView /> },
-      { path: 'register', element: <RegisterView /> },
-      { path: '404', element: <NotFoundView /> },
-      { path: '/', element: <Navigate to="/home" /> },
-      { path: '*', element: <Navigate to="/404" /> }
-    ]
-  },
-  {
-    path: '/home',
-    element: <Landing />
-  }
+  { path: '/account', component: AccountView, layout: '/admin' },
+  { path: '/customers', component: CustomerListView, layout: '/admin' },
+  { path: '', component: DashboardView, layout: '/admin' },
+  { path: '/products', component: ProductListView, layout: '/admin' },
+  { path: '/settings', component: SettingsView, layout: '/admin' },
+  { path: '/', component: LoginView, layout: '/auth' }
 ];
 
 export default routes;
