@@ -4,7 +4,6 @@ from mineriaApp.models import User
 class EmailOrUsernameModelBackend(object):
 
     def authenticate(self, request, username=None, password=None):
-        print(username)
         if '@' in username:
             kwargs = {'email': username}
         else:
