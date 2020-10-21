@@ -35,20 +35,20 @@ const Toolbar = ({ className, ...rest }) => {
         display="flex"
         justifyContent="flex-end"
       >
-        <Button className={classes.importButton}>
+        {/* <Button className={classes.importButton}>
           Import
         </Button>
         <Button className={classes.exportButton}>
           Export
-        </Button>
+        </Button> */}
         <Button
           color="primary"
           variant="contained"
         >
-          Add customer
+          Añadir usuario
         </Button>
       </Box>
-      <Box mt={3}>
+      {/* <Box mt={3}>
         <Card>
           <CardContent>
             <Box maxWidth={500}>
@@ -72,7 +72,7 @@ const Toolbar = ({ className, ...rest }) => {
             </Box>
           </CardContent>
         </Card>
-      </Box>
+      </Box> */}
     </div>
   );
 };
