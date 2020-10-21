@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -12,11 +12,13 @@ import {
   Typography,
   makeStyles
 } from '@material-ui/core';
-import FacebookIcon from 'src/icons/Facebook';
-import GoogleIcon from 'src/icons/Google';
 import Page from 'src/views/components/Page';
+import { authActions as auth } from '../../_actions/auth.actions';
+import { isEmpty, isEqual } from 'lodash';
+import connect from 'react-redux/es/connect/connect';
+import { Redirect } from 'react-router';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.dark,
     height: '100%',
@@ -25,15 +27,50 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const LoginView = () => {
+const LoginView = ({
+  login,
+  loadUser,
+  token,
+  user,
+  isAuthenticated,
+  history
+}) => {
   const classes = useStyles();
   // const navigate = useNavigate();
 
+  useEffect(() => {
+    if (user && user.id) {
+      localStorage.setItem('user', JSON.stringify(user));
+    }
+    if (!isEmpty(token)) {
+      loadUser();
+    }
+
+    if (isAuthenticated) {
+      history.push('/admin');
+    }
+  }, [isAuthenticated, token]);
+
+  const onSubmit = values => {
+    login(values.username, values.password);
+  };
+
+  const validationSchema = Yup.object().shape({
+    username: Yup.string()
+      .max(255)
+      .required('Este campo es requerido.'),
+    password: Yup.string()
+      .max(255)
+      .required('Este campo es requerido.')
+  });
+
+  const initialValues = {
+    username: '',
+    password: ''
+  };
+
   return (
-    <Page
-      className={classes.root}
-      title="Login"
-    >
+    <Page className={classes.root} title="Login">
       <Box
         display="flex"
         flexDirection="column"
@@ -42,17 +79,9 @@ const LoginView = () => {
       >
         <Container maxWidth="sm">
           <Formik
-            initialValues={{
-              email: '',
-              password: ''
-            }}
-            validationSchema={Yup.object().shape({
-              email: Yup.string().email('El correo no es válido.').max(255).required('El correo es un campo requerido.'),
-              password: Yup.string().max(255).required('Este campo es requerido.')
-            })}
-            onSubmit={() => {
-              // navigate('/app/dashboard', { replace: true });
-            }}
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={onSubmit}
           >
             {({
               errors,
@@ -65,10 +94,7 @@ const LoginView = () => {
             }) => (
               <form onSubmit={handleSubmit}>
                 <Box mb={3}>
-                  <Typography
-                    color="textPrimary"
-                    variant="h2"
-                  >
+                  <Typography color="textPrimary" variant="h2">
                     Autentíquese con sus credenciales
                   </Typography>
                   <Typography
@@ -76,7 +102,7 @@ const LoginView = () => {
                     gutterBottom
                     variant="body2"
                   >
-                    Use su correo electrónico
+                    Use su nombre de usuario
                   </Typography>
                 </Box>
                 {/* <Grid
@@ -128,16 +154,16 @@ const LoginView = () => {
                   </Typography>
                 </Box> */}
                 <TextField
-                  error={Boolean(touched.email && errors.email)}
+                  error={Boolean(touched.username && errors.username)}
                   fullWidth
-                  helperText={touched.email && errors.email}
-                  label="Correo"
+                  helperText={touched.username && errors.username}
+                  label="Nombre de usuario"
                   margin="normal"
-                  name="email"
+                  name="username"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  type="email"
-                  value={values.email}
+                  type="text"
+                  value={values.username}
                   variant="outlined"
                 />
                 <TextField
@@ -156,7 +182,7 @@ const LoginView = () => {
                 <Box my={2}>
                   <Button
                     color="primary"
-                    disabled={isSubmitting}
+                    // disabled={isSubmitting}
                     fullWidth
                     size="large"
                     type="submit"
@@ -165,17 +191,9 @@ const LoginView = () => {
                     Iniciar sesión
                   </Button>
                 </Box>
-                <Typography
-                  color="textSecondary"
-                  variant="body1"
-                >
-                  ¿No tiene cuenta?
-                  {' '}
-                  <Link
-                    component={RouterLink}
-                    to="/register"
-                    variant="h6"
-                  >
+                <Typography color="textSecondary" variant="body1">
+                  ¿No tiene cuenta?{' '}
+                  <Link component={RouterLink} to="/register" variant="h6">
                     Registrese
                   </Link>
                 </Typography>
@@ -188,4 +206,32 @@ const LoginView = () => {
   );
 };
 
-export default LoginView;
+const mapStateToProps = state => {
+  let errors = [];
+  if (state.auth.errors) {
+    errors = Object.keys(state.auth.errors).map(field => {
+      return { field, message: state.auth.errors[field] };
+    });
+  }
+
+  return {
+    errors,
+    isAuthenticated: state.auth.isAuthenticated,
+    token: state.auth.token,
+    user: state.auth.user,
+    isLoading: state.auth.isLoading
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    login: (username, password) => {
+      return dispatch(auth.login(username, password));
+    },
+    loadUser: () => {
+      return dispatch(auth.loadUser());
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginView);
