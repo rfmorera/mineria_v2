@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import {
@@ -13,7 +13,7 @@ import {
   Typography,
   makeStyles
 } from '@material-ui/core';
-import Page from 'src/components/Page';
+import Page from 'src/views/components/Page';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,9 +24,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const RegisterView = () => {
+const RegisterView = ({history}) => {
   const classes = useStyles();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   return (
     <Page
@@ -58,7 +58,8 @@ const RegisterView = () => {
               })
             }
             onSubmit={() => {
-              navigate('/app/dashboard', { replace: true });
+              history.push('/app/dashboard')
+              // navigate('/app/dashboard', { replace: true });
             }}
           >
             {({

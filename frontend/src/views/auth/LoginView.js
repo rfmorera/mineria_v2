@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import {
@@ -14,7 +14,7 @@ import {
 } from '@material-ui/core';
 import FacebookIcon from 'src/icons/Facebook';
 import GoogleIcon from 'src/icons/Google';
-import Page from 'src/components/Page';
+import Page from 'src/views/components/Page';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 const LoginView = () => {
   const classes = useStyles();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   return (
     <Page
@@ -51,7 +51,7 @@ const LoginView = () => {
               password: Yup.string().max(255).required('Este campo es requerido.')
             })}
             onSubmit={() => {
-              navigate('/app/dashboard', { replace: true });
+              // navigate('/app/dashboard', { replace: true });
             }}
           >
             {({

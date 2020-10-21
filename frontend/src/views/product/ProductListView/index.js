@@ -6,7 +6,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
-import Page from 'src/components/Page';
+import Page from 'src/views/components/Page';
 import Toolbar from './Toolbar';
 import ProductCard from './ProductCard';
 import data from './data';
