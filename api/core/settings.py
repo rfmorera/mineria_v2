@@ -127,7 +127,7 @@ DJOSER = {
     'USER_CREATE_PASSWORD_RETYPE': True,
     'SERIALIZERS': {
         'user': 'mineriaApp.serializers.user.UserSerializer',
-        'current_user': 'mineriaApp.serializers.user.UserSerializer',
+        'current_user': 'mineriaApp.serializers.user.CurrentUserSerializer',
     },
 }
 
