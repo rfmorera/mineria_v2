@@ -45,19 +45,18 @@ const useStyles = makeStyles(theme => ({
 const DashboardLayout = ({ auth, loadUser, history, logout }) => {
   const classes = useStyles();
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
-
   useEffect(() => {
     if (!isEmpty(auth.token) && isEmpty(auth.user)) {
       loadUser();
     }
-    if (isEmpty(auth.token) || (!isEmpty(auth.user) && !auth.user.is_staff)) {
+    if (isEmpty(auth.token)) {
       denyAccess();
     }
   }, [auth]);
 
   const denyAccess = () => {
-    history.push('/auth/login');
-    toast.error('Debe ser administrador para acceder a estos recursos');
+    history.push('/auth');
+    toast.error('No posee los permisos suficientes para acceder a estos recursos');
   };
 
   const getRoutes = routes => {

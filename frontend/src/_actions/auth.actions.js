@@ -84,7 +84,7 @@ function login(username, password) {
       .login(username, password)
       .then(res => {
         if (res.status === 200) {
-          toast.success('Bienvenido a Wayam Integral')
+          toast.success('Bienvenido a Bimas Text')
           dispatch({ type: authConstants.LOGIN_SUCCESSFUL, data: res.data })
         } else if (
           res.status === 403 ||

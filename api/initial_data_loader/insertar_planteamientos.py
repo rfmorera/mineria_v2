@@ -3,7 +3,11 @@ import os
 import pandas as pd
 import unidecode
 
-from mineriaApp.models_v2.mongo_models import Provincia, Municipio, Planteamiento, PlanteamientoEntrada, Entidad, Fuente
+from mineriaApp.models_v2.entidad import Entidad
+from mineriaApp.models_v2.entrada import PlanteamientoEntrada, Fuente
+from mineriaApp.models_v2.municipio import Municipio
+from mineriaApp.models_v2.opinion import Planteamiento
+from mineriaApp.models_v2.provincia import Provincia
 from mineriaApp.services.PreprocessorService import PreprocessorService
 from mineriaApp.utils.resources_directories import planteamientos_dir
 
