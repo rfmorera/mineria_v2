@@ -29,39 +29,6 @@ const user_default = {
   avatar: '/static/images/avatars/avatar_12.png'
 };
 
-const items = [
-  {
-    href: '/admin/dashboard',
-    icon: BarChartIcon,
-    title: 'Dashboard'
-  },
-  {
-    href: '/admin/users',
-    icon: UsersIcon,
-    title: 'Usuarios'
-  },
-  {
-    href: '/admin/products',
-    icon: ShoppingBagIcon,
-    title: 'Products'
-  },
-  {
-    href: '/admin/account',
-    icon: UserIcon,
-    title: 'Account'
-  },
-  {
-    href: '/admin/settings',
-    icon: SettingsIcon,
-    title: 'Settings'
-  },
-  {
-    href: '/admin/error404',
-    icon: AlertCircleIcon,
-    title: 'Error'
-  }
-];
-
 const useStyles = makeStyles(() => ({
   mobileDrawer: {
     width: 256
@@ -89,6 +56,58 @@ const NavBar = ({ onMobileClose, openMobile, logout, user }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
+  const items = [
+    {
+      href: '/admin/dashboard',
+      icon: BarChartIcon,
+      title: 'Dashboard',
+      perm: user.is_superuser || user.is_admin
+    },
+    {
+      href: '/admin/users',
+      icon: UsersIcon,
+      title: 'Usuarios',
+      perm: user.is_superuser || user.is_admin
+    },
+    {
+      href: '/admin/reports',
+      icon: ShoppingBagIcon,
+      title: 'Reportes',
+      perm:
+        user.is_superuser ||
+        user.is_admin ||
+        user.is_report_maker ||
+        user.is_report_viewer
+    },
+    {
+      href: '/admin/sources',
+      icon: ShoppingBagIcon,
+      title: 'Fuentes',
+      perm:
+        user.is_superuser ||
+        user.is_admin ||
+        user.is_report_maker ||
+        user.is_sniffer
+    },
+    {
+      href: '/admin/settings',
+      icon: SettingsIcon,
+      title: 'Settings',
+      perm: user.is_superuser || user.is_admin
+    },
+    {
+      href: '/admin/error404',
+      icon: AlertCircleIcon,
+      title: 'Error',
+      perm: true
+    },
+    {
+      href: '/admin/account',
+      icon: UserIcon,
+      title: 'Account',
+      perm: user.token !== null
+    }
+  ];
   const content = (
     <Box height="100%" display="flex" flexDirection="column">
       <Box alignItems="center" display="flex" flexDirection="column" p={2}>
@@ -110,14 +129,17 @@ const NavBar = ({ onMobileClose, openMobile, logout, user }) => {
       <Divider />
       <Box p={2}>
         <List>
-          {items.map(item => (
-            <NavItem
-              href={item.href}
-              key={item.title}
-              title={item.title}
-              icon={item.icon}
-            />
-          ))}
+          {items.map(
+            item =>
+              item.perm && (
+                <NavItem
+                  href={item.href}
+                  key={item.title}
+                  title={item.title}
+                  icon={item.icon}
+                />
+              )
+          )}
           <NavItem
             href="/auth"
             title="Salir"

@@ -36,7 +36,6 @@ const LoginView = ({
   history
 }) => {
   const classes = useStyles();
-  // const navigate = useNavigate();
 
   useEffect(() => {
     if (user && user.id) {
