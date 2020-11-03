@@ -3,4 +3,5 @@ from mongoengine import StringField
 
 
 class Fuente(Document):
-    nombre = StringField(unique=True)
+    name = StringField(unique=True)
+    description = StringField(required=True)

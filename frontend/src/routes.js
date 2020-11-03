@@ -8,12 +8,14 @@ import NotFoundView from 'src/views/errors/NotFoundView';
 import ProductListView from 'src/views/product/ProductListView';
 import RegisterView from 'src/views/auth/RegisterView';
 import SettingsView from 'src/views/settings/SettingsView';
+import SourceListView from 'src/views/source/index';
 import Landing from 'src/views/landing/Landing';
 
 const routes = [
   { path: '/account', component: AccountView, layout: '/admin' },
   { path: '/users', component: CustomerListView, layout: '/admin' },
   { path: '/products', component: ProductListView, layout: '/admin' },
+  { path: '/sources', component: SourceListView, layout: '/admin' },
   { path: '/settings', component: SettingsView, layout: '/admin' },
   { path: '/error404', component: NotFoundView, layout: '/admin' },
   { path: '', component: DashboardView, layout: '/admin' },
