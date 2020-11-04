@@ -2,9 +2,8 @@ import { connect } from 'react-redux';
 import React, { useState, useEffect } from 'react';
 import { Box, Container, makeStyles } from '@material-ui/core';
 import Page from 'src/views/components/Page';
-import Results from './Results';
-import Toolbar from './Toolbar';
-import data from './data';
+import Results from './components/Results';
+import Toolbar from './components/Toolbar';
 
 import { sourceActions } from '../../_actions/source.actions';
 

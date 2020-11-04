@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { withRouter } from 'react-router'
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -21,7 +22,7 @@ import {
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import getInitials from 'src/utils/getInitials';
-import { PAGINATION_ELEMENTS_COUNT } from '../../_constants/global';
+import { PAGINATION_ELEMENTS_COUNT } from '../../../_constants/global';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -30,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Results = ({ className, sources, count, getSourcelists, ...rest }) => {
+const Results = ({ className, sources, count, getSourcelists, history, ...rest }) => {
   const classes = useStyles();
   const [selectedSourceIds, setSelectedSourceIds] = useState([]);
   const [limit, setLimit] = useState(10);
@@ -129,6 +130,7 @@ const Results = ({ className, sources, count, getSourcelists, ...rest }) => {
                       size="small"
                       className={classes.button}
                       endIcon={<EditIcon />}
+                      onClick={()=> {history.push('/admin/sources/' + source.id)}}
                     >
                       Editar
                     </Button>
@@ -167,4 +169,4 @@ Results.propTypes = {
   sources: PropTypes.array.isRequired
 };
 
-export default Results;
+export default withRouter(Results);

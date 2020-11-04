@@ -43,11 +43,11 @@ function putSource(id, source) {
 
     sourceServices.putSource(id, source).then(
       response => {
-        toast.success('Usuario editado satisfactoriamente');
+        toast.success('Fuente editada satisfactoriamente');
         dispatch(success(response.data));
       },
       error => {
-        toast.error('Error editando el Usuario ');
+        toast.error('Error editando el Fuente ');
         dispatch(failure(error));
       }
     );
@@ -70,17 +70,15 @@ function postSource(source) {
 
     sourceServices.postSource(source).then(
       response => {
-        toast.success('Usuario creado satisfactoriamente');
+        toast.success('Fuente creada satisfactoriamente');
         dispatch(success(response.data));
       },
       error => {
         console.log(error);
-        if (error === 'A source with that sourcename already exists.') {
-          toast.error('Ya existe otro usuario con ese nombre de usuario.');
-        } else if (error === 'A source with that email already exists.') {
-          toast.error('Ya existe otro usuario con ese correo.');
+        if (error === 'A source with that name already exists.') {
+          toast.error('Ya existe otra Fuente con ese nombre de Fuente.');
         } else {
-          toast.error('Error creando el Usuario ');
+          toast.error('Error creando el Fuente ');
         }
         dispatch(failure(error));
       }
@@ -135,7 +133,7 @@ function deleteSource(sourceId) {
 
     sourceServices.deleteSource(sourceId).then(
       response => {
-        toast.success('Usuario eliminado satisfactoriamente');
+        toast.success('Fuente eliminado satisfactoriamente');
         dispatch(success(sourceId));
       },
       error => {
