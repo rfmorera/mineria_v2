@@ -10,6 +10,8 @@ import { Route, Switch } from 'react-router';
 import Landing from './views/landing/Landing';
 import MainLayout from './views/layouts/MainLayout/index';
 import DashboardLayout from './views/layouts/DashboardLayout/index';
+import NotFoundView from './views/errors/NotFoundView';
+
 import { ToastContainer, toast } from 'react-toastify';
 
 const App = () => {
@@ -19,7 +21,7 @@ const App = () => {
       <Route exact path="/" render={() => <Landing />} />
       <Route path="/auth" render={() => <MainLayout />} />
       <Route path="/admin" render={props => <DashboardLayout {...props} />} />
-      <Route render={() => <div>Miss</div>} />
+      <Route render={() => <NotFoundView />} />
       <ToastContainer position={toast.POSITION.BOTTOM_RIGHT} />
     </ThemeProvider>
   );

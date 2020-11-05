@@ -63,7 +63,7 @@ const Results = ({
     let newSelectedSourceIds;
 
     if (event.target.checked) {
-      newSelectedSourceIds = sources.map(source => sources.id);
+      newSelectedSourceIds = sources.map(source => source.id);
     } else {
       newSelectedSourceIds = [];
     }
@@ -177,7 +177,6 @@ const Results = ({
                           if (result.value) {
                             deleteSource(source.id);
                             // TODO: after delete retrieve the page, currently the list request go first than delete and the response is outdate
-                            // getSourcelists(pagen);
                           }
                           return result;
                         });
