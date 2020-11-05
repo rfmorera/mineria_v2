@@ -53,6 +53,7 @@
     "react-toastify": "^6.0.9",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "sweetalert2": "^10.9.0",
     "uuid": "^8.3.0",
     "yup": "^0.29.3"
   },

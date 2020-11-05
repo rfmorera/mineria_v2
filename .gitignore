@@ -83,3 +83,4 @@ config/frontend/.env*
 # ide
 .idea
 .vscode
+frontend/debug.log

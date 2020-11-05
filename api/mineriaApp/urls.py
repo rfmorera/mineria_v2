@@ -36,7 +36,8 @@ router.register(r'planteamiento', PlanteamientoView.PlanteamientoViewSet)
 router.register(r'opinion', OpinionView.OpinionView)
 router.register(r'entrada', EntradaView.EntradaView)
 router.register(r'entidad', EntidadView.EntidadView)
-router.register(r'fuente', FuenteView.FuenteView)
+router.register(r'sources', FuenteView.FuenteView)
+
 
 schema_view = get_schema_view(
     openapi.Info(
