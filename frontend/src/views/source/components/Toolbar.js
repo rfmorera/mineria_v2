@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Toolbar = ({ className, ...rest }) => {
+const Toolbar = ({ className, history, ...rest }) => {
   const classes = useStyles();
 
   return (
@@ -44,6 +45,7 @@ const Toolbar = ({ className, ...rest }) => {
         <Button
           color="primary"
           variant="contained"
+          onClick={()=>{history.push('/admin/sources/add')}}
         >
           Añadir fuente
         </Button>
@@ -81,4 +83,4 @@ Toolbar.propTypes = {
   className: PropTypes.string
 };
 
-export default Toolbar;
+export default withRouter(Toolbar);

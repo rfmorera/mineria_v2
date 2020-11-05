@@ -17,6 +17,7 @@ const routes = [
   { path: '/users', component: CustomerListView, layout: '/admin' },
   { path: '/products', component: ProductListView, layout: '/admin' },
   { path: '/sources/:id', component: SourceFormView, layout: '/admin' },
+  { path: '/sources/add', component: SourceFormView, layout: '/admin' },
   { path: '/sources', component: SourceListView, layout: '/admin' },
   { path: '/settings', component: SettingsView, layout: '/admin' },
   { path: '/error404', component: NotFoundView, layout: '/admin' },

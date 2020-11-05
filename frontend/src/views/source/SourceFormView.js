@@ -17,14 +17,15 @@ const SourceFormView = props => {
   const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
-    if (id !== null) {
+    if (id !== 'add') {
       getSource(id);
       setUpdating(true);
     } else {
       setUpdating(false);
     }
   }, id);
-  return <SourceForm props={{id, ...props}} />;
+  id = id === 'add' ? undefined : id;
+  return <SourceForm props={{ id, ...props }} />;
 };
 
 function mapStateToProps({ sources }, ownProps) {

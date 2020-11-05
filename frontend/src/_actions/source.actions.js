@@ -96,7 +96,6 @@ function postSource(source) {
 }
 
 function getSourcesList(page, pagination = true) {
-  console.log('getSourcesList');
   return dispatch => {
     dispatch(request());
 

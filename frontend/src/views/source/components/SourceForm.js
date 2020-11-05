@@ -50,7 +50,13 @@ const SourceForm = ({ props, history }) => {
   };
 
   const onSubmit = values => {
-    putSource(id, values);
+    if (id !== undefined) {
+      putSource(id, values);
+    } else {
+      postSource(values);
+      setValues(initial_state);
+      clearSource();
+    }
   };
   return (
     <Formik
@@ -72,7 +78,7 @@ const SourceForm = ({ props, history }) => {
         <Form>
           <Card>
             <CardHeader
-              subheader={id !== null ? 'Editar fuente' : 'Crear fuente'}
+              subheader={id !== undefined ? 'Editar fuente' : 'Crear fuente'}
               title="Fuente"
             />
             <Divider />
