@@ -6,14 +6,14 @@ from mineriaApp.models_v2.fuente import Fuente
 
 class Entrada(Document):
     meta = {'allow_inheritance': True}
-    titulo = StringField()  # TODO Add title support to Endpoint
-    content = StringField()
+    name = StringField(required=True)  # TODO Add title support to Endpoint
+    content = StringField(required=True)
     processed_content = StringField()
-    fecha = DateTimeField()
-    fuente = ReferenceField(Fuente)
+    date = DateTimeField()
+    source = ReferenceField('Fuente', required=True)
     resumen = StringField(default="No procesado.")
     keywords = ListField(StringField(default="No procesado."))
-    entidades = ListField(ReferenceField('Entidad'))
+    entities = ListField(ReferenceField('Entidad'))
 
 
 class PortalEntrada(Entrada):

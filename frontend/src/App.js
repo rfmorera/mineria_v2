@@ -21,7 +21,7 @@ const App = () => {
       <Route exact path="/" render={() => <Landing />} />
       <Route path="/auth" render={() => <MainLayout />} />
       <Route path="/admin" render={props => <DashboardLayout {...props} />} />
-      <Route render={() => <NotFoundView />} />
+      {/* <Route render={() => <NotFoundView />} /> */}
       <ToastContainer position={toast.POSITION.BOTTOM_RIGHT} />
     </ThemeProvider>
   );

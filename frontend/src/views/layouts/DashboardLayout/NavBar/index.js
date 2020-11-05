@@ -24,6 +24,7 @@ import {
 } from 'react-feather';
 import NavItem from './NavItem';
 import InputIcon from '@material-ui/icons/Input';
+import ArchiveIcon from '@material-ui/icons/Archive';
 
 const user_default = {
   avatar: '/static/images/avatars/avatar_12.png'
@@ -69,16 +70,16 @@ const NavBar = ({ onMobileClose, openMobile, logout, user }) => {
       title: 'Usuarios',
       perm: user.is_superuser || user.is_admin
     },
-    {
-      href: '/admin/reports',
-      icon: ShoppingBagIcon,
-      title: 'Reportes',
-      perm:
-        user.is_superuser ||
-        user.is_admin ||
-        user.is_report_maker ||
-        user.is_report_viewer
-    },
+    // {
+    //   href: '/admin/reports',
+    //   icon: ShoppingBagIcon,
+    //   title: 'Reportes',
+    //   perm:
+    //     user.is_superuser ||
+    //     user.is_admin ||
+    //     user.is_report_maker ||
+    //     user.is_report_viewer
+    // },
     {
       href: '/admin/sources/1',
       icon: ShoppingBagIcon,
@@ -90,17 +91,27 @@ const NavBar = ({ onMobileClose, openMobile, logout, user }) => {
         user.is_sniffer
     },
     {
-      href: '/admin/settings',
-      icon: SettingsIcon,
-      title: 'Settings',
-      perm: user.is_superuser || user.is_admin
+      href: '/admin/entries/1',
+      icon: ArchiveIcon,
+      title: 'Entradas',
+      perm:
+        user.is_superuser ||
+        user.is_admin ||
+        user.is_report_maker ||
+        user.is_sniffer
     },
-    {
-      href: '/admin/error404',
-      icon: AlertCircleIcon,
-      title: 'Error',
-      perm: true
-    },
+    // {
+    //   href: '/admin/settings',
+    //   icon: SettingsIcon,
+    //   title: 'Settings',
+    //   perm: user.is_superuser || user.is_admin
+    // },
+    // {
+    //   href: '/admin/error404',
+    //   icon: AlertCircleIcon,
+    //   title: 'Error',
+    //   perm: true
+    // },
     {
       href: '/admin/account',
       icon: UserIcon,

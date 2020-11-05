@@ -34,7 +34,7 @@ router.register(r'report-sentiment', SentimentReport.ReportSentimentViewSet)
 router.register(r'report-sentiment-planteamiento', SentimentReport.ReportSentimentPlanteamientoViewSet)
 router.register(r'planteamiento', PlanteamientoView.PlanteamientoViewSet)
 router.register(r'opinion', OpinionView.OpinionView)
-router.register(r'entrada', EntradaView.EntradaView)
+router.register(r'entries', EntradaView.EntradaView)
 router.register(r'entidad', EntidadView.EntidadView)
 router.register(r'sources', FuenteView.FuenteView)
 

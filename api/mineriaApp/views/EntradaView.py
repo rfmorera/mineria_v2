@@ -5,7 +5,7 @@ from rest_framework_mongoengine import viewsets
 
 from mineriaApp.models_v2.entrada import Entrada
 from mineriaApp.permissions.GroupsPermission import IsManagerGroup, IsAdminGroup, IsSnifforGroup, IsReportMakerGroup
-from mineriaApp.serializers.entrada import EntradaSerializer
+from mineriaApp.serializers.entrada import EntradaSerializer, CreateEntradaSerializer
 
 
 class EntradaView(viewsets.ModelViewSet):
@@ -13,6 +13,11 @@ class EntradaView(viewsets.ModelViewSet):
     authentication_classes = [BasicAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated, Or(IsManagerGroup, IsAdminGroup, IsSnifforGroup, IsReportMakerGroup)]
     serializer_class = EntradaSerializer
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return CreateEntradaSerializer
+        return super().get_serializer_class()
 
     # TODO: Implement multiplite creaetion
     # TODO: Create Viewset for inherit classes
