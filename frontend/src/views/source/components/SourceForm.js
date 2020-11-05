@@ -16,7 +16,7 @@ import * as yup from 'yup';
 
 const validationSchema = yup.object({
   name: yup.string().required('Este campo es requerido.'),
-  description: yup.string()
+  description: yup.string().required('Este campo es requerido.')
 });
 const initial_state = { name: '', description: '' };
 
@@ -83,19 +83,6 @@ const SourceForm = ({ props, history }) => {
             />
             <Divider />
             <CardContent>
-              {/* <TextField
-                error={Boolean(touched.name && errors.name)}
-                helperText={touched.name && errors.name}
-                fullWidth
-                label="Nombre"
-                margin="normal"
-                name="name"
-                type="text"
-                variant="outlined"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.name}
-              /> */}
               <TextField
                 error={Boolean(touched.name && errors.name)}
                 fullWidth
@@ -118,6 +105,7 @@ const SourceForm = ({ props, history }) => {
                 name="description"
                 type="text"
                 variant="outlined"
+                onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.description}
               />

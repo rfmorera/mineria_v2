@@ -1,13 +1,15 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import {
   Box,
   Container,
   Typography,
-  makeStyles
+  makeStyles,
+  Button
 } from '@material-ui/core';
 import Page from 'src/views/components/Page';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.dark,
     height: '100%',
@@ -22,14 +24,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const NotFoundView = () => {
+const NotFoundView = ({ history }) => {
   const classes = useStyles();
 
   return (
-    <Page
-      className={classes.root}
-      title="404"
-    >
+    <Page className={classes.root} title="404">
       <Box
         display="flex"
         flexDirection="column"
@@ -37,18 +36,10 @@ const NotFoundView = () => {
         justifyContent="center"
       >
         <Container maxWidth="md">
-          <Typography
-            align="center"
-            color="textPrimary"
-            variant="h1"
-          >
+          <Typography align="center" color="textPrimary" variant="h1">
             404: La página que está buscando no se encuentra
           </Typography>
-          <Typography
-            align="center"
-            color="textPrimary"
-            variant="subtitle2"
-          >
+          <Typography align="center" color="textPrimary" variant="subtitle2">
             Usted ha usado una ruta equivocada o llegó hasta aquí por error.
             Intente usando el menú de navegación.
           </Typography>
@@ -59,10 +50,21 @@ const NotFoundView = () => {
               src="/static/images/undraw_page_not_found_su7k.svg"
             />
           </Box>
+          <Box textAlign="center">
+            <Button
+              color="primary"
+              variant="outlined"
+              onClick={() => {
+                history.push('/auth');
+              }}
+            >
+              Sacame de aquí
+            </Button>
+          </Box>
         </Container>
       </Box>
     </Page>
   );
 };
 
-export default NotFoundView;
+export default withRouter(NotFoundView);

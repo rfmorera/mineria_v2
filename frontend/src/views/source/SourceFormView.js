@@ -17,7 +17,7 @@ const SourceFormView = props => {
   const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
-    if (id !== 'add') {
+    if (id !== 'add' && id !== undefined) {
       getSource(id);
       setUpdating(true);
     } else {

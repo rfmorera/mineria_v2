@@ -80,7 +80,7 @@ const NavBar = ({ onMobileClose, openMobile, logout, user }) => {
         user.is_report_viewer
     },
     {
-      href: '/admin/sources',
+      href: '/admin/sources/1',
       icon: ShoppingBagIcon,
       title: 'Fuentes',
       perm:

@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { withRouter, useParams } from 'react-router';
+
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -24,6 +26,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import getInitials from 'src/utils/getInitials';
 import { PAGINATION_ELEMENTS_COUNT } from '../../../_constants/global';
+import { sourceActions } from '../../../_actions/source.actions';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -44,13 +47,22 @@ const Results = ({
   const classes = useStyles();
   const [selectedSourceIds, setSelectedSourceIds] = useState([]);
   const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
+  let { pagen } = useParams();
+  const [page, setPage] = useState(pagen - 1);
+
+  useEffect(() => {
+    setPage(pagen - 1);
+  }, [pagen]);
+
+  useEffect(() => {
+    getSourcelists(pagen);
+  }, [pagen]);
 
   const handleSelectAll = event => {
     let newSelectedSourceIds;
 
     if (event.target.checked) {
-      newSelectedSourceIds = sources.map(source => sources.id);
+      newSelectedSourceIds = sources.map(source => source.id);
     } else {
       newSelectedSourceIds = [];
     }
@@ -83,8 +95,8 @@ const Results = ({
   };
 
   const handlePageChange = (event, newPage) => {
-    setPage(newPage);
-    if (sources.length < parseInt(count)) getSourcelists(newPage + 1);
+    newPage += 1;
+    history.push('/admin/sources/' + newPage);
   };
 
   return (
@@ -140,7 +152,7 @@ const Results = ({
                       className={classes.button}
                       endIcon={<EditIcon />}
                       onClick={() => {
-                        history.push('/admin/sources/' + source.id);
+                        history.push('/admin/sources/edit/' + source.id);
                       }}
                     >
                       Editar
@@ -164,7 +176,6 @@ const Results = ({
                           if (result.value) {
                             deleteSource(source.id);
                             // TODO: after delete retrieve the page, currently the list request go first than delete and the response is outdate
-                            getSourcelists(page + 1);
                           }
                           return result;
                         });
@@ -198,4 +209,24 @@ Results.propTypes = {
   sources: PropTypes.array.isRequired
 };
 
-export default withRouter(Results);
+function mapStateToProps({ sources }) {
+  return {
+    loading: sources.loadingSourcesList,
+    sources: sources.sourcesList,
+    count: sources.sourcesCounter
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getSourcelists: page => {
+      dispatch(sourceActions.getSourcesList(page));
+    },
+    deleteSource: sourceId => {
+      dispatch(sourceActions.deleteSource(sourceId));
+    }
+  };
+}
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(Results)
+);
