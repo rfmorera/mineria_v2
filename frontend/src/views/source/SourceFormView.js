@@ -18,7 +18,6 @@ const SourceFormView = props => {
 
   useEffect(() => {
     if (id !== 'add' && id !== undefined) {
-      console.log(id)
       getSource(id);
       setUpdating(true);
     } else {

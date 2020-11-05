@@ -55,7 +55,6 @@ const Results = ({
   }, [pagen]);
 
   useEffect(() => {
-    console.log(pagen);
     getSourcelists(pagen);
   }, [pagen]);
 
