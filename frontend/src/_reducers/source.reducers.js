@@ -64,8 +64,6 @@ export function sources(state = initialState, action) {
         loadingSourcesList: true
       }
     case sourceConstants.GET_SOURCES_SUCCESS:
-      console.log("reducer")
-      console.log(action.results)
       return {
         ...state,
         loadingSourcesList: false,

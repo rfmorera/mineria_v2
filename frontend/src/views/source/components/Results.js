@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { withRouter } from 'react-router'
+import { withRouter } from 'react-router';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import Swal from 'sweetalert2';
 import {
   Avatar,
   Box,
@@ -31,7 +32,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Results = ({ className, sources, count, getSourcelists, history, ...rest }) => {
+const Results = ({
+  className,
+  sources,
+  count,
+  getSourcelists,
+  deleteSource,
+  history,
+  ...rest
+}) => {
   const classes = useStyles();
   const [selectedSourceIds, setSelectedSourceIds] = useState([]);
   const [limit, setLimit] = useState(10);
@@ -130,7 +139,9 @@ const Results = ({ className, sources, count, getSourcelists, history, ...rest }
                       size="small"
                       className={classes.button}
                       endIcon={<EditIcon />}
-                      onClick={()=> {history.push('/admin/sources/' + source.id)}}
+                      onClick={() => {
+                        history.push('/admin/sources/' + source.id);
+                      }}
                     >
                       Editar
                     </Button>
@@ -140,6 +151,24 @@ const Results = ({ className, sources, count, getSourcelists, history, ...rest }
                       size="small"
                       className={classes.button}
                       startIcon={<DeleteIcon />}
+                      onClick={e => {
+                        e.preventDefault();
+                        Swal.fire({
+                          title: '¿Está seguro que desea eliminar esta Fuente?',
+                          text: 'Esta operación no se puede deshacer.',
+                          icon: 'warning',
+                          showCancelButton: true,
+                          cancelButtonText: 'Cancelar',
+                          confirmButtonText: 'Eliminar'
+                        }).then(result => {
+                          if (result.value) {
+                            deleteSource(source.id);
+                            // TODO: after delete retrieve the page, currently the list request go first than delete and the response is outdate
+                            getSourcelists(page + 1);
+                          }
+                          return result;
+                        });
+                      }}
                     >
                       Eliminar
                     </Button>

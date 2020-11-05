@@ -34,7 +34,7 @@ const SourceListView = ({
       <Container maxWidth={false}>
         <Toolbar />
         <Box mt={3}>
-          <Results sources={sources} count={count} getSourcelists={getSourcelists}/>
+          <Results sources={sources} count={count} getSourcelists={getSourcelists} deleteSource={deleteSource}/>
         </Box>
       </Container>
     </Page>
@@ -42,8 +42,6 @@ const SourceListView = ({
 };
 
 function mapStateToProps({ sources }) {
-  console.log("change")
-  console.log(sources)
   return {
     loading: sources.loadingSourcesList,
     sources: sources.sourcesList,

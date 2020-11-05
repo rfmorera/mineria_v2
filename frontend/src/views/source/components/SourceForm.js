@@ -50,8 +50,6 @@ const SourceForm = ({ props, history }) => {
   };
 
   const onSubmit = values => {
-    console.log(id);
-    console.log(values);
     putSource(id, values);
   };
   return (

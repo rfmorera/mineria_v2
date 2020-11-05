@@ -74,7 +74,6 @@ function postSource(source) {
         dispatch(success(response.data));
       },
       error => {
-        console.log(error);
         if (error === 'A source with that name already exists.') {
           toast.error('Ya existe otra Fuente con ese nombre de Fuente.');
         } else {
