@@ -8,7 +8,7 @@ from mineriaApp.permissions.GroupsPermission import IsManagerGroup, IsAdminGroup
 from mineriaApp.serializers.entity import EntitySerializer
 
 
-class EntidadView(viewsets.ModelViewSet):
+class EntityView(viewsets.ModelViewSet):
     queryset = Entity.objects.all()
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated, Or(IsManagerGroup, IsAdminGroup, IsReportMakerGroup)]
