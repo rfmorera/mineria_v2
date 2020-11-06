@@ -28,10 +28,10 @@ admin.site.register(User, CustomUserAdmin)
 
 
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'descripcion')
+    list_display = ('name', 'description')
     fieldsets = (
         ('Información General', {
-            'fields': ('nombre', 'descripcion')
+            'fields': ('name', 'description')
         }),
         # ('Address info', {
         #     'fields': ('address', ('city', 'zip'))

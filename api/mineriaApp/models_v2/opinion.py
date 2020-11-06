@@ -20,7 +20,7 @@ class Opinion(Document):
 
 
 class Planteamiento(Opinion):
-    entidades = ListField(ReferenceField('Entidad'))
+    entidades = ListField(ReferenceField('Entity'))
 
 
 class Tweet(Opinion):

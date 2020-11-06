@@ -3,7 +3,7 @@ import os
 import pandas as pd
 from unidecode import unidecode
 
-from mineriaApp.models_v2.entity import Entidad
+from mineriaApp.models_v2.entity import Entity
 from mineriaApp.models_v2.entrada import PlanteamientoEntrada, Fuente
 from mineriaApp.models_v2.municipio import Municipio
 from mineriaApp.models_v2.opinion import Planteamiento
@@ -69,11 +69,11 @@ def insertar_planteamientos():
                 plane_q.save()
 
             enti = row['codentidad']
-            enti_q = Entidad.objects(codigo=enti).first()
+            enti_q = Entity.objects(codigo=enti).first()
 
             if enti_q is None:
-                enti_q = Entidad(codigo=enti,
-                                 nombre=row['descentidad'])
+                enti_q = Entity(codigo=enti,
+                                nombre=row['descentidad'])
                 enti_q.save()
 
             plant = Planteamiento(content=str(row['descplanteamiento']),

@@ -1,7 +1,7 @@
 from django_mongoengine import Document
 from mongoengine import StringField, IntField, DateTimeField, ReferenceField, ListField
 
-from mineriaApp.models_v2.entity import Entidad
+from mineriaApp.models_v2.entity import Entity
 from mineriaApp.models_v2.entrada import Entrada
 from mineriaApp.models_v2.municipio import Municipio
 from mineriaApp.models_v2.provincia import Provincia
@@ -28,4 +28,4 @@ class ReportPSentimentPlanteamientos(ReportPSentiment):
     # Planteamientos
     provincias = ListField(ReferenceField(Provincia))
     municipios = ListField(ReferenceField(Municipio))
-    entidades = ListField(ReferenceField(Entidad))
+    entidades = ListField(ReferenceField(Entity))

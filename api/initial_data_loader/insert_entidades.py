@@ -1,7 +1,7 @@
 import csv
 import os
 
-from mineriaApp.models_v2.entity import Entidad
+from mineriaApp.models_v2.entity import Entity
 from mineriaApp.utils.resources_directories import data_dir
 
 

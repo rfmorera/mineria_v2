@@ -13,7 +13,7 @@ class Entrada(Document):
     fuente = ReferenceField(Fuente)
     resumen = StringField(default="No procesado.")
     keywords = ListField(StringField(default="No procesado."))
-    entidades = ListField(ReferenceField('Entidad'))
+    entidades = ListField(ReferenceField('Entity'))
 
 
 class PortalEntrada(Entrada):
