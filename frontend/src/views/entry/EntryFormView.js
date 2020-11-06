@@ -1,55 +1,55 @@
 import React, { useEffect, usePara, useState } from 'react';
 import { useParams } from 'react-router';
 import { connect } from 'react-redux';
-import { sourceActions } from '../../_actions/source.actions';
-import SourceForm from './components/SourceForm';
+import { entryActions } from '../../_actions/entry.actions';
+import EntryForm from './components/EntryForm';
 
 const EntryFormView = props => {
   let {
-    creatingSource,
-    source,
-    sourceErrorMessage,
-    postSource,
-    getSource,
-    putSource,
-    clearSource
+    creatingEntry,
+    entry,
+    entryErrorMessage,
+    postEntry,
+    getEntry,
+    putEntry,
+    clearEntry
   } = props;
   let { id } = useParams();
   const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
     if (id !== 'add' && id !== undefined) {
-      getSource(id);
+      getEntry(id);
       setUpdating(true);
     } else {
       setUpdating(false);
     }
   }, id);
   id = id === 'add' ? undefined : id;
-  return <SourceForm props={{ id, ...props }} />;
+  return <EntryForm props={{ id, ...props }} />;
 };
 
-function mapStateToProps({ sources }, ownProps) {
+function mapStateToProps({ entries }, ownProps) {
   return {
-    creatingSource: sources.creatingSource,
-    source: sources.source,
-    sourceErrorMessage: sources.sourceErrorMessage
+    creatingEntry: entries.creatingEntry,
+    entry: entries.entry,
+    entryErrorMessage: entries.entryErrorMessage
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    postSource: source => {
-      dispatch(sourceActions.postSource(source));
+    postEntry: entry => {
+      dispatch(entryActions.postEntry(entry));
     },
-    getSource: id => {
-      dispatch(sourceActions.getSource(id));
+    getEntry: id => {
+      dispatch(entryActions.getEntry(id));
     },
-    putSource: (id, source) => {
-      dispatch(sourceActions.putSource(id, source));
+    putEntry: (id, entry) => {
+      dispatch(entryActions.putEntry(id, entry));
     },
-    clearSource: () => {
-      dispatch(sourceActions.clearSource());
+    clearEntry: () => {
+      dispatch(entryActions.clearEntry());
     }
   };
 }

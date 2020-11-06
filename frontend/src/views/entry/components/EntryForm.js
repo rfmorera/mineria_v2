@@ -16,46 +16,47 @@ import * as yup from 'yup';
 
 const validationSchema = yup.object({
   name: yup.string().required('Este campo es requerido.'),
-  description: yup.string().required('Este campo es requerido.')
+  content: yup.string().required('Este campo es requerido.'),
+  date: yup.date()
 });
 const initial_state = { name: '', description: '' };
 
-const SourceForm = ({ props, history }) => {
+const EntryForm = ({ props, history }) => {
   let {
     id,
-    creatingSource,
-    source,
-    sourceErrorMessage,
-    postSource,
-    getSource,
-    putSource,
-    clearSource
+    creatingEntry,
+    entry,
+    entryErrorMessage,
+    postEntry,
+    getEntry,
+    putEntry,
+    clearEntry
   } = props;
 
   const [values, setValues] = useState(initial_state);
   useEffect(() => {
-    if (source !== undefined) {
+    if (entry !== undefined) {
       setValues({
-        name: source.name,
-        description: source.description
+        name: entry.name,
+        description: entry.description
       });
     }
-  }, [source]);
+  }, [entry]);
 
   const handleBack = event => {
     event.preventDefault();
-    clearSource();
+    clearEntry();
     setValues(initial_state);
     history.goBack();
   };
 
   const onSubmit = values => {
     if (id !== undefined) {
-      putSource(id, values);
+      putEntry(id, values);
     } else {
-      postSource(values);
+      postEntry(values);
       setValues(initial_state);
-      clearSource();
+      clearEntry();
     }
   };
   return (
@@ -133,4 +134,4 @@ const SourceForm = ({ props, history }) => {
   );
 };
 
-export default withRouter(SourceForm);
+export default withRouter(EntryForm);
