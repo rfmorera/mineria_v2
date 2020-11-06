@@ -1,12 +1,44 @@
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react';
 import { NivoLine, NivoBar, NivoPie } from '../../components/Charts/NivoChart';
+import { makeStyles } from '@material-ui/core/styles';
+import {
+  Typography,
+  Container,
+  Grid,
+  Paper,
+  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TablePagination,
+  TableRow
+} from '@material-ui/core';
+
 import compose_data, {
   resume_data,
   convert_to_pie
 } from '../../../utils/chart-data-converter';
+
 const API = 'http://127.0.0.1:8000/api/report-sentiment-planteamiento/';
 const DEFAULT_ACTION = '/report';
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary
+  }
+}));
+
+const columns = [
+  { field: 'name', headerName: 'Nombre', width: 50 },
+  { field: 'description', headerName: 'Descripción', width: 50 }
+];
 
 class ReportSentiment extends Component {
   constructor(props) {
@@ -138,51 +170,73 @@ class ReportSentiment extends Component {
   render() {
     return (
       <div>
-        <div className="row">
-          <div className="col-sm-6">
-            <h3 className="text-center">Descripción</h3>
-            <div>
+        <Grid container spacing={3} p={2}>
+          <Grid
+            container
+            item
+            xs={12}
+            sm={6}
+            alignItems="center"
+            direction="column"
+            justify="flex-start"
+          >
+            <Box p={3}>
+              <Typography variant="h3">Descripción</Typography>
+            </Box>
+            <Box>
               <p className="text-center">
                 Cantidad de reportes: <b>{this.state.total}</b> | Fecha Inicio :{' '}
                 <b>{this.state.min_date}</b> | Fecha Fin :{' '}
                 <b>{this.state.max_date}</b>
               </p>
-              <div className="container">
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Nombre</th>
-                      <th scope="col">Descripción</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {this.state.data_report_desc.map((item, index) => (
-                      <tr key={item.id}>
-                        <th scope="row">{index + 1}</th>
-                        <td>{item.name}</td>
-                        <td>{item.description}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <div className="col-sm-6">
+            </Box>
+            <Box maxHeight="20vh">
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>#</TableCell>
+                    <TableCell>Nombre</TableCell>
+                    <TableCell>Descripción</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {this.state.data_report_desc.map((item, index) => (
+                    <TableRow hover key={item.id}>
+                      <TableCell>{index + 1}</TableCell>
+                      <TableCell>
+                        <Box alignItems="center" display="flex">
+                          <Typography color="textPrimary" variant="body1">
+                            {item.name}
+                          </Typography>
+                        </Box>
+                      </TableCell>
+                      <TableCell>{item.description}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+              <TablePagination
+                component="div"
+                count={this.state.data_report_desc.length}
+                // onChangePage={handlePageChange}
+                // page={page}
+                rowsPerPage={5}
+                rowsPerPageOptions={5}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <h3 className="text-center">Resumen por cantidad</h3>
             <div>
-              <h3 className="text-center">Resumen por cantidad</h3>
-              <div>
-                <p className="text-center">
-                  Total de opiniones: <b>{this.state.total_opiniones}</b>
-                </p>
-              </div>
-              <div className="center-block" style={{ height: '350px' }}>
-                <NivoPie data={this.state.data_total} />
-              </div>
+              <p className="text-center">
+                Total de opiniones: <b>{this.state.total_opiniones}</b>
+              </p>
             </div>
-          </div>
-        </div>
+            <div className="center-block" style={{ height: '350px' }}>
+              <NivoPie data={this.state.data_total} />
+            </div>
+          </Grid>
+        </Grid>
         <div>
           <h3 className="text-center">
             Relacion de sentimientos (Positivas/Negativas)
