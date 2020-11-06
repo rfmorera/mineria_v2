@@ -3,7 +3,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_mongoengine import viewsets
 
-from mineriaApp.models_v2.entidad import Entidad
+from mineriaApp.models_v2.entity import Entidad
 from mineriaApp.permissions.GroupsPermission import IsManagerGroup, IsAdminGroup, IsReportMakerGroup
 from mineriaApp.serializers.entidad import EntidadSerializer
 

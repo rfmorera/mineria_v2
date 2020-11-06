@@ -3,7 +3,7 @@ import os
 import pandas as pd
 from unidecode import unidecode
 
-from mineriaApp.models_v2.entidad import Entidad
+from mineriaApp.models_v2.entity import Entidad
 from mineriaApp.models_v2.entrada import PlanteamientoEntrada, Fuente
 from mineriaApp.models_v2.municipio import Municipio
 from mineriaApp.models_v2.opinion import Planteamiento
