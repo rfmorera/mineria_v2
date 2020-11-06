@@ -1,7 +1,7 @@
 import os
 
 import pandas as pd
-import unidecode
+from unidecode import unidecode
 
 from mineriaApp.models_v2.entidad import Entidad
 from mineriaApp.models_v2.entrada import PlanteamientoEntrada, Fuente
@@ -30,7 +30,7 @@ def insertar_provincias():
            'Guantánamo']
 
     for r in nom:
-        Provincia(nombre=r, normalized=unidecode.unidecode(r).upper()).save()
+        Provincia(nombre=r, normalized=unidecode(r).upper()).save()
 
 
 def insertar_planteamientos():
@@ -56,10 +56,10 @@ def insertar_planteamientos():
             plane_q = PlanteamientoEntrada.objects(municipio=muni_q.id, provincia=prov_q.id).first()
 
             if plane_q is None:
-                fuen_q = Fuente.objects(nombre='GOBELECT-' + prov).first()
+                fuen_q = Fuente.objects(name='GOBELECT-' + prov).first()
 
                 if fuen_q is None:
-                    fuen_q = Fuente(nombre='GOBELECT-' + prov)
+                    fuen_q = Fuente(name='GOBELECT-' + prov, description='GOBELECT-' + prov)
                     fuen_q.save()
 
                 plane_q = PlanteamientoEntrada(titulo='Planteamientos-{0}-{1}'.format(prov, muni),
