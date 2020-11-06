@@ -21,5 +21,5 @@ class PortalEntry(Entry):
 
 
 class PlanteamientoEntry(Entry):
-    super_region = ReferenceField('Provincia')
-    region = ReferenceField('Municipio')
+    super_region = ReferenceField('SuperRegion')
+    region = ReferenceField('Region')

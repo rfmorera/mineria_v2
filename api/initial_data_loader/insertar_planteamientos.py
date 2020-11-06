@@ -5,9 +5,9 @@ from unidecode import unidecode
 
 from mineriaApp.models_v2.entity import Entity
 from mineriaApp.models_v2.entry import PlanteamientoEntry, Source
-from mineriaApp.models_v2.municipio import Municipio
+from mineriaApp.models_v2.region import Region
 from mineriaApp.models_v2.opinion import Planteamiento
-from mineriaApp.models_v2.provincia import Provincia
+from mineriaApp.models_v2.super_region import SuperRegion
 from mineriaApp.services.PreprocessorService import PreprocessorService
 from mineriaApp.utils.resources_directories import planteamientos_dir
 
@@ -30,7 +30,7 @@ def insertar_provincias():
            'Guantánamo']
 
     for r in nom:
-        Provincia(nombre=r, normalized=unidecode(r).upper()).save()
+        SuperRegion(name=r, normalized=unidecode(r).upper()).save()
 
 
 def insertar_planteamientos():
@@ -46,14 +46,14 @@ def insertar_planteamientos():
             if i != 3 and prov == 'GRANMA':
                 continue
 
-            prov_q = Provincia.objects(normalized=prov).first()
-            muni_q = Municipio.objects(nombre=muni, provincia=prov_q.id).first()
+            prov_q = SuperRegion.objects(normalized=prov).first()
+            muni_q = Region.objects(name=muni, super_region=prov_q.id).first()
 
             if muni_q is None:
-                muni_q = Municipio(nombre=muni, provincia=prov_q)
+                muni_q = Region(name=muni, super_region=prov_q)
                 muni_q.save()
 
-            plane_q = PlanteamientoEntry.objects(municipio=muni_q.id, provincia=prov_q.id).first()
+            plane_q = PlanteamientoEntry.objects(region=muni_q.id, super_region=prov_q.id).first()
 
             if plane_q is None:
                 fuen_q = Source.objects(name='GOBELECT-' + prov).first()
@@ -63,9 +63,9 @@ def insertar_planteamientos():
                     fuen_q.save()
 
                 plane_q = PlanteamientoEntry(titulo='Planteamientos-{0}-{1}'.format(prov, muni),
-                                             provincia=prov_q,
-                                             municipio=muni_q,
-                                             fuente=fuen_q)
+                                             super_region=prov_q,
+                                             region=muni_q,
+                                             source=fuen_q)
                 plane_q.save()
 
             enti = row['codentidad']

@@ -3,8 +3,8 @@ from mongoengine import StringField, IntField, DateTimeField, ReferenceField, Li
 
 from mineriaApp.models_v2.entity import Entity
 from mineriaApp.models_v2.entry import Entry
-from mineriaApp.models_v2.municipio import Municipio
-from mineriaApp.models_v2.provincia import Provincia
+from mineriaApp.models_v2.region import Region
+from mineriaApp.models_v2.super_region import SuperRegion
 
 
 class ReportParam(Document):
@@ -26,6 +26,6 @@ class ReportPSentiment(ReportParam):
 
 class ReportPSentimentPlanteamientos(ReportPSentiment):
     # Planteamientos
-    provincias = ListField(ReferenceField(Provincia))
-    municipios = ListField(ReferenceField(Municipio))
+    provincias = ListField(ReferenceField(SuperRegion))
+    municipios = ListField(ReferenceField(Region))
     entidades = ListField(ReferenceField(Entity))

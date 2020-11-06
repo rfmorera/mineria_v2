@@ -2,6 +2,7 @@ from django_mongoengine import Document
 from mongoengine import StringField
 
 
-class Provincia(Document):
-    nombre = StringField(required=True, unique=True)
+class SuperRegion(Document):
+    name = StringField(required=True, unique=True)
+    description = StringField(required=True)
     normalized = StringField(required=True, unique=True)
