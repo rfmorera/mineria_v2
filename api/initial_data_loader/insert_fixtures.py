@@ -1,10 +1,9 @@
 import os
+from os import listdir
 
-from django.core.management import call_command
-from core import settings
 from core.settings import BASE_DIR
 from mineriaApp.utils.resources_directories import fixtures_dir
-from os import listdir
+
 
 def insert_fixtures():
     fixtures = listdir(fixtures_dir)

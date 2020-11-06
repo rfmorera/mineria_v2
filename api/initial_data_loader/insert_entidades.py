@@ -14,9 +14,9 @@ def insert_entidades():
             if line_count == 0:
                 print(f'Column names are {", ".join(row)}')
                 line_count += 1
-            ent = Entidad(codigo=row['codentidad'],
-                          nombre=row['descentidad'],
-                          organismo_id=row['organismo_id'])
+            ent = Entity(code=row['codentidad'],
+                         name=row['descentidad'],
+                         organism_id=row['organismo_id'])
 
             try:
                 ent.save()

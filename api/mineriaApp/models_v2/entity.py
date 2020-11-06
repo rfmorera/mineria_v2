@@ -6,4 +6,4 @@ class Entity(Document):
     code = IntField(required=True, unique=True)
     name = StringField(required=True)
     description = StringField()
-    organismo_id = IntField()
+    organism_id = IntField()
