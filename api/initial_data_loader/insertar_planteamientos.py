@@ -4,7 +4,7 @@ import pandas as pd
 from unidecode import unidecode
 
 from mineriaApp.models_v2.entity import Entity
-from mineriaApp.models_v2.entry import PlanteamientoEntry, Fuente
+from mineriaApp.models_v2.entry import PlanteamientoEntry, Source
 from mineriaApp.models_v2.municipio import Municipio
 from mineriaApp.models_v2.opinion import Planteamiento
 from mineriaApp.models_v2.provincia import Provincia
@@ -56,10 +56,10 @@ def insertar_planteamientos():
             plane_q = PlanteamientoEntry.objects(municipio=muni_q.id, provincia=prov_q.id).first()
 
             if plane_q is None:
-                fuen_q = Fuente.objects(name='GOBELECT-' + prov).first()
+                fuen_q = Source.objects(name='GOBELECT-' + prov).first()
 
                 if fuen_q is None:
-                    fuen_q = Fuente(name='GOBELECT-' + prov, description='GOBELECT-' + prov)
+                    fuen_q = Source(name='GOBELECT-' + prov, description='GOBELECT-' + prov)
                     fuen_q.save()
 
                 plane_q = PlanteamientoEntry(titulo='Planteamientos-{0}-{1}'.format(prov, muni),

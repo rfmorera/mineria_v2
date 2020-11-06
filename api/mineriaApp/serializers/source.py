@@ -1,9 +1,9 @@
 from rest_framework_mongoengine.serializers import DocumentSerializer
 
-from mineriaApp.models_v2.fuente import Fuente
+from mineriaApp.models_v2.source import Source
 
 
 class FuenteSerializer(DocumentSerializer):
     class Meta:
-        model = Fuente
+        model = Source
         fields = ('id', 'name', 'description')

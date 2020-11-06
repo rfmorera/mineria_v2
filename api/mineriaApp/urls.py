@@ -20,7 +20,7 @@ from drf_yasg.views import get_schema_view
 from rest_framework import routers, permissions
 from rest_framework.authentication import BasicAuthentication
 
-from mineriaApp.views import SentimentView, ResumenView, EntryView, FuenteView, EntityView, \
+from mineriaApp.views import SentimentView, ResumenView, EntryView, SourceView, EntityView, \
     PlanteamientoView, OpinionView
 from mineriaApp.views import UserGroupView
 from mineriaApp.views.Reports import SentimentReport
@@ -36,7 +36,7 @@ router.register(r'planteamiento', PlanteamientoView.PlanteamientoViewSet)
 router.register(r'opinion', OpinionView.OpinionView)
 router.register(r'entrada', EntryView.EntryView)
 router.register(r'entidad', EntityView.EntityView)
-router.register(r'sources', FuenteView.FuenteView)
+router.register(r'sources', SourceView.SourceView)
 
 
 schema_view = get_schema_view(

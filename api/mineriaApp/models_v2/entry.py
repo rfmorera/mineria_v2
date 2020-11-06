@@ -1,7 +1,7 @@
 from django_mongoengine import Document
 from mongoengine import StringField, DateTimeField, ReferenceField, ListField
 
-from mineriaApp.models_v2.fuente import Fuente
+from mineriaApp.models_v2.source import Source
 
 
 class Entry(Document):
@@ -10,7 +10,7 @@ class Entry(Document):
     content = StringField()
     processed_content = StringField()
     date = DateTimeField()
-    source = ReferenceField(Fuente)
+    source = ReferenceField(Source)
     summary = StringField(default="No procesado.")
     keywords = ListField(StringField(default="No procesado."))
     entities = ListField(ReferenceField('Entity'))
