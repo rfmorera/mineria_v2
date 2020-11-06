@@ -3,16 +3,16 @@ from rest_framework.authentication import TokenAuthentication, BasicAuthenticati
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_mongoengine import viewsets
 
-from mineriaApp.models_v2.entrada import Entrada
+from mineriaApp.models_v2.entry import Entry
 from mineriaApp.permissions.GroupsPermission import IsManagerGroup, IsAdminGroup, IsSnifforGroup, IsReportMakerGroup
-from mineriaApp.serializers.entrada import EntradaSerializer
+from mineriaApp.serializers.entry import EntrySerializer
 
 
-class EntradaView(viewsets.ModelViewSet):
-    queryset = Entrada.objects.all()
+class EntryView(viewsets.ModelViewSet):
+    queryset = Entry.objects.all()
     authentication_classes = [BasicAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated, Or(IsManagerGroup, IsAdminGroup, IsSnifforGroup, IsReportMakerGroup)]
-    serializer_class = EntradaSerializer
+    serializer_class = EntrySerializer
 
     # TODO: Implement multiplite creaetion
     # TODO: Create Viewset for inherit classes
@@ -28,7 +28,7 @@ class EntradaView(viewsets.ModelViewSet):
     #                 entidades = r['entidades']
     #
     #             if r["type"] == "portal":
-    #                 entradas.append(PortalEntrada(content=r["content"],
+    #                 entradas.append(PortalEntry(content=r["content"],
     #                                               fecha=datetime.datetime.strptime(r["fecha"], "%d/%m/%Y"),
     #                                               etiquetas=r["etiquetas"],
     #                                               fuente=r["fuente_id"],

@@ -4,7 +4,7 @@ from django_mongoengine import Document
 from mongoengine import ReferenceField, ListField, IntField
 from mongoengine import StringField, DateTimeField
 
-from mineriaApp.models_v2.entrada import Entrada
+from mineriaApp.models_v2.entry import Entry
 from mineriaApp.models_v2.sentiment import Sentiment
 
 
@@ -15,7 +15,7 @@ class Opinion(Document):
     keywords = ListField(StringField(default="No procesado."))
     meta = {'allow_inheritance': True}
     sentiment = ReferenceField(Sentiment)
-    entrada = ReferenceField(Entrada)
+    entrada = ReferenceField(Entry)
     fecha = DateTimeField(default=datetime.datetime.now())
 
 

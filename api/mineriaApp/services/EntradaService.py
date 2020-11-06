@@ -1,4 +1,4 @@
-from mineriaApp.models_v2.entrada import Entrada, PlanteamientoEntrada
+from mineriaApp.models_v2.entry import Entry, PlanteamientoEntry
 
 
 class EntradaService(object):
@@ -11,18 +11,18 @@ class EntradaService(object):
 
     @classmethod
     def get_by_ids(cls, ids):
-        return Entrada.objects(id__in=ids)
+        return Entry.objects(id__in=ids)
 
     @classmethod
     def get_all(cls):
-        return Entrada.objects().all()
+        return Entry.objects().all()
 
     @classmethod
     def get_entradas_planteamientos(cls, provincia, municipio):
         if provincia is None or provincia == []:
-            return PlanteamientoEntrada.objects(municipio__in=municipio)
+            return PlanteamientoEntry.objects(municipio__in=municipio)
 
         if municipio is None or municipio == []:
-            return PlanteamientoEntrada.objects(provincia__in=provincia)
+            return PlanteamientoEntry.objects(provincia__in=provincia)
 
-        return PlanteamientoEntrada.objects(provincia__in=provincia, municipio__in=municipio)
+        return PlanteamientoEntry.objects(provincia__in=provincia, municipio__in=municipio)

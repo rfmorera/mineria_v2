@@ -2,7 +2,7 @@ from django_mongoengine import Document
 from mongoengine import StringField, IntField, DateTimeField, ReferenceField, ListField
 
 from mineriaApp.models_v2.entity import Entity
-from mineriaApp.models_v2.entrada import Entrada
+from mineriaApp.models_v2.entry import Entry
 from mineriaApp.models_v2.municipio import Municipio
 from mineriaApp.models_v2.provincia import Provincia
 
@@ -15,7 +15,7 @@ class ReportParam(Document):
     fin = DateTimeField()
     delta_type = StringField(required=True)
     delta_value = IntField(required=True)
-    entradas_id = ListField(ReferenceField(Entrada), max_length=5)
+    entradas_id = ListField(ReferenceField(Entry), max_length=5)
 
     meta = {'allow_inheritance': True}
 
