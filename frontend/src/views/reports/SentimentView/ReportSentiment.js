@@ -68,8 +68,8 @@ class ReportSentiment extends Component {
               'id',
               'name',
               'description',
-              'inicio',
-              'fin',
+              'start_date',
+              'end_date',
               'delta_type',
               'delta_value'
             ],
@@ -87,7 +87,7 @@ class ReportSentiment extends Component {
           var total_d = compose_data(
             json.result,
             [
-              'fecha_inicio',
+              'start_date',
               'total_positive',
               'total_negative',
               'total_neutral'
@@ -106,7 +106,7 @@ class ReportSentiment extends Component {
             id: desc['name'],
             data: compose_data(
               json.result,
-              ['fecha_inicio', 'ratio'],
+              ['start_date', 'ratio'],
               ['x', 'y']
             )
           };
