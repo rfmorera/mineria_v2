@@ -23,6 +23,7 @@ const routes = [
   { path: '/settings', component: SettingsView, layout: '/admin' },
   { path: '/error404', component: NotFoundView, layout: '/admin' },
   { path: '/report-sentiment/:id', component: ReportSentiment, layout: '/admin' },
+  { path: '/report-sentiment/:id', component: ReportSentiment, layout: '/auth' },
   { path: '', component: DashboardView, layout: '/admin' },
   { path: '/', component: LoginView, layout: '/auth' }
 ];

@@ -15,7 +15,7 @@ import {
   TablePagination,
   TableRow
 } from '@material-ui/core';
-
+import { flexbox } from '@material-ui/system';
 import compose_data, {
   resume_data,
   convert_to_pie
@@ -50,7 +50,8 @@ class ReportSentiment extends Component {
       data_total: [],
       data_report_desc: [],
       total: '-',
-      total_opiniones: '-'
+      total_opiniones: '-',
+      page: '0'
     };
   }
 
@@ -86,12 +87,7 @@ class ReportSentiment extends Component {
 
           var total_d = compose_data(
             json.result,
-            [
-              'start_date',
-              'total_positive',
-              'total_negative',
-              'total_neutral'
-            ],
+            ['start_date', 'total_positive', 'total_negative', 'total_neutral'],
             ['fecha', 'Positivas', 'Negativas', 'Neutras']
           );
 
@@ -104,11 +100,7 @@ class ReportSentiment extends Component {
 
           var ratio_d = {
             id: desc['name'],
-            data: compose_data(
-              json.result,
-              ['start_date', 'ratio'],
-              ['x', 'y']
-            )
+            data: compose_data(json.result, ['start_date', 'ratio'], ['x', 'y'])
           };
 
           return { desc, total_d, ratio_d };
@@ -169,7 +161,7 @@ class ReportSentiment extends Component {
 
   render() {
     return (
-      <div>
+      <Container fixed>
         <Grid container spacing={3} p={2}>
           <Grid
             container
@@ -184,13 +176,12 @@ class ReportSentiment extends Component {
               <Typography variant="h3">Descripción</Typography>
             </Box>
             <Box>
-              <p className="text-center">
-                Cantidad de reportes: <b>{this.state.total}</b> | Fecha Inicio :{' '}
-                <b>{this.state.min_date}</b> | Fecha Fin :{' '}
-                <b>{this.state.max_date}</b>
-              </p>
+              <Typography variant="p"></Typography>
+              Cantidad de reportes: <b>{this.state.total}</b> | Fecha Inicio :{' '}
+              <b>{this.state.min_date}</b> | Fecha Fin :{' '}
+              <b>{this.state.max_date}</b>
             </Box>
-            <Box maxHeight="20vh">
+            <Box maxHeight="300px" width="100%">
               <Table>
                 <TableHead>
                   <TableRow>
@@ -218,46 +209,61 @@ class ReportSentiment extends Component {
               <TablePagination
                 component="div"
                 count={this.state.data_report_desc.length}
-                // onChangePage={handlePageChange}
-                // page={page}
+                page={this.state.page}
                 rowsPerPage={5}
                 rowsPerPageOptions={5}
               />
             </Box>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <h3 className="text-center">Resumen por cantidad</h3>
+          <Grid
+            container
+            xs={12}
+            sm={6}
+            alignItems="center"
+            direction="column"
+            justify="flex-start"
+          >
+            <Box p={3}>
+              <Typography variant="h3">Resumen por cantidad</Typography>
+            </Box>
             <div>
               <p className="text-center">
                 Total de opiniones: <b>{this.state.total_opiniones}</b>
               </p>
             </div>
-            <div className="center-block" style={{ height: '350px' }}>
+            <Box height="350px" width="100%" component="div">
               <NivoPie data={this.state.data_total} />
-            </div>
+            </Box>
           </Grid>
         </Grid>
-        <div>
-          <h3 className="text-center">
-            Relacion de sentimientos (Positivas/Negativas)
-          </h3>
-          <div style={{ height: '85vh' }}>
+        <Grid
+          container
+          alignItems="center"
+          direction="column"
+          justify="flex-start"
+          pt={5}
+        >
+          <Box p={3}>
+            <Typography variant="h3">
+              Relacion de sentimientos (Positivas/Negativas)
+            </Typography>
+          </Box>
+          <Box height="80vh" width="100%">
             <NivoLine data={this.state.data_ratio} />
-          </div>
-        </div>
-        <br />
-        <br />
-        <div>
-          <h3 className="text-center">Distribución de Opiniones</h3>
-          <div style={{ height: '85vh' }}>
+          </Box>
+
+          <Box p={3} pt={5}>
+            <Typography variant="h3">Distribución de Opiniones</Typography>
+          </Box>
+          <Box height="80vh" width="100%">
             <NivoBar
               data={this.state.data_total_report}
               indexBy="id"
               keys_data={['Positivas', 'Negativas']}
             />
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Grid>
+      </Container>
     );
   }
 }
