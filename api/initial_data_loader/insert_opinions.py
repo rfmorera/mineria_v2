@@ -12,7 +12,7 @@ from mineriaApp.services.PreprocessorService import PreprocessorService
 from mineriaApp.utils.resources_directories import planteamientos_dir
 
 
-def insertar_provincias():
+def insertar_superregions():
     nom = ['Pinar del Río',
            'Artemisa',
            'La Habana',
@@ -69,7 +69,7 @@ def insert_opinions():
                 plane_q.save()
 
             enti = row['codentidad']
-            enti_q = Entity.objects(codigo=enti).first()
+            enti_q = Entity.objects(code=enti).first()
 
             if enti_q is None:
                 enti_q = Entity(code=enti,

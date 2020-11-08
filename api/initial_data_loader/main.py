@@ -16,11 +16,11 @@ def main():
         alias='test'
     )
 
-    insert_fixtures.insert_fixtures()
+    # insert_fixtures.insert_fixtures()
 
-    insert_entidades.insert_entidades()
+    # insert_entidades.insert_entidades()
 
-    insert_opinions.insertar_provincias()
+    # insert_opinions.insertar_superregions()
 
     insert_opinions.insert_opinions()
 

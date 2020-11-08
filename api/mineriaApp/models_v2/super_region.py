@@ -4,5 +4,5 @@ from mongoengine import StringField
 
 class SuperRegion(Document):
     name = StringField(required=True, unique=True)
-    description = StringField(required=True)
+    description = StringField()
     normalized = StringField(required=True, unique=True)
