@@ -121,12 +121,13 @@ class ReportSentiment extends Component {
           temp_data_report_desc.push(item['desc']);
         });
 
-        var min = temp_data_report_desc.reduce(function(a, b) {
+        var min = [null].concat(temp_data_report_desc).reduce(function(a, b) {
           return a < b.inicio ? a : b.inicio;
         });
-        var max = temp_data_report_desc.reduce(function(a, b) {
+        var max = [null].concat(temp_data_report_desc).reduce(function(a, b) {
           return a > b.fin ? a : b.fin;
         });
+
         if (max === null) {
           max = 'Ahora';
         }
@@ -151,7 +152,6 @@ class ReportSentiment extends Component {
         });
       });
 
-    console.log(temp_data_report_desc);
     this.setState({
       data_ratio: temp_data_ratio,
       data_total_report: temp_data_total_report,
