@@ -18,11 +18,11 @@ class EntradaService(object):
         return Entry.objects().all()
 
     @classmethod
-    def get_entradas_planteamientos(cls, provincia, municipio):
-        if provincia is None or provincia == []:
-            return PlanteamientoEntry.objects(municipio__in=municipio)
+    def get_entradas_planteamientos(cls, super_region, region):
+        if super_region is None or super_region == []:
+            return PlanteamientoEntry.objects(region__in=region)
 
-        if municipio is None or municipio == []:
-            return PlanteamientoEntry.objects(provincia__in=provincia)
+        if region is None or region == []:
+            return PlanteamientoEntry.objects(super_region__in=super_region)
 
-        return PlanteamientoEntry.objects(provincia__in=provincia, municipio__in=municipio)
+        return PlanteamientoEntry.objects(super_region__in=super_region, region__in=region)

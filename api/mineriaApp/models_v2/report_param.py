@@ -11,11 +11,11 @@ class ReportParam(Document):
     client = IntField(required=True)
     name = StringField(required=True)
     description = StringField(default="")
-    inicio = DateTimeField(required=True)
-    fin = DateTimeField()
+    start_date = DateTimeField(required=True)
+    end_date = DateTimeField()
     delta_type = StringField(required=True)
     delta_value = IntField(required=True)
-    entradas_id = ListField(ReferenceField(Entry), max_length=5)
+    entities_id = ListField(ReferenceField(Entry), max_length=5)
 
     meta = {'allow_inheritance': True}
 
@@ -26,6 +26,6 @@ class ReportPSentiment(ReportParam):
 
 class ReportPSentimentPlanteamientos(ReportPSentiment):
     # Planteamientos
-    provincias = ListField(ReferenceField(SuperRegion))
-    municipios = ListField(ReferenceField(Region))
-    entidades = ListField(ReferenceField(Entity))
+    super_regions = ListField(ReferenceField(SuperRegion))
+    regions = ListField(ReferenceField(Region))
+    entities = ListField(ReferenceField(Entity))

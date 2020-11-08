@@ -83,17 +83,17 @@ class SentimentService(object):
         return sent_list
 
     @classmethod
-    def build_planteamientos_report(cls, param_id, start_date, end_date, delta_value, delta_type, provincias,
-                                    municipios, entidades):
+    def build_planteamientos_report(cls, param_id, start_date, end_date, delta_value, delta_type, super_regions,
+                                    regions, entities):
 
-        entradas = EntradaService.get_entradas_planteamientos(provincias, municipios)
+        entradas = EntradaService.get_entradas_planteamientos(super_regions, regions)
         reports_entrada = cls.build_report(param_id, entradas, start_date, end_date, delta_value, delta_type,
-                                           entidades)
+                                           entities)
 
         return reports_entrada
 
     @classmethod
-    def build_report(cls, param_id, entradas_id, start_date, end_date_param, delta_value, delta_type, entidades=None):
+    def build_report(cls, param_id, entradas_id, start_date, end_date_param, delta_value, delta_type, entities=None):
         """
         Construye los reportes entre 'start_date' y 'end_date' con
         intervalo de 'timedelta'. Devuelve un resumen general.
@@ -122,7 +122,7 @@ class SentimentService(object):
             save = True
             if end_date_param is None and start_date + timedelta >= end_date:
                 save = False
-            r = cls._build_report(param_id, entradas_id, entidades, start_date, start_date + timedelta, save)
+            r = cls._build_report(param_id, entradas_id, entities, start_date, start_date + timedelta, save)
             reports.append(r)
             tot += r.total_opinion
             pos += r.total_positive
@@ -142,8 +142,8 @@ class SentimentService(object):
         return ReportDSentiment.objects(report_param=param_id).order_by('fecha_inicio')
 
     @classmethod
-    def _build_report(cls, param_id, entradas_id, entidades, start_date, end_date, save):
-        opinions = OpinionService.get_between_dates(entradas_id, entidades, start_date, end_date)
+    def _build_report(cls, param_id, entradas_id, entities, start_date, end_date, save):
+        opinions = OpinionService.get_between_dates(entradas_id, entities, start_date, end_date)
 
         opinions = cls.inference_sentiment_from_opinions(opinions)
 

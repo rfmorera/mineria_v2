@@ -14,10 +14,10 @@ class OpinionService(object):
         return Opinion.objects(id__in=ids)
 
     @classmethod
-    def get_between_dates(cls, entradas_id, entidades, start_date, end_date):
-        if entidades is None or len(entidades) == 0:
-            return Opinion.objects(entrada__in=entradas_id, fecha__gte=start_date, fecha__lt=end_date,
+    def get_between_dates(cls, entradas_id, entities, start_date, end_date):
+        if entities is None or len(entities) == 0:
+            return Opinion.objects(entry__in=entradas_id, date__gte=start_date, date__lt=end_date,
                                    processed_content__ne=None)
         else:
-            return Opinion.objects(entrada__in=entradas_id, fecha__gte=start_date, fecha__lt=end_date,
-                                   processed_content__ne=None, entidades__in=entidades)
+            return Opinion.objects(entry__in=entradas_id, date__gte=start_date, date__lt=end_date,
+                                   processed_content__ne=None, entities__in=entities)
