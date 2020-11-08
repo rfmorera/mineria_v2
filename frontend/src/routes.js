@@ -3,6 +3,7 @@ import React from 'react';
 import AccountView from 'src/views/account/AccountView';
 import CustomerListView from 'src/views/customer/CustomerListView';
 import DashboardView from 'src/views/reports/DashboardView';
+import ReportSentiment from 'src/views/reports/SentimentView/ReportSentiment';
 import LoginView from 'src/views/auth/LoginView';
 import NotFoundView from 'src/views/errors/NotFoundView';
 import ProductListView from 'src/views/product/ProductListView';
@@ -21,6 +22,8 @@ const routes = [
   { path: '/sources/:pagen', component: SourceListView, layout: '/admin' },
   { path: '/settings', component: SettingsView, layout: '/admin' },
   { path: '/error404', component: NotFoundView, layout: '/admin' },
+  { path: '/report-sentiment/:id', component: ReportSentiment, layout: '/admin' },
+  { path: '/report-sentiment/:id', component: ReportSentiment, layout: '/auth' },
   { path: '', component: DashboardView, layout: '/admin' },
   { path: '/', component: LoginView, layout: '/auth' }
 ];

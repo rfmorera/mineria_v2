@@ -8,22 +8,22 @@ class ReportPSentimentSerializer(DocumentSerializer):
     class Meta:
         model = ReportPSentiment
         fields = (
-            'id', 'name', 'description', 'inicio', 'fin', 'delta_type', 'delta_value', 'entradas_id')
+            'id', 'name', 'description', 'start_date', 'end_date', 'delta_type', 'delta_value', 'entities_id')
 
 
 class ReportDSentimentSerializer(DocumentSerializer):
     class Meta:
         model = ReportDSentiment
         fields = (
-            'fecha_inicio', 'total_opinion', 'total_positive', 'total_negative', 'total_neutral', 'ratio')
+            'start_date', 'total_opinion', 'total_positive', 'total_negative', 'total_neutral', 'ratio')
 
 
 class ReportPSentimentPlanteamientoSerializer(DocumentSerializer):
     class Meta:
         model = ReportPSentimentPlanteamientos
         fields = (
-            'id', 'name', 'description', 'inicio', 'fin', 'delta_type', 'delta_value',
-            'provincias', 'municipios', 'entidades')
+            'id', 'name', 'description', 'start_date', 'end_date', 'delta_type', 'delta_value',
+            'super_regions', 'regions', 'entities')
 
 
 class ReportFullSentintimentSerializer(DocumentSerializer):
@@ -33,4 +33,4 @@ class ReportFullSentintimentSerializer(DocumentSerializer):
         model = ReportPSentiment
         depth = 1
         fields = (
-            'id', 'name', 'description', 'inicio', 'fin', 'delta_type', 'delta_value', 'result')
+            'id', 'name', 'description', 'start_date', 'end_date', 'delta_type', 'delta_value', 'result')

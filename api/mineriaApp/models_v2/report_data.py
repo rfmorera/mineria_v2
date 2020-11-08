@@ -7,8 +7,8 @@ from mineriaApp.models_v2.report_param import ReportParam
 
 class ReportData(Document):
     report_param = ReferenceField(ReportParam, required=True, reverse_delete_rule=mongoengine.CASCADE)
-    fecha_inicio = DateTimeField(required=True)
-    fecha_fin = DateTimeField(required=True)
+    start_date = DateTimeField(required=True)
+    end_date = DateTimeField(required=True)
 
     meta = {'allow_inheritance': True}
 

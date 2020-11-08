@@ -3,13 +3,13 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_mongoengine import viewsets
 
-from mineriaApp.models_v2.fuente import Fuente
+from mineriaApp.models_v2.source import Source
 from mineriaApp.permissions.GroupsPermission import IsManagerGroup, IsAdminGroup
-from mineriaApp.serializers.fuente import FuenteSerializer
+from mineriaApp.serializers.source import FuenteSerializer
 
 
-class FuenteView(viewsets.ModelViewSet):
-    queryset = Fuente.objects.all()
+class SourceView(viewsets.ModelViewSet):
+    queryset = Source.objects.all()
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated, Or(IsManagerGroup, IsAdminGroup)]
     serializer_class = FuenteSerializer
@@ -34,7 +34,7 @@ class FuenteView(viewsets.ModelViewSet):
     #     fuentes = []
     #     for r in data:
     #         if "type" not in r.keys():
-    #             fuentes.append(Fuente(nombre=r["nombre"]))
+    #             fuentes.append(Source(nombre=r["nombre"]))
     #
     #     fuentes_saved = FuenteService.save_objects(fuentes)
     #
