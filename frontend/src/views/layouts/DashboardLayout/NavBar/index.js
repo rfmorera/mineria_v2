@@ -94,6 +94,16 @@ const NavBar = ({ onMobileClose, openMobile, logout, user }) => {
         user.is_sniffer
     },
     {
+      href: '/admin/entries/1',
+      icon: ArchiveIcon,
+      title: 'Entradas',
+      perm:
+        user.is_superuser ||
+        user.is_admin ||
+        user.is_report_maker ||
+        user.is_sniffer
+    },
+    {
       title: 'Reportes',
       icon: AssessmentOutlinedIcon,
       collapsive: true,
@@ -125,16 +135,7 @@ const NavBar = ({ onMobileClose, openMobile, logout, user }) => {
         }
       ]
     },
-    {
-      href: '/admin/entries/1',
-      icon: ArchiveIcon,
-      title: 'Entradas',
-      perm:
-        user.is_superuser ||
-        user.is_admin ||
-        user.is_report_maker ||
-        user.is_sniffer
-    },
+
     // {
     //   href: '/admin/settings',
     //   icon: SettingsIcon,

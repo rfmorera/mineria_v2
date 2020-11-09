@@ -113,11 +113,11 @@ function getEntriesList(page, pagination = true) {
   function request() {
     return { type: entryConstants.GET_ENTRIES_REQUEST };
   }
-  function success(results, entrysCounter) {
+  function success(results, entriesCounter) {
     return {
       type: entryConstants.GET_ENTRIES_SUCCESS,
       results,
-      entrysCounter
+      entriesCounter
     };
   }
   function failure(error) {

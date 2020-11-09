@@ -98,7 +98,6 @@ const Results = ({
     newPage += 1;
     history.push('/admin/entries/' + newPage);
   };
-  console.log(entries)
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
       <PerfectScrollbar>
@@ -145,7 +144,10 @@ const Results = ({
                       </Typography>
                     </Box>
                   </TableCell>
-                  <TableCell>{entry.content.substr(0, 25)}...</TableCell>
+                  <TableCell>
+                    {entry.content !== null ? entry.content.substr(0, 25) : ''}
+                    ...
+                  </TableCell>
                   <TableCell>{entry.date}</TableCell>
                   <TableCell>{entry.source.name}</TableCell>
                   <TableCell>
@@ -170,7 +172,8 @@ const Results = ({
                       onClick={e => {
                         e.preventDefault();
                         Swal.fire({
-                          title: '¿Está seguro que desea eliminar esta Entrada?',
+                          title:
+                            '¿Está seguro que desea eliminar esta Entrada?',
                           text: 'Esta operación no se puede deshacer.',
                           icon: 'warning',
                           showCancelButton: true,

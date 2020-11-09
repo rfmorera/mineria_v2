@@ -15,6 +15,8 @@ import {
   TablePagination,
   TableRow
 } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import { flexbox } from '@material-ui/system';
 import compose_data, {
   resume_data,
@@ -48,6 +50,7 @@ class ReportSentiment extends Component {
       data_line: [],
       data_total_report: [],
       data_total: [],
+      data_ratio: [],
       data_report_desc: [],
       total: '-',
       total_opiniones: '-',
@@ -181,39 +184,47 @@ class ReportSentiment extends Component {
               <b>{this.state.min_date}</b> | Fecha Fin :{' '}
               <b>{this.state.max_date}</b>
             </Box>
-            <Box maxHeight="300px" width="100%">
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>#</TableCell>
-                    <TableCell>Nombre</TableCell>
-                    <TableCell>Descripción</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {this.state.data_report_desc.map((item, index) => (
-                    <TableRow hover key={item.id}>
-                      <TableCell>{index + 1}</TableCell>
-                      <TableCell>
-                        <Box alignItems="center" display="flex">
-                          <Typography color="textPrimary" variant="body1">
-                            {item.name}
-                          </Typography>
-                        </Box>
-                      </TableCell>
-                      <TableCell>{item.description}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-              <TablePagination
-                component="div"
-                count={this.state.data_report_desc.length}
-                page={this.state.page}
-                rowsPerPage={5}
-                rowsPerPageOptions={5}
-              />
-            </Box>
+            {this.state.data_report_desc.length === 0 ? (
+              <Box p={3}>
+                <CircularProgress/>
+              </Box>
+            ) : (
+              <Box maxHeight="300px" width="100%">
+                <div>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>#</TableCell>
+                        <TableCell>Nombre</TableCell>
+                        <TableCell>Descripción</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {this.state.data_report_desc.map((item, index) => (
+                        <TableRow hover key={item.id}>
+                          <TableCell>{index + 1}</TableCell>
+                          <TableCell>
+                            <Box alignItems="center" display="flex">
+                              <Typography color="textPrimary" variant="body1">
+                                {item.name}
+                              </Typography>
+                            </Box>
+                          </TableCell>
+                          <TableCell>{item.description}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                  <TablePagination
+                    component="div"
+                    count={this.state.data_report_desc.length}
+                    page={this.state.page}
+                    rowsPerPage={5}
+                    rowsPerPageOptions={5}
+                  />
+                </div>
+              </Box>
+            )}
           </Grid>
           <Grid
             container
@@ -231,9 +242,15 @@ class ReportSentiment extends Component {
                 Total de opiniones: <b>{this.state.total_opiniones}</b>
               </p>
             </div>
-            <Box height="350px" width="100%" component="div">
-              <NivoPie data={this.state.data_total} />
-            </Box>
+            {this.state.data_total.length === 0 ? (
+              <Box p={3}>
+                <CircularProgress />
+              </Box>
+            ) : (
+              <Box height="350px" width="100%" component="div">
+                <NivoPie data={this.state.data_total} />
+              </Box>
+            )}
           </Grid>
         </Grid>
         <Grid
@@ -248,20 +265,33 @@ class ReportSentiment extends Component {
               Relacion de sentimientos (Positivas/Negativas)
             </Typography>
           </Box>
-          <Box height="80vh" width="100%">
-            <NivoLine data={this.state.data_ratio} />
-          </Box>
+          {this.state.data_ratio.length === 0 ? (
+            <Box p={3} pt={5} width="100%">
+              <LinearProgress />
+            </Box>
+          ) : (
+            <Box height="80vh" width="100%">
+              <NivoLine data={this.state.data_ratio} />
+            </Box>
+          )}
 
           <Box p={3} pt={5}>
             <Typography variant="h3">Distribución de Opiniones</Typography>
           </Box>
-          <Box height="80vh" width="100%">
-            <NivoBar
-              data={this.state.data_total_report}
-              indexBy="id"
-              keys_data={['Positivas', 'Negativas']}
-            />
-          </Box>
+
+          {this.state.data_total_report.length === 0 ? (
+            <Box p={3} pt={5} width="100%">
+              <LinearProgress />
+            </Box>
+          ) : (
+            <Box height="80vh" width="100%">
+              <NivoBar
+                data={this.state.data_total_report}
+                indexBy="id"
+                keys_data={['Positivas', 'Negativas']}
+              />
+            </Box>
+          )}
         </Grid>
       </Container>
     );

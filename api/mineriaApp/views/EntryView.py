@@ -5,18 +5,18 @@ from rest_framework_mongoengine import viewsets
 
 from mineriaApp.models_v2.entry import Entry
 from mineriaApp.permissions.GroupsPermission import IsManagerGroup, IsAdminGroup, IsSnifforGroup, IsReportMakerGroup
-from mineriaApp.serializers.entry import EntrySerializer, CreateEntradaSerializer
+from mineriaApp.serializers.entry import EntrySerializer, CreateEntrySerializer
 
 
 class EntryView(viewsets.ModelViewSet):
-    queryset = Entry.objects.all()
+    queryset = Entry.objects.all().order_by('-date')
     authentication_classes = [BasicAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated, Or(IsManagerGroup, IsAdminGroup, IsSnifforGroup, IsReportMakerGroup)]
     serializer_class = EntrySerializer
 
     def get_serializer_class(self):
         if self.action == 'create':
-            return CreateEntradaSerializer
+            return CreateEntrySerializer
         return super().get_serializer_class()
 
     # TODO: Implement multiplite creaetion
