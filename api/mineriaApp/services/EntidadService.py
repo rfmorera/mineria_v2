@@ -1,4 +1,4 @@
-from mineriaApp.models_v2.entidad import Entidad
+from mineriaApp.models_v2.entity import Entity
 
 
 class EntidadService(object):
@@ -11,8 +11,8 @@ class EntidadService(object):
 
     @classmethod
     def get_by_ids(cls, ids):
-        return Entidad.objects(id__in=ids)
+        return Entity.objects(id__in=ids)
 
     @classmethod
     def get_all(cls):
-        return Entidad.objects().all()
+        return Entity.objects().all()

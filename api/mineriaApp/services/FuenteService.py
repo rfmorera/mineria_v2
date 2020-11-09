@@ -1,4 +1,4 @@
-from mineriaApp.models_v2.fuente import Fuente
+from mineriaApp.models_v2.source import Source
 
 
 class FuenteService(object):
@@ -11,4 +11,4 @@ class FuenteService(object):
 
     @classmethod
     def get_by_ids(cls, ids):
-        return Fuente.objects(id__in=ids)
+        return Source.objects(id__in=ids)

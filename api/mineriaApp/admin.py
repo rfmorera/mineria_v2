@@ -6,9 +6,9 @@ from mineriaApp.models import Client, User
 
 
 class CustomUserAdmin(UserAdmin):
-    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'cliente')
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'client')
     fieldsets = (
-        (None, {'fields': ('username', 'password', 'cliente')}),
+        (None, {'fields': ('username', 'password', 'client')}),
         ('Personal info', {'fields': ('first_name', 'last_name', 'email')}),
         ('Permissions', {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
@@ -18,20 +18,20 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'cliente', 'password1', 'password2'),
+            'fields': ('username', 'client', 'password1', 'password2'),
         }),
     )
-    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups', 'cliente')
+    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups', 'client')
 
 
 admin.site.register(User, CustomUserAdmin)
 
 
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'descripcion')
+    list_display = ('name', 'description')
     fieldsets = (
         ('Información General', {
-            'fields': ('nombre', 'descripcion')
+            'fields': ('name', 'description')
         }),
         # ('Address info', {
         #     'fields': ('address', ('city', 'zip'))

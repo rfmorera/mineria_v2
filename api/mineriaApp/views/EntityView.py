@@ -3,16 +3,16 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_mongoengine import viewsets
 
-from mineriaApp.models_v2.entidad import Entidad
+from mineriaApp.models_v2.entity import Entity
 from mineriaApp.permissions.GroupsPermission import IsManagerGroup, IsAdminGroup, IsReportMakerGroup
-from mineriaApp.serializers.entidad import EntidadSerializer
+from mineriaApp.serializers.entity import EntitySerializer
 
 
-class EntidadView(viewsets.ModelViewSet):
-    queryset = Entidad.objects.all()
+class EntityView(viewsets.ModelViewSet):
+    queryset = Entity.objects.all()
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated, Or(IsManagerGroup, IsAdminGroup, IsReportMakerGroup)]
-    serializer_class = EntidadSerializer
+    serializer_class = EntitySerializer
 
     # def get(self, request):
     #     """Devuelve las entidades"""
@@ -21,7 +21,7 @@ class EntidadView(viewsets.ModelViewSet):
     #     if 'ids' in data.keys():
     #         ids = data['ids']
     #         entidad_list = EntidadService.get_by_ids(ids)
-    #         serializer = EntidadSerializer(entidad_list, many=True)
+    #         serializer = EntitySerializer(entidad_list, many=True)
     #     else:
     #         raise AttributeError("Falta el parámetro Ids o está vacio")
     #
@@ -39,7 +39,7 @@ class EntidadView(viewsets.ModelViewSet):
     #         if 'descripcion' in r.keys():
     #             descripcion = r['descripcion']
     #
-    #         entidades.append(Entidad(nombre=nombre, descripcion=descripcion))
+    #         entidades.append(Entity(nombre=nombre, descripcion=descripcion))
     #
     #     entidades_saved = EntidadService.save_objects(entidades)
     #

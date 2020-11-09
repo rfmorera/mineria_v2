@@ -1,5 +1,6 @@
 import { auth } from './auth.reducers';
 import { sources } from './source.reducers';
+import { report_sentiments } from './report_sentiment.reducers';
 import { entries } from './entry.reducers';
 
 import { combineReducers } from 'redux';
@@ -10,6 +11,7 @@ const createRootReducer = history =>
     router: connectRouter(history),
     auth,
     sources,
+    report_sentiments,
     entries
   });
 export default createRootReducer;

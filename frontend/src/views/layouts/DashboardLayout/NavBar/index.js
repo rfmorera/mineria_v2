@@ -23,7 +23,10 @@ import {
   Users as UsersIcon
 } from 'react-feather';
 import NavItem from './NavItem';
+import NavCollapseItem from './NavCollapseItem';
 import InputIcon from '@material-ui/icons/Input';
+import AssessmentOutlinedIcon from '@material-ui/icons/AssessmentOutlined';
+import DashboardOutlinedIcon from '@material-ui/icons/DashboardOutlined';
 import ArchiveIcon from '@material-ui/icons/Archive';
 
 const user_default = {
@@ -60,7 +63,7 @@ const NavBar = ({ onMobileClose, openMobile, logout, user }) => {
   const items = [
     {
       href: '/admin/dashboard',
-      icon: BarChartIcon,
+      icon: DashboardOutlinedIcon,
       title: 'Dashboard',
       perm: user.is_superuser || user.is_admin
     },
@@ -89,6 +92,38 @@ const NavBar = ({ onMobileClose, openMobile, logout, user }) => {
         user.is_admin ||
         user.is_report_maker ||
         user.is_sniffer
+    },
+    {
+      title: 'Reportes',
+      icon: AssessmentOutlinedIcon,
+      collapsive: true,
+      perm:
+        user.is_superuser ||
+        user.is_admin ||
+        user.is_report_maker ||
+        user.is_sniffer,
+      items: [
+        {
+          href: '/admin/report-basic/1',
+          // icon: SettingsIcon,
+          title: 'Básicos',
+          perm:
+            user.is_superuser ||
+            user.is_admin ||
+            user.is_report_maker ||
+            user.is_sniffer
+        },
+        {
+          href: '/admin/report-advanced/1',
+          // icon: SettingsIcon,
+          title: 'Avanzados',
+          perm:
+            user.is_superuser ||
+            user.is_admin ||
+            user.is_report_maker ||
+            user.is_sniffer
+        }
+      ]
     },
     {
       href: '/admin/entries/1',
@@ -142,14 +177,21 @@ const NavBar = ({ onMobileClose, openMobile, logout, user }) => {
         <List>
           {items.map(
             item =>
-              item.perm && (
+              item.perm &&
+              (item.collapsive ? (
+                <NavCollapseItem
+                  title={item.title}
+                  icon={item.icon}
+                  items={item.items}
+                />
+              ) : (
                 <NavItem
                   href={item.href}
                   key={item.title}
                   title={item.title}
                   icon={item.icon}
                 />
-              )
+              ))
           )}
           <NavItem
             href="/auth"

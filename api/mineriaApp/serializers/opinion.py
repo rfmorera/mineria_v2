@@ -6,7 +6,7 @@ from mineriaApp.models_v2.opinion import Opinion
 class OpinionSerializer(DocumentSerializer):
     class Meta:
         model = Opinion
-        fields = ('id', 'content', 'entrada')
+        fields = ('id', 'content', 'entry')
 
 
 class OpinionSentimentSerializer(DocumentSerializer):
@@ -19,4 +19,4 @@ class OpinionSentimentSerializer(DocumentSerializer):
 class OpinionSummarySerializer(DocumentSerializer):
     class Meta:
         model = Opinion
-        fields = ('id', 'resumen', 'keywords')
+        fields = ('id', 'summary', 'keywords')
