@@ -105,7 +105,7 @@ class ReportSentimentPlanteamientoViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         instance = ReportPSentimentPlanteamientos(**serializer.validated_data)
-        instance.client = user.cliente.id
+        instance.client = user.client.id
         self.perform_create(instance)
         serializer = ReportPSentimentPlanteamientoSerializer(instance)
         headers = self.get_success_headers(serializer.data)

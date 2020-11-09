@@ -103,7 +103,7 @@ const NavBar = ({ onMobileClose, openMobile, logout, user }) => {
         user.is_sniffer,
       items: [
         {
-          href: '/admin/report-basic',
+          href: '/admin/report-basic/1',
           // icon: SettingsIcon,
           title: 'Básicos',
           perm:
@@ -113,7 +113,7 @@ const NavBar = ({ onMobileClose, openMobile, logout, user }) => {
             user.is_sniffer
         },
         {
-          href: '/admin/report-advanced',
+          href: '/admin/report-advanced/1',
           // icon: SettingsIcon,
           title: 'Avanzados',
           perm:

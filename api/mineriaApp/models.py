@@ -5,4 +5,4 @@ from mineriaApp.models_v2.client import Client
 
 
 class User(AbstractUser):
-    cliente = models.ForeignKey(Client, on_delete=models.CASCADE, default=1)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, default=1)
