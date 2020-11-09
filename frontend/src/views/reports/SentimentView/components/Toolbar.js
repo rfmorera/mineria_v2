@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
@@ -14,28 +14,39 @@ import {
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {},
   importButton: {
     marginRight: theme.spacing(1)
   },
   exportButton: {
     marginRight: theme.spacing(1)
+  },
+  mixButton: {
+    marginRight: theme.spacing(1)
   }
 }));
 
-const Toolbar = ({ className, history, ...rest }) => {
+const Toolbar = ({
+  className,
+  history,
+  selectedReportSentimentIds,
+  setSelectedReportSentimentIds,
+  ...rest
+}) => {
   const classes = useStyles();
+  const [multipleview, setMultipleView] = useState(true);
+  useEffect(() => {
+    if (selectedReportSentimentIds.length > 1) {
+      setMultipleView(false);
+    } else {
+      setMultipleView(true);
+    }
+  }, [selectedReportSentimentIds]);
 
   return (
-    <div
-      className={clsx(classes.root, className)}
-      {...rest}
-    >
-      <Box
-        display="flex"
-        justifyContent="flex-end"
-      >
+    <div className={clsx(classes.root, className)} {...rest}>
+      <Box display="flex" justifyContent="flex-end">
         {/* <Button className={classes.importButton}>
           Import
         </Button>
@@ -43,11 +54,29 @@ const Toolbar = ({ className, history, ...rest }) => {
           Export
         </Button> */}
         <Button
+          className={classes.mixButton}
           color="primary"
           variant="contained"
-          onClick={()=>{history.push('/admin/sources/add')}}
+          disabled={multipleview}
+          onClick={() => {
+            let ids = '';
+            selectedReportSentimentIds.forEach(element => {
+              ids += element + ',';
+            });
+            ids = ids.substring(0, ids.length - 1);
+            history.push('/auth/report-sentiment/' + ids);
+          }}
         >
-          Añadir fuente
+          Ver multiples
+        </Button>
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={() => {
+            history.push('/admin/sources/add');
+          }}
+        >
+          Añadir reporte
         </Button>
       </Box>
       {/* <Box mt={3}>

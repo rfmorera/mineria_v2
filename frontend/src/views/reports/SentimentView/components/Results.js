@@ -42,13 +42,13 @@ const Results = ({
   count,
   getReportSentimentlists,
   deleteReportSentiment,
+  selectedReportSentimentIds,
+  setSelectedReportSentimentIds,
   history,
   ...rest
 }) => {
   const classes = useStyles();
-  const [selectedReportSentimentIds, setSelectedReportSentimentIds] = useState(
-    []
-  );
+
   const [limit, setLimit] = useState(10);
   let { pagen } = useParams();
   const [page, setPage] = useState(pagen - 1);

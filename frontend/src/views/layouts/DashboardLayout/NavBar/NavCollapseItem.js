@@ -46,8 +46,6 @@ const NavCollapseItem = ({ className, items, icon: Icon, title, ...rest }) => {
     setOpen(!open);
   };
 
-  console.log(items);
-
   return (
     <div>
       <ListItem

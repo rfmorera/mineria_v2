@@ -15,13 +15,18 @@ const useStyles = makeStyles(theme => ({
 
 const ReportSentimentListView = () => {
   const classes = useStyles();
-
+  const [selectedReportSentimentIds, setSelectedReportSentimentIds] = useState(
+    []
+  );
   return (
     <Page className={classes.root} title="Reportes Básicos">
       <Container maxWidth={false}>
-        <Toolbar />
+        <Toolbar selectedReportSentimentIds={selectedReportSentimentIds} />
         <Box mt={3}>
-          <Results />
+          <Results
+            selectedReportSentimentIds={selectedReportSentimentIds}
+            setSelectedReportSentimentIds={setSelectedReportSentimentIds}
+          />
         </Box>
       </Container>
     </Page>
