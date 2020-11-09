@@ -30,10 +30,16 @@ function getReportSentiment(id) {
     return { type: report_sentimentConstants.GET_REPORT_SENTIMENT_REQUEST };
   }
   function success(results) {
-    return { type: report_sentimentConstants.GET_REPORT_SENTIMENT_SUCCESS, results };
+    return {
+      type: report_sentimentConstants.GET_REPORT_SENTIMENT_SUCCESS,
+      results
+    };
   }
   function failure(error) {
-    return { type: report_sentimentConstants.GET_REPORT_SENTIMENT_FAILURE, error };
+    return {
+      type: report_sentimentConstants.GET_REPORT_SENTIMENT_FAILURE,
+      error
+    };
   }
 }
 
@@ -43,11 +49,11 @@ function putReportSentiment(id, report_sentiment) {
 
     report_sentimentServices.putReportSentiment(id, report_sentiment).then(
       response => {
-        toast.success('Fuente editada satisfactoriamente');
+        toast.success('Reporte editado satisfactoriamente');
         dispatch(success(response.data));
       },
       error => {
-        toast.error('Error editando el Fuente ');
+        toast.error('Error editando el Reporte ');
         dispatch(failure(error));
       }
     );
@@ -57,10 +63,16 @@ function putReportSentiment(id, report_sentiment) {
     return { type: report_sentimentConstants.PUT_REPORT_SENTIMENT_REQUEST };
   }
   function success(results) {
-    return { type: report_sentimentConstants.PUT_REPORT_SENTIMENT_SUCCESS, results };
+    return {
+      type: report_sentimentConstants.PUT_REPORT_SENTIMENT_SUCCESS,
+      results
+    };
   }
   function failure(error) {
-    return { type: report_sentimentConstants.PUT_REPORT_SENTIMENT_FAILURE, error };
+    return {
+      type: report_sentimentConstants.PUT_REPORT_SENTIMENT_FAILURE,
+      error
+    };
   }
 }
 
@@ -70,15 +82,11 @@ function postReportSentiment(report_sentiment) {
 
     report_sentimentServices.postReportSentiment(report_sentiment).then(
       response => {
-        toast.success('Fuente creada satisfactoriamente');
+        toast.success('Reporte creado satisfactoriamente');
         dispatch(success(response.data));
       },
       error => {
-        if (error === 'A report_sentiment with that name already exists.') {
-          toast.error('Ya existe otra Fuente con ese nombre de Fuente.');
-        } else {
-          toast.error('Error creando el Fuente ');
-        }
+        toast.error('Error creando el Reporte ');
         dispatch(failure(error));
       }
     );
@@ -88,10 +96,16 @@ function postReportSentiment(report_sentiment) {
     return { type: report_sentimentConstants.POST_REPORT_SENTIMENT_REQUEST };
   }
   function success(results) {
-    return { type: report_sentimentConstants.POST_REPORT_SENTIMENT_SUCCESS, results };
+    return {
+      type: report_sentimentConstants.POST_REPORT_SENTIMENT_SUCCESS,
+      results
+    };
   }
   function failure(error) {
-    return { type: report_sentimentConstants.POST_REPORT_SENTIMENT_FAILURE, error };
+    return {
+      type: report_sentimentConstants.POST_REPORT_SENTIMENT_FAILURE,
+      error
+    };
   }
 }
 
@@ -121,7 +135,10 @@ function getReportSentimentsList(page, pagination = true) {
     };
   }
   function failure(error) {
-    return { type: report_sentimentConstants.GET_REPORT_SENTIMENTS_FAILURE, error };
+    return {
+      type: report_sentimentConstants.GET_REPORT_SENTIMENTS_FAILURE,
+      error
+    };
   }
 }
 
@@ -131,7 +148,7 @@ function deleteReportSentiment(report_sentimentId) {
 
     report_sentimentServices.deleteReportSentiment(report_sentimentId).then(
       response => {
-        toast.success('Fuente eliminado satisfactoriamente');
+        toast.success('Reporte eliminado satisfactoriamente');
         dispatch(success(report_sentimentId));
       },
       error => {
@@ -145,10 +162,16 @@ function deleteReportSentiment(report_sentimentId) {
     return { type: report_sentimentConstants.DELETE_REPORT_SENTIMENT_REQUEST };
   }
   function success(id) {
-    return { type: report_sentimentConstants.DELETE_REPORT_SENTIMENT_SUCCESS, id };
+    return {
+      type: report_sentimentConstants.DELETE_REPORT_SENTIMENT_SUCCESS,
+      id
+    };
   }
   function failure(error) {
-    return { type: report_sentimentConstants.DELETE_REPORT_SENTIMENT_FAILURE, error };
+    return {
+      type: report_sentimentConstants.DELETE_REPORT_SENTIMENT_FAILURE,
+      error
+    };
   }
 }
 
