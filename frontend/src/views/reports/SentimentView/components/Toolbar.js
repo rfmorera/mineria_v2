@@ -64,7 +64,8 @@ const Toolbar = ({
               ids += element + ',';
             });
             ids = ids.substring(0, ids.length - 1);
-            history.push('/auth/report-sentiment/' + ids);
+            const win = window.open('/auth/report-sentiment/' + ids, '_blank');
+            win.focus();
           }}
         >
           Ver multiples
