@@ -93,7 +93,7 @@ function getSourcesList(page, pagination) {
   }
   let url = '/sources/'
   if (pagination === false) {
-    url = '/sources/list_no_pagination/'
+    url = '/sources/all/'
   }
 
   return axios

@@ -27,6 +27,7 @@ import NavCollapseItem from './NavCollapseItem';
 import InputIcon from '@material-ui/icons/Input';
 import AssessmentOutlinedIcon from '@material-ui/icons/AssessmentOutlined';
 import DashboardOutlinedIcon from '@material-ui/icons/DashboardOutlined';
+import ArchiveIcon from '@material-ui/icons/Archive';
 
 const user_default = {
   avatar: '/static/images/avatars/avatar_12.png'
@@ -93,6 +94,16 @@ const NavBar = ({ onMobileClose, openMobile, logout, user }) => {
         user.is_sniffer
     },
     {
+      href: '/admin/entries/1',
+      icon: ArchiveIcon,
+      title: 'Entradas',
+      perm:
+        user.is_superuser ||
+        user.is_admin ||
+        user.is_report_maker ||
+        user.is_sniffer
+    },
+    {
       title: 'Reportes',
       icon: AssessmentOutlinedIcon,
       collapsive: true,
@@ -124,12 +135,13 @@ const NavBar = ({ onMobileClose, openMobile, logout, user }) => {
         }
       ]
     },
-    {
-      href: '/admin/settings',
-      icon: SettingsIcon,
-      title: 'Settings',
-      perm: user.is_superuser || user.is_admin
-    },
+
+    // {
+    //   href: '/admin/settings',
+    //   icon: SettingsIcon,
+    //   title: 'Settings',
+    //   perm: user.is_superuser || user.is_admin
+    // },
     // {
     //   href: '/admin/error404',
     //   icon: AlertCircleIcon,

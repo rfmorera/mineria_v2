@@ -8,3 +8,9 @@ class EntrySerializer(DocumentSerializer):
         model = Entry
         depth = 2
         fields = ('id', 'name', 'content', 'date', 'source', 'entities')
+
+
+class CreateEntrySerializer(DocumentSerializer):
+    class Meta:
+        model = Entry
+        fields = ('id', 'name', 'content', 'date', 'source', 'entities')

@@ -6,11 +6,11 @@ from mineriaApp.models_v2.source import Source
 
 class Entry(Document):
     meta = {'allow_inheritance': True}
-    name = StringField()  # TODO Add title support to Endpoint
+    name = StringField(required=True)  # TODO Add title support to Endpoint
     content = StringField()
     processed_content = StringField()
     date = DateTimeField()
-    source = ReferenceField(Source)
+    source = ReferenceField(Source, required=True)
     summary = StringField(default="No procesado.")
     keywords = ListField(StringField(default="No procesado."))
     entities = ListField(ReferenceField('Entity'))
