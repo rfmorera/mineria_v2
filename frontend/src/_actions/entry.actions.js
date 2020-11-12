@@ -7,7 +7,7 @@ export const entryActions = {
   postEntry,
   deleteEntry,
   getEntry,
-  putEntry,
+  patchEntry,
   clearEntry
 };
 
@@ -37,11 +37,11 @@ function getEntry(id) {
   }
 }
 
-function putEntry(id, entry) {
+function patchEntry(id, entry) {
   return dispatch => {
     dispatch(request());
 
-    entryServices.putEntry(id, entry).then(
+    entryServices.patchEntry(id, entry).then(
       response => {
         toast.success('Fuente editada satisfactoriamente');
         dispatch(success(response.data));

@@ -72,7 +72,7 @@ venv.bak/
 db.sqlite3
 
 # Data files
-api/resources/data/planteamientos
+# api/resources/data/planteamientos
 api/resources/datasets/
 api/resources/preprocessed/
 

@@ -93,7 +93,7 @@ function getReportSentimentsList(page, pagination) {
   }
   let url = '/report-sentiment/'
   if (pagination === false) {
-    url = '/report-sentiment/list_no_pagination/'
+    url = '/report-sentiment/all/'
   }
 
   return axios

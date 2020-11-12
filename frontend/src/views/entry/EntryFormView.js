@@ -2,6 +2,7 @@ import React, { useEffect, usePara, useState } from 'react';
 import { useParams } from 'react-router';
 import { connect } from 'react-redux';
 import { entryActions } from '../../_actions/entry.actions';
+import { sourceActions } from '../../_actions/source.actions';
 import EntryForm from './components/EntryForm';
 
 const EntryFormView = props => {
@@ -11,8 +12,10 @@ const EntryFormView = props => {
     entryErrorMessage,
     postEntry,
     getEntry,
-    putEntry,
-    clearEntry
+    patchEntry,
+    clearEntry,
+    getAllSourcesList,
+    sourcesList
   } = props;
   let { id } = useParams();
   const [updating, setUpdating] = useState(false);
@@ -24,16 +27,18 @@ const EntryFormView = props => {
     } else {
       setUpdating(false);
     }
-  }, id);
+    getAllSourcesList();
+  }, [id]);
   id = id === 'add' ? undefined : id;
   return <EntryForm props={{ id, ...props }} />;
 };
 
-function mapStateToProps({ entries }, ownProps) {
+function mapStateToProps({ entries, sources }, ownProps) {
   return {
     creatingEntry: entries.creatingEntry,
     entry: entries.entry,
-    entryErrorMessage: entries.entryErrorMessage
+    entryErrorMessage: entries.entryErrorMessage,
+    sourcesList: sources.sourcesList
   };
 }
 
@@ -45,11 +50,14 @@ function mapDispatchToProps(dispatch) {
     getEntry: id => {
       dispatch(entryActions.getEntry(id));
     },
-    putEntry: (id, entry) => {
-      dispatch(entryActions.putEntry(id, entry));
+    patchEntry: (id, entry) => {
+      dispatch(entryActions.patchEntry(id, entry));
     },
     clearEntry: () => {
       dispatch(entryActions.clearEntry());
+    },
+    getAllSourcesList: () => {
+      dispatch(sourceActions.getSourcesList(0, false));
     }
   };
 }

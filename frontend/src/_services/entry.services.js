@@ -6,7 +6,7 @@ export const entryServices = {
   getEntriesList,
   postEntry,
   getEntry,
-  putEntry
+  patchEntry
 }
 
 const API_URL = process.env.REACT_APP_MINERIA_API_URL
@@ -33,7 +33,7 @@ function getEntry(id) {
     })
 }
 
-function putEntry(id, entry) {
+function patchEntry(id, entry) {
   let token = localStorage.getItem('token')
 
   const authConfig = {
@@ -46,7 +46,7 @@ function putEntry(id, entry) {
   }
 
   return axios
-    .put(API_URL + '/entries/' + id + '/', entry, authConfig)
+    .patch(API_URL + '/entries/' + id + '/', entry, authConfig)
     .then(function(response) {
       return response
     })
@@ -93,7 +93,7 @@ function getEntriesList(page, pagination) {
   }
   let url = '/entries/'
   if (pagination === false) {
-    url = '/entries/list_no_pagination/'
+    url = '/entries/all/'
   }
 
   return axios

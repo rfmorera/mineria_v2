@@ -15,7 +15,7 @@ class EntryView(viewsets.ModelViewSet):
     serializer_class = EntrySerializer
 
     def get_serializer_class(self):
-        if self.action == 'create':
+        if self.action == 'create' or self.action == 'partial_update':
             return CreateEntrySerializer
         return super().get_serializer_class()
 
