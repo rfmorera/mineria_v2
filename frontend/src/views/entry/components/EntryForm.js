@@ -43,7 +43,6 @@ const EntryForm = ({ props, history }) => {
   useEffect(() => {
     if (entry !== undefined && entry.id !== undefined) {
       setInputValue(entry.source.name);
-
       setValues({
         id: entry.id,
         name: entry.name,
