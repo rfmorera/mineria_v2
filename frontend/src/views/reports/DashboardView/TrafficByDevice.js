@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Doughnut } from 'react-chartjs-2';
@@ -17,20 +17,31 @@ import LaptopMacIcon from '@material-ui/icons/LaptopMac';
 import PhoneIcon from '@material-ui/icons/Phone';
 import TabletIcon from '@material-ui/icons/Tablet';
 
+import { sentimentActions } from '../../../_actions/sentiment.actions';
+import { connect } from 'react-redux';
+
 const useStyles = makeStyles(() => ({
   root: {
     height: '100%'
   }
 }));
 
-const TrafficByDevice = ({ className, ...rest }) => {
+const TrafficByDevice = ({
+  className,
+  loading,
+  counter,
+  counterErrorMessage,
+  getCounter,
+  ...rest
+}) => {
   const classes = useStyles();
   const theme = useTheme();
+  const [loaded, setLoaded] = useState(false);
 
-  const data = {
+  const [data, setData] = useState({
     datasets: [
       {
-        data: [63, 15, 22],
+        data: [],
         backgroundColor: [
           colors.indigo[500],
           colors.red[600],
@@ -41,8 +52,8 @@ const TrafficByDevice = ({ className, ...rest }) => {
         hoverBorderColor: colors.common.white
       }
     ],
-    labels: ['Desktop', 'Tablet', 'Mobile']
-  };
+    labels: ['Positiva', 'Negativas', 'Neutras']
+  });
 
   const options = {
     animation: false,
@@ -66,73 +77,86 @@ const TrafficByDevice = ({ className, ...rest }) => {
     }
   };
 
-  const devices = [
+  const [distribution, setDistribution] = useState([
     {
-      title: 'Desktop',
-      value: 63,
+      title: 'Total',
+      value: 555,
       icon: LaptopMacIcon,
       color: colors.indigo[500]
-    },
-    {
-      title: 'Tablet',
-      value: 15,
-      icon: TabletIcon,
-      color: colors.red[600]
-    },
-    {
-      title: 'Mobile',
-      value: 23,
-      icon: PhoneIcon,
-      color: colors.orange[600]
     }
-  ];
+    // {
+    //   title: 'Positiva',
+    //   value: 63,
+    //   icon: LaptopMacIcon,
+    //   color: colors.indigo[500]
+    // },
+    // {
+    //   title: 'Negativas',
+    //   value: 15,
+    //   icon: TabletIcon,
+    //   color: colors.red[600]
+    // },
+    // {
+    //   title: 'Neutras',
+    //   value: 23,
+    //   icon: PhoneIcon,
+    //   color: colors.orange[600]
+    // }
+  ]);
+
+  // useEffect(() => {
+  //   getCounter();
+  // }, []);
+
+  useEffect(() => {
+    let ids = ['total', 'positive', 'negative', 'neutral'];
+    // counter = {
+    //   total: 82479,
+    //   positive: 3033,
+    //   negative: 10050,
+    //   neutral: 69396
+    // };
+    counter = JSON.parse(counter)
+    console.log(counter);
+
+    // distribution.map((element, idx) => {
+    //   console.log(typeof counter['total']);
+    //   element.value = counter['total'];
+    // });
+
+    // data.datasets[0].data.map((el, idx) => {
+    //   console.log(el)
+    //   el = 555
+    // });
+    data.datasets[0].data = [
+      counter['positive'],
+      counter['negative'],
+      counter['neutral']
+    ];
+    setDistribution(distribution);
+    setData(data);
+    console.log(distribution);
+    console.log(data);
+    setLoaded(true)
+  }, [counter]);
 
   return (
-    <Card
-      className={clsx(classes.root, className)}
-      {...rest}
-    >
-      <CardHeader title="Traffic by Device" />
+    <Card className={clsx(classes.root, className)} {...rest}>
+      <CardHeader title="Distribución de opiniones" />
       <Divider />
       <CardContent>
-        <Box
-          height={300}
-          position="relative"
-        >
-          <Doughnut
-            data={data}
-            options={options}
-          />
+        <Box height={300} position="relative">
+          {loaded && <Doughnut data={data} options={options} />}
         </Box>
-        <Box
-          display="flex"
-          justifyContent="center"
-          mt={2}
-        >
-          {devices.map(({
-            color,
-            icon: Icon,
-            title,
-            value
-          }) => (
-            <Box
-              key={title}
-              p={1}
-              textAlign="center"
-            >
+        <Box display="flex" justifyContent="center" mt={2}>
+          {distribution.map(({ color, icon: Icon, title, value }) => (
+            <Box key={title} p={1} textAlign="center">
               <Icon color="action" />
-              <Typography
-                color="textPrimary"
-                variant="body1"
-              >
+              <Typography color="textPrimary" variant="body1">
                 {title}
               </Typography>
-              <Typography
-                style={{ color }}
-                variant="h2"
-              >
+              <Typography style={{ color }} variant="h2">
                 {value}
-                %
               </Typography>
             </Box>
           ))}
@@ -146,4 +170,20 @@ TrafficByDevice.propTypes = {
   className: PropTypes.string
 };
 
-export default TrafficByDevice;
+function mapStateToProps({ sentiment }, ownProps) {
+  return {
+    loading: sentiment.loadingCounter,
+    counter: sentiment.counter,
+    counterErrorMessage: sentiment.counterErrorMessage
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getCounter: () => {
+      dispatch(sentimentActions.getCounter());
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TrafficByDevice);
