@@ -2,7 +2,7 @@ import { sentimentConstants } from '../_constants/sentiment.constants';
 
 const initialState = {
   loadingCounter: false,
-  counter: [],
+  counter: {},
   counterErrorMessage: ''
 };
 

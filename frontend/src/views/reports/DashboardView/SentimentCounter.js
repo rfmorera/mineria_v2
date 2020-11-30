@@ -16,6 +16,7 @@ import {
 import LaptopMacIcon from '@material-ui/icons/LaptopMac';
 import PhoneIcon from '@material-ui/icons/Phone';
 import TabletIcon from '@material-ui/icons/Tablet';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import { sentimentActions } from '../../../_actions/sentiment.actions';
 import { connect } from 'react-redux';
@@ -26,7 +27,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const TrafficByDevice = ({
+const SentimentCounter = ({
   className,
   loading,
   counter,
@@ -83,61 +84,55 @@ const TrafficByDevice = ({
       value: 555,
       icon: LaptopMacIcon,
       color: colors.indigo[500]
+    },
+    {
+      title: 'Positiva',
+      value: 63,
+      icon: LaptopMacIcon,
+      color: colors.indigo[500]
+    },
+    {
+      title: 'Negativas',
+      value: 15,
+      icon: TabletIcon,
+      color: colors.red[600]
+    },
+    {
+      title: 'Neutras',
+      value: 23,
+      icon: PhoneIcon,
+      color: colors.orange[600]
     }
-    // {
-    //   title: 'Positiva',
-    //   value: 63,
-    //   icon: LaptopMacIcon,
-    //   color: colors.indigo[500]
-    // },
-    // {
-    //   title: 'Negativas',
-    //   value: 15,
-    //   icon: TabletIcon,
-    //   color: colors.red[600]
-    // },
-    // {
-    //   title: 'Neutras',
-    //   value: 23,
-    //   icon: PhoneIcon,
-    //   color: colors.orange[600]
-    // }
   ]);
 
-  // useEffect(() => {
-  //   getCounter();
-  // }, []);
+  useEffect(() => {
+    getCounter();
+  }, []);
 
   useEffect(() => {
-    let ids = ['total', 'positive', 'negative', 'neutral'];
-    // counter = {
-    //   total: 82479,
-    //   positive: 3033,
-    //   negative: 10050,
-    //   neutral: 69396
-    // };
-    counter = JSON.parse(counter)
-    console.log(counter);
+    if (counter.total !== undefined) {
+      let ids = ['total', 'positive', 'negative', 'neutral'];
 
-    // distribution.map((element, idx) => {
-    //   console.log(typeof counter['total']);
-    //   element.value = counter['total'];
-    // });
+      distribution.map((element, idx) => {
+        console.log(typeof counter['total']);
+        element.value = counter['total'];
+      });
 
-    // data.datasets[0].data.map((el, idx) => {
-    //   console.log(el)
-    //   el = 555
-    // });
-    data.datasets[0].data = [
-      counter['positive'],
-      counter['negative'],
-      counter['neutral']
-    ];
-    setDistribution(distribution);
-    setData(data);
-    console.log(distribution);
-    console.log(data);
-    setLoaded(true)
+      // data.datasets[0].data.map((el, idx) => {
+      //   console.log(el)
+      //   el = 555
+      // });
+      data.datasets[0].data = [
+        parseInt(counter.positive),
+        counter.negative,
+        counter.neutral
+      ];
+      setDistribution(distribution);
+      setData(data);
+      // console.log(distribution);
+      // console.log(data);
+      setLoaded(true);
+    }
   }, [counter]);
 
   return (
@@ -145,8 +140,22 @@ const TrafficByDevice = ({
       <CardHeader title="Distribución de opiniones" />
       <Divider />
       <CardContent>
-        <Box height={300} position="relative">
-          {loaded && <Doughnut data={data} options={options} />}
+        <Box
+          container
+          item
+          height={300}
+          position="relative"
+          alignItems="center"
+          direction="column"
+          justify="flex-start"
+        >
+          {!loaded ? (
+            <Box width="100%">
+              <LinearProgress />
+            </Box>
+          ) : (
+            <Doughnut data={data} options={options} />
+          )}
         </Box>
         <Box display="flex" justifyContent="center" mt={2}>
           {distribution.map(({ color, icon: Icon, title, value }) => (
@@ -166,7 +175,7 @@ const TrafficByDevice = ({
   );
 };
 
-TrafficByDevice.propTypes = {
+SentimentCounter.propTypes = {
   className: PropTypes.string
 };
 
@@ -186,4 +195,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TrafficByDevice);
+export default connect(mapStateToProps, mapDispatchToProps)(SentimentCounter);
