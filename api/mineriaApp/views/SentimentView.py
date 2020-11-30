@@ -1,19 +1,39 @@
+from django.http import JsonResponse
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_condition import Or
+from rest_framework import decorators
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework_mongoengine import viewsets
 
+from mineriaApp.models_v2.sentiment import Sentiment
 from mineriaApp.permissions.GroupsPermission import IsSnifforGroup, IsManagerGroup, IsAdminGroup
-from mineriaApp.serializers.opinion import OpinionSentimentSerializer
-from mineriaApp.services.OpinionService import OpinionService
-from mineriaApp.services.SentimentService import SentimentService
-from mineriaApp.utils.Enum import InferenceModelsEnum
+from mineriaApp.serializers.sentiment import SentimentSerializer
 
 
-class SentimentView(APIView):
+class SentimentView(viewsets.ModelViewSet):
+    queryset = Sentiment.objects.all()
     authentication_classes = [BasicAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated, Or(IsSnifforGroup, IsManagerGroup, IsAdminGroup)]
+    serializer_class = SentimentSerializer
+
+    user_response = openapi.Response('response description', examples=[
+        {"total": "integer", "positive": "integer", "negative": "integer", "neutral": "integer"}])
+
+    @decorators.action(detail=False, methods=["GET"])
+    @swagger_auto_schema(operation_description="partial_update description override",
+                         responses={200: user_response})
+    # TODO: improve documentation
+    def dashboard_count(self, request):
+        query = self.get_queryset()
+        total = query.count()
+        positive = query.filter(sentiment="POSITIVE").count()
+        negative = query.filter(sentiment="NEGATIVE").count()
+        neutral = query.filter(sentiment="NEUTRAL").count()
+
+        ans = {"total": total, "positive": positive, "negative": negative, "neutral": neutral}
+        return JsonResponse(data=ans)
 
     # def get(self, request):
     #     """Devuelve la polaridad de las opiniones"""

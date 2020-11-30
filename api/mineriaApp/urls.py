@@ -35,6 +35,7 @@ router.register(r'opinions', OpinionView.OpinionView)
 router.register(r'entries', EntryView.EntryView)
 router.register(r'entidad', EntityView.EntityView)
 router.register(r'sources', SourceView.SourceView)
+router.register(r'sentiment', SentimentView.SentimentView)
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -58,6 +59,5 @@ urlpatterns = [
     path('', include(router.urls)),
     url(r'^auth/', include('djoser.urls')),
     url(r'^auth/', include('djoser.urls.authtoken')),
-    path('sentiment', SentimentView.SentimentView.as_view()),
     path('resumen', ResumenView.ResumenView.as_view()),
 ]
