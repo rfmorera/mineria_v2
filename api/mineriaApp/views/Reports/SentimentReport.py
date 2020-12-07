@@ -1,4 +1,5 @@
 from django.http import Http404
+from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import filters
 from rest_framework import status
@@ -17,7 +18,7 @@ class ReportSentimentViewSet(viewsets.ModelViewSet):
     """
         API endpoint that allows reports sentiment to be viewed or edited.
     """
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter, ]
 
     search_fields = ['name', 'description']
     ordering_fields = ['name', 'start_date', 'delta_type', 'created_on']
@@ -37,10 +38,17 @@ class ReportSentimentViewSet(viewsets.ModelViewSet):
         This view should return a list of all the report_param
         for the currently authenticated client.
         """
+        qset = ReportPSentiment.objects.none()
+
         user = self.request.user
-        if user.id is None:
-            return ReportPSentiment.objects.none()
-        return ReportPSentiment.objects.filter(client=user.client.id)
+        if user.id is not None:
+            qset = ReportPSentiment.objects.filter(client=user.client.id)
+
+        favorite = self.request.query_params.get('favorite', None)
+        if favorite is not None:
+            qset = qset.filter(favorite=favorite)
+
+        return qset
 
     def create(self, request, *args, **kwargs):
         user = self.request.user
@@ -77,8 +85,9 @@ class ReportSentimentPlanteamientoViewSet(viewsets.ModelViewSet):
     """
         API endpoint that allows reports sentiment planteamiento to be viewed or edited.
     """
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
 
+    # filterset_fields = ['favorite']
     search_fields = ['name', 'description', 'super_region', 'region']
     ordering_fields = ['name', 'start_date', 'delta_type']
     ordering = ['name']  # Default ordering

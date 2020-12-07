@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from django_mongoengine import Document
-from mongoengine import StringField, IntField, DateTimeField, ReferenceField, ListField
+from mongoengine import StringField, IntField, DateTimeField, ReferenceField, ListField, BooleanField
 
 from mineriaApp.models_v2.entity import Entity
 from mineriaApp.models_v2.entry import Entry
@@ -20,6 +20,7 @@ class ReportParam(Document):
     entities_id = ListField(ReferenceField(Entry), max_length=5)
     created_on = DateTimeField(default=datetime.now())
     meta = {'allow_inheritance': True}
+    favorite = BooleanField(default=False, null=False)
 
     @classmethod
     def pre_save(cls, sender, document, **kwargs):
