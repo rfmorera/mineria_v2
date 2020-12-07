@@ -114,14 +114,9 @@ const SentimentCounter = ({
       let ids = ['total', 'positive', 'negative', 'neutral'];
 
       distribution.map((element, idx) => {
-        console.log(typeof counter['total']);
-        element.value = counter['total'];
+        element.value = counter[ids[idx]];
       });
 
-      // data.datasets[0].data.map((el, idx) => {
-      //   console.log(el)
-      //   el = 555
-      // });
       data.datasets[0].data = [
         parseInt(counter.positive),
         counter.negative,
@@ -129,8 +124,6 @@ const SentimentCounter = ({
       ];
       setDistribution(distribution);
       setData(data);
-      // console.log(distribution);
-      // console.log(data);
       setLoaded(true);
     }
   }, [counter]);

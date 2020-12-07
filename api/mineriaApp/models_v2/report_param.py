@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django_mongoengine import Document
 from mongoengine import StringField, IntField, DateTimeField, ReferenceField, ListField
 
@@ -16,8 +18,12 @@ class ReportParam(Document):
     delta_type = StringField(required=True)
     delta_value = IntField(required=True)
     entities_id = ListField(ReferenceField(Entry), max_length=5)
-
+    created_on = DateTimeField(default=datetime.now())
     meta = {'allow_inheritance': True}
+
+    @classmethod
+    def pre_save(cls, sender, document, **kwargs):
+        document.updated_on = datetime.now()
 
 
 class ReportPSentiment(ReportParam):

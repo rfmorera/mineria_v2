@@ -20,8 +20,8 @@ class ReportSentimentViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
 
     search_fields = ['name', 'description']
-    ordering_fields = ['name', 'start_date', 'delta_type']
-    ordering = ['name']  # Default ordering
+    ordering_fields = ['name', 'start_date', 'delta_type', 'created_on']
+    ordering = ['created_on']  # Default ordering
 
     queryset = ReportPSentiment.objects.none()
     # permission_classes = [permissions.IsAuthenticated,

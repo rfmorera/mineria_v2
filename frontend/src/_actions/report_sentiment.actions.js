@@ -109,11 +109,15 @@ function postReportSentiment(report_sentiment) {
   }
 }
 
-function getReportSentimentsList(page, pagination = true) {
+function getReportSentimentsList(
+  page,
+  pagination = true,
+  inverse_order = false
+) {
   return dispatch => {
     dispatch(request());
 
-    report_sentimentServices.getReportSentimentsList(page, pagination).then(
+    report_sentimentServices.getReportSentimentsList(page, pagination, inverse_order).then(
       response => {
         if (response && response.status === 200)
           if (pagination === true)

@@ -7,7 +7,7 @@ import {
 import Page from 'src/views/components/Page';
 import Budget from './Budget';
 import LatestOrders from './LatestOrders';
-import LatestProducts from './LatestProducts';
+import LatestReports from './LatestReports';
 import Sales from './Sales';
 import TasksProgress from './TasksProgress';
 import TotalCustomers from './TotalCustomers';
@@ -97,7 +97,7 @@ const Dashboard = () => {
             xl={3}
             xs={12}
           >
-            <LatestProducts />
+            <LatestReports />
           </Grid>
           {/* <Grid
             item
