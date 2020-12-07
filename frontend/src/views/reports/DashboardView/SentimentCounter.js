@@ -13,10 +13,11 @@ import {
   makeStyles,
   useTheme
 } from '@material-ui/core';
-import LaptopMacIcon from '@material-ui/icons/LaptopMac';
-import PhoneIcon from '@material-ui/icons/Phone';
-import TabletIcon from '@material-ui/icons/Tablet';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import AllInclusiveIcon from '@material-ui/icons/AllInclusive';
+import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 
 import { sentimentActions } from '../../../_actions/sentiment.actions';
 import { connect } from 'react-redux';
@@ -82,25 +83,25 @@ const SentimentCounter = ({
     {
       title: 'Total',
       value: 555,
-      icon: LaptopMacIcon,
+      icon: AllInclusiveIcon,
       color: colors.indigo[500]
     },
     {
       title: 'Positiva',
       value: 63,
-      icon: LaptopMacIcon,
+      icon: AddCircleOutlineIcon,
       color: colors.indigo[500]
     },
     {
       title: 'Negativas',
       value: 15,
-      icon: TabletIcon,
+      icon: RemoveCircleOutlineIcon,
       color: colors.red[600]
     },
     {
       title: 'Neutras',
       value: 23,
-      icon: PhoneIcon,
+      icon: RadioButtonUncheckedIcon,
       color: colors.orange[600]
     }
   ]);
