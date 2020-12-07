@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Bar } from 'react-chartjs-2';
@@ -15,14 +15,35 @@ import {
 } from '@material-ui/core';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import { connect } from 'react-redux';
+import { report_sentimentActions } from '../../../_actions/report_sentiment.actions';
+import { Pagination } from '@material-ui/lab';
 
 const useStyles = makeStyles(() => ({
   root: {}
 }));
 
-const Sales = ({ className, ...rest }) => {
+const SentimentReportFavorites = ({
+  className,
+  getFavorites,
+  list,
+  ...rest
+}) => {
   const classes = useStyles();
   const theme = useTheme();
+
+  useEffect(() => {
+    getFavorites();
+  }, []);
+
+  useEffect(() => {
+    if (list.length > 0) {
+      console.log(list);
+      let fav_ids = list.map(e => e.id)
+      console.log(fav_ids);
+
+    }
+  }, [list]);
 
   const data = {
     datasets: [
@@ -96,40 +117,23 @@ const Sales = ({ className, ...rest }) => {
   };
 
   return (
-    <Card
-      className={clsx(classes.root, className)}
-      {...rest}
-    >
+    <Card className={clsx(classes.root, className)} {...rest}>
       <CardHeader
-        action={(
-          <Button
-            endIcon={<ArrowDropDownIcon />}
-            size="small"
-            variant="text"
-          >
+        action={
+          <Button endIcon={<ArrowDropDownIcon />} size="small" variant="text">
             Last 7 days
           </Button>
-        )}
+        }
         title="Latest Sales"
       />
       <Divider />
       <CardContent>
-        <Box
-          height={400}
-          position="relative"
-        >
-          <Bar
-            data={data}
-            options={options}
-          />
+        <Box height={400} position="relative">
+          <Bar data={data} options={options} />
         </Box>
       </CardContent>
       <Divider />
-      <Box
-        display="flex"
-        justifyContent="flex-end"
-        p={2}
-      >
+      <Box display="flex" justifyContent="flex-end" p={2}>
         <Button
           color="primary"
           endIcon={<ArrowRightIcon />}
@@ -143,8 +147,29 @@ const Sales = ({ className, ...rest }) => {
   );
 };
 
-Sales.propTypes = {
+SentimentReportFavorites.propTypes = {
   className: PropTypes.string
 };
 
-export default Sales;
+function mapStateToProps({ report_sentiments }, ownProps) {
+  return {
+    loading: report_sentiments.loadingReportSentimentsList,
+    list: report_sentiments.report_sentimentsList,
+    listErrorMessage: report_sentiments.report_sentimentsListErrorMessage
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getFavorites: () => {
+      dispatch(
+        report_sentimentActions.getReportSentimentsList(1, false, false, true)
+      );
+    }
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SentimentReportFavorites);

@@ -8,7 +8,7 @@ import Page from 'src/views/components/Page';
 import Budget from './Budget';
 import LatestOrders from './LatestOrders';
 import LatestReports from './LatestReports';
-import Sales from './Sales';
+import SentimentReportFavorites from './SentimentReportFavorites';
 import TasksProgress from './TasksProgress';
 import TotalCustomers from './TotalCustomers';
 import TotalProfit from './TotalProfit';
@@ -72,15 +72,15 @@ const Dashboard = () => {
           >
             <TotalProfit />
           </Grid> */}
-          {/* <Grid
+          <Grid
             item
             lg={8}
             md={12}
             xl={9}
             xs={12}
           >
-            <Sales />
-          </Grid> */}
+            <SentimentReportFavorites />
+          </Grid>
           <Grid
             item
             lg={4}
@@ -90,7 +90,7 @@ const Dashboard = () => {
           >
             <SentimentCounter />
           </Grid>
-          <Grid
+          {/* <Grid
             item
             lg={4}
             md={6}
@@ -98,7 +98,7 @@ const Dashboard = () => {
             xs={12}
           >
             <LatestReports />
-          </Grid>
+          </Grid> */}
           {/* <Grid
             item
             lg={8}

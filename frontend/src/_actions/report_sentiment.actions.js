@@ -112,12 +112,13 @@ function postReportSentiment(report_sentiment) {
 function getReportSentimentsList(
   page,
   pagination = true,
-  inverse_order = false
+  inverse_order = false,
+  favorite = null
 ) {
   return dispatch => {
     dispatch(request());
 
-    report_sentimentServices.getReportSentimentsList(page, pagination, inverse_order).then(
+    report_sentimentServices.getReportSentimentsList(page, pagination, inverse_order, favorite).then(
       response => {
         if (response && response.status === 200)
           if (pagination === true)

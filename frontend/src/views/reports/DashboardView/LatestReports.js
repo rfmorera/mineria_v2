@@ -96,9 +96,6 @@ const LatestReports = ({
     getList();
   }, []);
 
-  useEffect(() => {
-    console.log(reportList);
-  }, [reportList]);
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
       <CardHeader

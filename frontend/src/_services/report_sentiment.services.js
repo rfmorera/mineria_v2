@@ -77,7 +77,12 @@ function postReportSentiment(report) {
     });
 }
 
-function getReportSentimentsList(page, pagination, inverse_order = false) {
+function getReportSentimentsList(
+  page,
+  pagination,
+  inverse_order = false,
+  favorite = null
+) {
   let token = localStorage.getItem('token');
 
   const authConfig = {
@@ -98,6 +103,10 @@ function getReportSentimentsList(page, pagination, inverse_order = false) {
 
   if (inverse_order === true) {
     url += '?ordering=-created_on';
+  }
+
+  if (favorite !== null) {
+    url += '?favorite=' + (favorite ? 'True' : 'False');
   }
   return axios
     .get(API_URL + url, authConfig)
