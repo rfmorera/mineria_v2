@@ -54,7 +54,7 @@ const SentimentCounter = ({
         hoverBorderColor: colors.common.white
       }
     ],
-    labels: ['Positiva', 'Negativas', 'Neutras']
+    labels: ['Positivas', 'Negativas', 'Neutras']
   });
 
   const options = {
@@ -87,7 +87,7 @@ const SentimentCounter = ({
       color: colors.indigo[500]
     },
     {
-      title: 'Positiva',
+      title: 'Positivas',
       value: 63,
       icon: AddCircleOutlineIcon,
       color: colors.indigo[500]

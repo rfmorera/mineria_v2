@@ -18,13 +18,15 @@ import {
   ListItemText,
   Menu,
   MenuItem,
-  makeStyles
+  makeStyles,
+  Grid
 } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { report_sentimentActions } from '../../../_actions/report_sentiment.actions';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const data = [
   {
@@ -78,10 +80,13 @@ const LatestReports = ({
   reportList,
   errorMessage,
   getList,
+  order,
+  setOrder,
   ...rest
 }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [loaded, setLoaded] = useState(false);
   const open = Boolean(anchorEl);
 
   const dotsClick = event => {
@@ -93,8 +98,16 @@ const LatestReports = ({
   };
 
   useEffect(() => {
-    getList();
-  }, []);
+    if (order == 1) {
+      getList();
+    }
+  }, [order]);
+
+  useEffect(() => {
+    if (order == 1) {
+      setLoaded(!loading);
+    }
+  }, [loading]);
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
@@ -103,58 +116,74 @@ const LatestReports = ({
         title="Últimos Reportes Básicos"
       />
       <Divider />
-      <List>
-        {reportList.map(
-          (report, i) =>
-            i < 5 && (
-              <ListItem divider={i < reportList.length - 1} key={report.id}>
-                <ListItemAvatar>
-                  <img
-                    alt="Report"
-                    className={classes.image}
-                    src={'/static/images/products/product_2.png'}
+      {!loaded ? (
+        <Grid
+          container
+          item
+          xs={12}
+          alignItems="center"
+          direction="column"
+          justify="flex-start"
+        >
+          <Box p={3}>
+            <CircularProgress />
+          </Box>
+        </Grid>
+      ) : (
+        <List>
+          {reportList.map(
+            (report, i) =>
+              i < 5 && (
+                <ListItem divider={i < reportList.length - 1} key={report.id}>
+                  <ListItemAvatar>
+                    <img
+                      alt="Report"
+                      className={classes.image}
+                      src={'/static/images/products/product_2.png'}
+                    />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={report.name}
+                    secondary={`${report.description}`}
                   />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={report.name}
-                  secondary={`${report.description}`}
-                />
-                <IconButton edge="end" size="small" onClick={dotsClick}>
-                  <MoreVertIcon />
-                </IconButton>
-                <Menu
-                  id="long-menu"
-                  anchorEl={anchorEl}
-                  keepMounted
-                  open={open}
-                  onClose={dotsClose}
-                  PaperProps={{
-                    style: {
-                      maxHeight: ITEM_HEIGHT * 4.5,
-                      width: '20ch'
-                    }
-                  }}
-                >
-                  <MenuItem
-                    key={1}
-                    component={RouterLink}
-                    to={'/auth/report-sentiment/' + report.id}
-                    target="_blank"
+                  <IconButton edge="end" size="small" onClick={dotsClick}>
+                    <MoreVertIcon />
+                  </IconButton>
+                  <Menu
+                    id="long-menu"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={open}
+                    onClose={dotsClose}
+                    PaperProps={{
+                      style: {
+                        maxHeight: ITEM_HEIGHT * 4.5,
+                        width: '20ch'
+                      }
+                    }}
                   >
-                    Ver
-                  </MenuItem>
-                  <MenuItem
-                    key={1}
-                    component={RouterLink}
-                    to={'admin/report_sentiments/edit/' + report.id}
-                  >
-                    Editar
-                  </MenuItem>
-                </Menu>
-              </ListItem>
-            )
-        )}
-      </List>
+                    <MenuItem
+                      key={1}
+                      component={RouterLink}
+                      to={'/auth/report-sentiment/' + report.id}
+                      target="_blank"
+                    >
+                      Ver
+                    </MenuItem>
+                    <MenuItem
+                      key={1}
+                      component={RouterLink}
+                      to={'admin/report_sentiments/edit/' + report.id}
+                    >
+                      Editar
+                    </MenuItem>
+                  </Menu>
+                </ListItem>
+              )
+          )}
+        </List>
+      )}
+
       <Divider />
       <Box display="flex" justifyContent="flex-end" p={2}>
         <Button

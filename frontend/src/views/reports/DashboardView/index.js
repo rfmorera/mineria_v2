@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Container,
   Grid,
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = () => {
   const classes = useStyles();
-
+  const [order1, setOrder1] = useState(0)
   return (
     <Page
       className={classes.root}
@@ -79,7 +79,7 @@ const Dashboard = () => {
             xl={9}
             xs={12}
           >
-            <SentimentReportFavorites />
+            <SentimentReportFavorites order={order1} setOrder={setOrder1}/>
           </Grid>
           <Grid
             item
@@ -90,15 +90,15 @@ const Dashboard = () => {
           >
             <SentimentCounter />
           </Grid>
-          {/* <Grid
+          <Grid
             item
             lg={4}
             md={6}
             xl={3}
             xs={12}
           >
-            <LatestReports />
-          </Grid> */}
+            <LatestReports order={order1} setOrder={setOrder1}/>
+          </Grid>
           {/* <Grid
             item
             lg={8}

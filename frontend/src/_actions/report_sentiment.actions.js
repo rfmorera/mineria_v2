@@ -8,7 +8,8 @@ export const report_sentimentActions = {
   deleteReportSentiment,
   getReportSentiment,
   putReportSentiment,
-  clearReportSentiment
+  clearReportSentiment,
+  getReportSentimentData
 };
 
 function getReportSentiment(id) {
@@ -118,15 +119,17 @@ function getReportSentimentsList(
   return dispatch => {
     dispatch(request());
 
-    report_sentimentServices.getReportSentimentsList(page, pagination, inverse_order, favorite).then(
-      response => {
-        if (response && response.status === 200)
-          if (pagination === true)
-            dispatch(success(response.data.results, response.data.count));
-          else dispatch(success(response.data, -1));
-      },
-      error => dispatch(failure(error))
-    );
+    report_sentimentServices
+      .getReportSentimentsList(page, pagination, inverse_order, favorite)
+      .then(
+        response => {
+          if (response && response.status === 200)
+            if (pagination === true)
+              dispatch(success(response.data.results, response.data.count));
+            else dispatch(success(response.data, -1));
+        },
+        error => dispatch(failure(error))
+      );
   };
 
   function request() {
@@ -187,5 +190,36 @@ function clearReportSentiment() {
 
   function request() {
     return { type: report_sentimentConstants.CLEAR_REPORT_SENTIMENT };
+  }
+}
+
+function getReportSentimentData(ids) {
+  return dispatch => {
+    dispatch(request());
+
+    report_sentimentServices.getReportSentimentData(ids).then(
+      response => {
+        dispatch(success(response));
+      },
+      error => dispatch(failure(error))
+    );
+  };
+
+  function request() {
+    return {
+      type: report_sentimentConstants.GET_REPORT_SENTIMENTS_DATA_REQUEST
+    };
+  }
+  function success(results) {
+    return {
+      type: report_sentimentConstants.GET_REPORT_SENTIMENTS_DATA_SUCCESS,
+      results
+    };
+  }
+  function failure(error) {
+    return {
+      type: report_sentimentConstants.GET_REPORT_SENTIMENTS_DATA_FAILURE,
+      error
+    };
   }
 }
