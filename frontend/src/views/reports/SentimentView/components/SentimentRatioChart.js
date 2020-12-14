@@ -3,20 +3,24 @@ import { NivoLine } from '../../../components/Charts/NivoChart';
 import { Typography, Grid, Box } from '@material-ui/core';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-const SentimentRatioChart = ({ className, data, noTitle, ...rest }) => {
-  console.log("chart -------------")
-  console.log(data)
-  console.log(data.length)
-  console.log(typeof data)
+const SentimentRatioChart = ({
+  className,
+  data,
+  noTitle,
+  height,
+  pt,
+  legends_position,
+  ...rest
+}) => {
   return (
     <Grid
       container
       alignItems="center"
       direction="column"
       justify="flex-start"
-      pt={5}
+      pt={pt}
     >
-      <Box p={3}>
+      <Box>
         {noTitle !== true && (
           <Typography variant="h3">
             Relacion de sentimientos (Positivas/Negativas)
@@ -28,8 +32,8 @@ const SentimentRatioChart = ({ className, data, noTitle, ...rest }) => {
           <LinearProgress />
         </Box>
       ) : (
-        <Box height="80vh" width="100%">
-          <NivoLine data={data} />
+        <Box height={height} width="100%">
+          <NivoLine data={data} legends_position={legends_position}/>
         </Box>
       )}
     </Grid>

@@ -105,7 +105,7 @@ class ReportSentiment extends Component {
           </Grid>
         </Grid>
 
-        <SentimentRatioChart data={this.state.data_ratio} />
+        <SentimentRatioChart data={this.state.data_ratio} heigth="80vh" />
 
         <SentimentDistribution data={this.state.data_total_report} />
       </Container>

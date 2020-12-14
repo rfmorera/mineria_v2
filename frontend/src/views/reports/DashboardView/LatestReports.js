@@ -28,39 +28,6 @@ import { withRouter } from 'react-router';
 import { report_sentimentActions } from '../../../_actions/report_sentiment.actions';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-const data = [
-  {
-    id: uuid(),
-    name: 'Dropbox',
-    imageUrl: '/static/images/products/product_1.png',
-    updatedAt: moment().subtract(2, 'hours')
-  },
-  {
-    id: uuid(),
-    name: 'Medium Corporation',
-    imageUrl: '/static/images/products/product_2.png',
-    updatedAt: moment().subtract(2, 'hours')
-  },
-  {
-    id: uuid(),
-    name: 'Slack',
-    imageUrl: '/static/images/products/product_3.png',
-    updatedAt: moment().subtract(3, 'hours')
-  },
-  {
-    id: uuid(),
-    name: 'Lyft',
-    imageUrl: '/static/images/products/product_4.png',
-    updatedAt: moment().subtract(5, 'hours')
-  },
-  {
-    id: uuid(),
-    name: 'GitHub',
-    imageUrl: '/static/images/products/product_5.png',
-    updatedAt: moment().subtract(9, 'hours')
-  }
-];
-
 const useStyles = makeStyles({
   root: {
     height: '100%'
@@ -100,8 +67,15 @@ const LatestReports = ({
   useEffect(() => {
     if (order == 1) {
       getList();
+      // setOrder(0);
     }
   }, [order]);
+
+  useEffect(() => {
+    if (order == 1 && loaded) {
+      setOrder(0);
+    }
+  }, [loaded]);
 
   useEffect(() => {
     if (order == 1) {

@@ -72,13 +72,14 @@ const SentimentReportFavorites = ({
       />
       <Divider />
       <CardContent>
-        <Box height={400} position="relative">
-          {/* <Bar data={data} options={options} /> */}
-          <SentimentRatioChart data={data.data_ratio} noTitle={true} />
-          <ReportList data={data.data_report_desc}
-            total_reports={data.total}
-            start_date={data.min_date}
-            end_date={data.max_date} />
+        <Box height={425} position="relative">
+          <SentimentRatioChart
+            data={data.data_ratio}
+            noTitle={true}
+            height={400}
+            pt={0}
+            // legends_position={'top'}
+          />
         </Box>
       </CardContent>
       <Divider />

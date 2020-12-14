@@ -218,7 +218,7 @@ function getReportSentimentData(ids) {
   var temp_data_report_desc = [];
   var final_answer = {};
 
-  Promise.all(promises)
+  return Promise.all(promises)
     .then(results => {
       results.map(item => {
         temp_data_ratio.push(item['ratio_d']);
@@ -264,17 +264,22 @@ function getReportSentimentData(ids) {
       // });
       final_answer['data_total'] = ans;
       final_answer['total_opiniones'] = total_op['value'];
+    }).
+    then(()=>{
+      final_answer.data_ratio = temp_data_ratio;
+      final_answer['data_total_report'] = temp_data_total_report;
+      final_answer['data_report_desc'] = temp_data_report_desc;
+
+      return final_answer;
     })
     .catch(function(error) {
       return handleError(error);
     });
-  final_answer.data_ratio = temp_data_ratio;
-  final_answer['data_total_report'] = temp_data_total_report;
-  final_answer['data_report_desc'] = temp_data_report_desc;
+  
 
   // console.log('service');
   // console.log(final_answer);
-  return Promise.resolve(final_answer);
+  // return Promise.resolve(final_answer);
 
   // this.setState({
   //   data_ratio: temp_data_ratio,
