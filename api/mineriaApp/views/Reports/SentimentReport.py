@@ -1,11 +1,13 @@
 from django.http import Http404
+from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import filters
+from rest_framework import filters, decorators
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework.settings import api_settings
 
 from mineriaApp.models_v2.report_param import ReportPSentiment, ReportPSentimentPlanteamientos
 from mineriaApp.serializers.report import ReportPSentimentSerializer, ReportFullSentintimentSerializer, \
@@ -17,11 +19,11 @@ class ReportSentimentViewSet(viewsets.ModelViewSet):
     """
         API endpoint that allows reports sentiment to be viewed or edited.
     """
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter, ]
 
     search_fields = ['name', 'description']
-    ordering_fields = ['name', 'start_date', 'delta_type']
-    ordering = ['name']  # Default ordering
+    ordering_fields = ['name', 'start_date', 'delta_type', 'created_on']
+    ordering = ['created_on']  # Default ordering
 
     queryset = ReportPSentiment.objects.none()
     # permission_classes = [permissions.IsAuthenticated,
@@ -37,10 +39,17 @@ class ReportSentimentViewSet(viewsets.ModelViewSet):
         This view should return a list of all the report_param
         for the currently authenticated client.
         """
+        qset = ReportPSentiment.objects.none()
+
         user = self.request.user
-        if user.id is None:
-            return ReportPSentiment.objects.none()
-        return ReportPSentiment.objects.filter(client=user.client.id)
+        if user.id is not None:
+            qset = ReportPSentiment.objects.filter(client=user.client.id)
+
+        favorite = self.request.query_params.get('favorite', None)
+        if favorite is not None:
+            qset = qset.filter(favorite=favorite)
+
+        return qset
 
     def create(self, request, *args, **kwargs):
         user = self.request.user
@@ -52,6 +61,13 @@ class ReportSentimentViewSet(viewsets.ModelViewSet):
         serializer = ReportPSentimentSerializer(instance)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    @decorators.action(detail=False)
+    def all(self, request, *args, **kwargs):
+        self.pagination_class = None
+        result = super(ReportSentimentViewSet, self).list(request, *args, **kwargs)
+        self.pagination_class = api_settings.DEFAULT_PAGINATION_CLASS
+        return result
 
     @action(detail=True, methods=['get'], url_path="report")
     @swagger_auto_schema(
@@ -77,8 +93,9 @@ class ReportSentimentPlanteamientoViewSet(viewsets.ModelViewSet):
     """
         API endpoint that allows reports sentiment planteamiento to be viewed or edited.
     """
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
 
+    # filterset_fields = ['favorite']
     search_fields = ['name', 'description', 'super_region', 'region']
     ordering_fields = ['name', 'start_date', 'delta_type']
     ordering = ['name']  # Default ordering

@@ -8,7 +8,7 @@ class ReportPSentimentSerializer(DocumentSerializer):
     class Meta:
         model = ReportPSentiment
         fields = (
-            'id', 'name', 'description', 'start_date', 'end_date', 'delta_type', 'delta_value', 'entities_id')
+            'id', 'name', 'description', 'start_date', 'end_date', 'delta_type', 'delta_value', 'entities_id', 'favorite')
 
 
 class ReportDSentimentSerializer(DocumentSerializer):
