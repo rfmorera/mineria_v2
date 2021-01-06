@@ -9,20 +9,25 @@ import {
   CardHeader,
   Divider,
   TextField,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
   makeStyles,
   TextFieldProps
 } from '@material-ui/core';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import EntryAutocomplete from '../../components/Input/Autocomplete';
 
 const validationSchema = yup.object({
   name: yup.string().required('Este campo es requerido.'),
-  content: yup.string().required('Este campo es requerido.'),
+  content: yup.string(),
   date: yup.date(),
   source: yup.string().required('Este campo es requerido.')
 });
-const initial_state = { name: '', content: '', source: null };
+const initial_state = { name: '', content: '', source: '' };
 
 const EntryForm = ({ props, history }) => {
   let {
@@ -40,6 +45,7 @@ const EntryForm = ({ props, history }) => {
   const [select, setSelect] = useState(-1);
   const [inputValue, setInputValue] = useState('');
   const [values, setValues] = useState(initial_state);
+
   useEffect(() => {
     if (entry !== undefined && entry.id !== undefined) {
       setInputValue(entry.source.name);
@@ -47,7 +53,7 @@ const EntryForm = ({ props, history }) => {
         id: entry.id,
         name: entry.name,
         content: entry.content !== null ? entry.content : '',
-        source: entry.source
+        source: entry.source.id
       });
     }
   }, [entry]);
@@ -60,16 +66,15 @@ const EntryForm = ({ props, history }) => {
   };
 
   const onSubmit = form => {
-    // let data = { source: values.source.id, ...form };
     let data = form;
     console.log(form);
-    // if (id !== undefined) {
-    //   // patchEntry(id, data);
-    // } else {
-    //   postEntry(data);
-    //   setValues(initial_state);
-    // clearEntry();
-    // }
+    if (id !== undefined) {
+      patchEntry(id, data);
+    } else {
+      postEntry(data);
+      setValues(initial_state);
+      clearEntry();
+    }
   };
 
   return (
@@ -91,8 +96,8 @@ const EntryForm = ({ props, history }) => {
         <Form>
           <Card>
             <CardHeader
-              subheader={id !== undefined ? 'Editar fuente' : 'Crear fuente'}
-              title="Fuente"
+              subheader={id !== undefined ? 'Editar entrada' : 'Crear entrada'}
+              title="Entrada"
             />
             <Divider />
             <CardContent>
@@ -100,7 +105,7 @@ const EntryForm = ({ props, history }) => {
                 error={Boolean(touched.name && errors.name)}
                 fullWidth
                 helperText={touched.name && errors.name}
-                label="Correo o Nombre de usuario"
+                label="Nombre"
                 margin="normal"
                 name="name"
                 onBlur={handleBlur}
@@ -122,59 +127,24 @@ const EntryForm = ({ props, history }) => {
                 onChange={handleChange}
                 value={values.content}
               />
-              <Field
-                name="source"
-                component={Autocomplete}
-                options={sourcesList}
-                getOptionLabel={option => option.name}
-                // getOptionSelected={(option, value) => option.id === value.id}
-                // onChange={(event, newValue) => {
-                //   if (newValue === null) setValues({ ...values, source: null });
-                //   else setValues({ ...values, source: newValue.id });
-                // }}
-                // error={Boolean(touched.autocomplete && errors.autocomplete)}
-                // helperText={touched.autocomplete && errors.autocomplete}
-                // onBlur={handleBlur}
-                // onChange={handleChange}
-                // inputValue={inputValue}
-                // onInputChange={(event, newInputValue) => {
-                //   setInputValue(newInputValue);
-                // }}
-                renderInput={params => (
-                  <TextField
-                    {...params}
-                    label="Fuente"
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                  />
-                )}
-              />
-              {/* <Autocomplete
-                // value={entry.source}
-                onChange={(event, newValue) => {
-                  setValues({ ...values, source: newValue.id });
-                }}
-                inputValue={inputValue}
-                onInputChange={(event, newInputValue) => {
-                  setInputValue(newInputValue);
-                }}
-                id="controllable-states-demo"
-                options={sourcesList}
-                getOptionLabel={option => option.name}
-                getOptionSelected={(option, value) => option.id === value.id}
-                renderInput={params => (
-                  <TextField
-                    {...params}
-                    label="Fuente"
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                    error={Boolean(touched.source && errors.source)}
-                    helperText={touched.source && errors.source}
-                  />
-                )}
-              /> */}
+              <FormControl variant="outlined" fullWidth>
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Fuente
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="source"
+                  name="source"
+                  value={values.source}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  label="Fuente"
+                >
+                  {sourcesList.map((e, idx) => {
+                    return <MenuItem value={e.id}>{e.name}</MenuItem>;
+                  })}
+                </Select>
+              </FormControl>
             </CardContent>
             <Divider />
             <Box display="flex" justifyContent="flex-end" mr="16px" py={2}>

@@ -7,7 +7,7 @@ from mineriaApp.models_v2.source import Source
 class Entry(Document):
     meta = {'allow_inheritance': True}
     name = StringField(required=True)  # TODO Add title support to Endpoint
-    content = StringField()
+    content = StringField(null=True)
     processed_content = StringField()
     date = DateTimeField()
     source = ReferenceField(Source, required=True)
