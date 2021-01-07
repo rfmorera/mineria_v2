@@ -4,7 +4,6 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 const initial_state = { name: '', content: '', source: null };
-// Comment
 const EntryAutocomplete = ({
   entry,
   sourcesList,
