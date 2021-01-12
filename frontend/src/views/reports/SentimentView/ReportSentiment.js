@@ -66,6 +66,11 @@ class ReportSentiment extends Component {
     // TODO: Use local state in component to avoid memory consumption
   }
 
+  componentWillUnmount(){
+    // TODO: cleanup report list when exit
+  }
+
+
   render() {
     return (
       <Container fixed>

@@ -1,5 +1,4 @@
 from django.http import Http404
-from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import filters, decorators
 from rest_framework import status
@@ -9,8 +8,9 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.settings import api_settings
 
+from mineriaApp.models_v2.report_data import ReportDSentiment
 from mineriaApp.models_v2.report_param import ReportPSentiment, ReportPSentimentPlanteamientos
-from mineriaApp.serializers.report import ReportPSentimentSerializer, ReportFullSentintimentSerializer, \
+from mineriaApp.serializers.report import ReportFullSentintimentSerializer, \
     ReportPSentimentPlanteamientoSerializer
 from mineriaApp.services.SentimentService import SentimentService
 
@@ -25,14 +25,14 @@ class ReportSentimentViewSet(viewsets.ModelViewSet):
     ordering_fields = ['name', 'start_date', 'delta_type', 'created_on']
     ordering = ['created_on']  # Default ordering
 
-    queryset = ReportPSentiment.objects.none()
+    filterset_fields = ['favorite']
+    queryset = ReportPSentimentPlanteamientos.objects.none()
     # permission_classes = [permissions.IsAuthenticated,
     #                       Or(GroupsPermission.IsAdminGroup, GroupsPermission.IsReportMakerGroup,
     #                          GroupsPermission.IsManagerGroup,
     #                          And(GroupsPermission.IsSafeRequest, GroupsPermission.IsReportViewerGroup))]
     permission_classes = [AllowAny, ]
-    serializer_class = ReportPSentimentSerializer
-    http_method_names = ['get', 'post', 'head', 'delete']
+    serializer_class = ReportPSentimentPlanteamientoSerializer
 
     def get_queryset(self):
         """
@@ -47,75 +47,10 @@ class ReportSentimentViewSet(viewsets.ModelViewSet):
 
         favorite = self.request.query_params.get('favorite', None)
         if favorite is not None:
+            favorite = bool(favorite)
             qset = qset.filter(favorite=favorite)
 
         return qset
-
-    def create(self, request, *args, **kwargs):
-        user = self.request.user
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        instance = ReportPSentiment(**serializer.validated_data)
-        instance.client = user.client.id
-        self.perform_create(instance)
-        serializer = ReportPSentimentSerializer(instance)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
-    @decorators.action(detail=False)
-    def all(self, request, *args, **kwargs):
-        self.pagination_class = None
-        result = super(ReportSentimentViewSet, self).list(request, *args, **kwargs)
-        self.pagination_class = api_settings.DEFAULT_PAGINATION_CLASS
-        return result
-
-    @action(detail=True, methods=['get'], url_path="report")
-    @swagger_auto_schema(
-        responses={200: ReportFullSentintimentSerializer(), 400: "Reporte Id Invalido"})
-    def report(self, request, pk):
-        """
-        Devuelve los resultados del reporte
-        """
-        try:
-            param = ReportPSentiment.objects.get(pk=pk)
-        except ReportPSentiment.DoesNotExist:
-            raise Http404("No MongoModels.ReportPSentiment matches the given query.")
-        reports = SentimentService.build_report(param.id, param.entries_id, param.start_date, param.end_date,
-                                                param.delta_value,
-                                                param.delta_type)
-
-        param.result = reports
-        serializer = ReportFullSentintimentSerializer(param)
-        return Response(serializer.data)
-
-
-class ReportSentimentPlanteamientoViewSet(viewsets.ModelViewSet):
-    """
-        API endpoint that allows reports sentiment planteamiento to be viewed or edited.
-    """
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-
-    # filterset_fields = ['favorite']
-    search_fields = ['name', 'description', 'super_region', 'region']
-    ordering_fields = ['name', 'start_date', 'delta_type']
-    ordering = ['name']  # Default ordering
-
-    queryset = ReportPSentimentPlanteamientos.objects.none()
-    # permission_classes = [permissions.IsAuthenticated,
-    #                       Or(GroupsPermission.IsAdminGroup, GroupsPermission.IsReportMakerGroup,
-    #                          GroupsPermission.IsManagerGroup,
-    #                          And(GroupsPermission.IsSafeRequest, GroupsPermission.IsReportViewerGroup))]
-    permission_classes = [AllowAny, ]
-    serializer_class = ReportPSentimentPlanteamientoSerializer
-    http_method_names = ['get', 'post', 'head', 'delete']
-
-    def get_queryset(self):
-        """
-        This view should return a list of all the report_param
-        for the currently authenticated client.
-        """
-        user = self.request.user
-        return ReportPSentimentPlanteamientos.objects.filter(client=user.client.id)
 
     def create(self, request, *args, **kwargs):
         user = self.request.user
@@ -127,6 +62,18 @@ class ReportSentimentPlanteamientoViewSet(viewsets.ModelViewSet):
         serializer = ReportPSentimentPlanteamientoSerializer(instance)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    @decorators.action(detail=False)
+    def all(self, request, *args, **kwargs):
+        self.pagination_class = None
+        result = super(ReportSentimentViewSet, self).list(request, *args, **kwargs)
+        self.pagination_class = api_settings.DEFAULT_PAGINATION_CLASS
+        return result
+
+    def perform_update(self, serializer):
+        instance = self.get_object()
+        ReportDSentiment.objects(report_param=instance.id).delete()
+        serializer.save()
 
     @action(detail=True, methods=['get'], url_path="report")
     @swagger_auto_schema(

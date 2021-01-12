@@ -14,10 +14,10 @@ class ReportParam(Document):
     name = StringField(required=True)
     description = StringField(default="")
     start_date = DateTimeField(required=True)
-    end_date = DateTimeField()
+    end_date = DateTimeField(null=True)
     delta_type = StringField(required=True)
     delta_value = IntField(required=True)
-    entities_id = ListField(ReferenceField(Entry), max_length=5)
+    entities = ListField(ReferenceField(Entity), max_length=5)
     created_on = DateTimeField(default=datetime.now())
     meta = {'allow_inheritance': True}
     favorite = BooleanField(default=False, null=False)
@@ -35,4 +35,3 @@ class ReportPSentimentPlanteamientos(ReportPSentiment):
     # Planteamientos
     super_regions = ListField(ReferenceField(SuperRegion))
     regions = ListField(ReferenceField(Region))
-    entities = ListField(ReferenceField(Entity))

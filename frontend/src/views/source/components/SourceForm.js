@@ -87,7 +87,7 @@ const SourceForm = ({ props, history }) => {
                 error={Boolean(touched.name && errors.name)}
                 fullWidth
                 helperText={touched.name && errors.name}
-                label="Correo o Nombre de usuario"
+                label="Nombre"
                 margin="normal"
                 name="name"
                 onBlur={handleBlur}
