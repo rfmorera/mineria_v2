@@ -1,6 +1,8 @@
 from rest_condition import Or
+from rest_framework import decorators
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.settings import api_settings
 from rest_framework_mongoengine import viewsets
 
 from mineriaApp.models_v2.entity import Entity
@@ -13,6 +15,13 @@ class EntityView(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated, Or(IsManagerGroup, IsAdminGroup, IsReportMakerGroup)]
     serializer_class = EntitySerializer
+
+    @decorators.action(detail=False)
+    def all(self, request, *args, **kwargs):
+        self.pagination_class = None
+        result = super(EntityView, self).list(request, *args, **kwargs)
+        self.pagination_class = api_settings.DEFAULT_PAGINATION_CLASS
+        return result
 
     # def get(self, request):
     #     """Devuelve las entidades"""

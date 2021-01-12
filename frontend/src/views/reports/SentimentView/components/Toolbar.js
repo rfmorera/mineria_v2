@@ -74,7 +74,7 @@ const Toolbar = ({
           color="primary"
           variant="contained"
           onClick={() => {
-            history.push('/admin/sources/add');
+            history.push('/admin/report-basic/add');
           }}
         >
           Añadir reporte

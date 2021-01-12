@@ -44,6 +44,7 @@ const Results = ({
   deleteReportSentiment,
   selectedReportSentimentIds,
   setSelectedReportSentimentIds,
+  clearReports,
   history,
   ...rest
 }) => {
@@ -59,6 +60,9 @@ const Results = ({
 
   useEffect(() => {
     getReportSentimentlists(pagen);
+    return function cleanup() {
+      clearReports();
+    };
   }, [pagen]);
 
   const handleSelectAll = event => {
@@ -200,7 +204,7 @@ const Results = ({
                       endIcon={<EditIcon />}
                       onClick={() => {
                         history.push(
-                          '/admin/report_sentiments/edit/' + report_sentiment.id
+                          '/admin/report-basic/edit/' + report_sentiment.id
                         );
                       }}
                     >
@@ -276,6 +280,9 @@ function mapDispatchToProps(dispatch) {
       dispatch(
         report_sentimentActions.deleteReportSentiment(report_sentimentId)
       );
+    },
+    clearReports: () => {
+      dispatch(report_sentimentActions.clearReportSentiment());
     }
   };
 }

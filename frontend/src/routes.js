@@ -12,6 +12,7 @@ import SettingsView from 'src/views/settings/SettingsView';
 import SourceListView from 'src/views/source/index';
 import SourceFormView from 'src/views/source/SourceFormView';
 import ReportSentimentListView from 'src/views/reports/SentimentView/index';
+import ReportFormView from 'src/views/reports/SentimentView/ReportFormView';
 import EntryListView from 'src/views/entry/index';
 import EntryFormView from 'src/views/entry/EntryFormView';
 import Landing from 'src/views/landing/Landing';
@@ -23,8 +24,8 @@ const routes = [
   { path: '/products', component: ProductListView, layout: '/admin' },
 
   // Reports Basic
-  { path: '/report-basic/edit/:id', component: SourceFormView, layout: '/admin' },
-  { path: '/report-basic/add', component: SourceFormView, layout: '/admin' },
+  { path: '/report-basic/edit/:id', component: ReportFormView, layout: '/admin' },
+  { path: '/report-basic/add', component: ReportFormView, layout: '/admin' },
   { path: '/report-basic/:pagen', component: ReportSentimentListView, layout: '/admin' },
   { path: '/report-sentiment/:id', component: ReportSentiment, layout: '/admin' },
   { path: '/report-sentiment/:id', component: ReportSentiment, layout: '/auth' },

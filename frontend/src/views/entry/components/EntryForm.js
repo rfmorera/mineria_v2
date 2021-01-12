@@ -18,8 +18,6 @@ import {
 } from '@material-ui/core';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import EntryAutocomplete from '../../components/Input/Autocomplete';
 
 const validationSchema = yup.object({
   name: yup.string().required('Este campo es requerido.'),

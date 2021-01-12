@@ -11,6 +11,7 @@ export const report_sentimentServices = {
   postReportSentiment,
   getReportSentiment,
   putReportSentiment,
+  patchReportSentiment,
   getReportSentimentData
 };
 
@@ -29,7 +30,7 @@ function getReportSentiment(id) {
   };
 
   return axios
-    .get(API_URL + '/report-sentiment/' + id, authConfig)
+    .get(API_URL + '/report-sentiment/' + id + '/', authConfig)
     .then(function(response) {
       return response;
     })
@@ -52,6 +53,32 @@ function putReportSentiment(id, report) {
 
   return axios
     .put(API_URL + '/report-sentiment/' + id + '/', report, authConfig)
+    .then(function(response) {
+      return response;
+    })
+    .catch(function(error) {
+      return handleError(error);
+    });
+}
+
+function patchReportSentiment(id, report) {
+  let token = localStorage.getItem('token');
+
+  const authConfig = {
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+
+      Authorization: `Token ${token}`
+    }
+  };
+
+  if (report.favorite !== null) {
+    report.favorite = report.favorite ? 'True' : 'False';
+  }
+
+  return axios
+    .patch(API_URL + '/report-sentiment/' + id + '/', report, authConfig)
     .then(function(response) {
       return response;
     })
@@ -111,7 +138,7 @@ function getReportSentimentsList(
   }
 
   if (favorite !== null) {
-    url += '?favorite=' + (favorite ? 'True' : 'False');
+    url += '?favorite=' + (favorite ? 'true' : 'false');
   }
   return axios
     .get(API_URL + url, authConfig)
@@ -136,7 +163,7 @@ function deleteReportSentiment(reportId) {
   };
 
   return axios
-    .delete(API_URL + '/report-sentiment/' + reportId, authConfig)
+    .delete(API_URL + '/report-sentiment/' + reportId + '/', authConfig)
     .then(function(response) {
       return response;
     })
@@ -159,7 +186,7 @@ function getReportSentimentData(ids) {
   const promises = ids.map(item => {
     return axios
       .get(
-        API_URL + '/report-sentiment-planteamiento/' + item + '/report',
+        API_URL + '/report-sentiment/' + item + '/report',
         authConfig
       )
       .then(response => {

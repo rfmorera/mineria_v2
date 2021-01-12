@@ -9,7 +9,8 @@ export const report_sentimentActions = {
   getReportSentiment,
   putReportSentiment,
   clearReportSentiment,
-  getReportSentimentData
+  getReportSentimentData,
+  patchReportSentiment
 };
 
 function getReportSentiment(id) {
@@ -72,6 +73,39 @@ function putReportSentiment(id, report_sentiment) {
   function failure(error) {
     return {
       type: report_sentimentConstants.PUT_REPORT_SENTIMENT_FAILURE,
+      error
+    };
+  }
+}
+
+function patchReportSentiment(id, report_sentiment) {
+  return dispatch => {
+    dispatch(request());
+
+    report_sentimentServices.patchReportSentiment(id, report_sentiment).then(
+      response => {
+        toast.success('Reporte editado satisfactoriamente');
+        dispatch(success(response.data));
+      },
+      error => {
+        toast.error('Error editando el Reporte ');
+        dispatch(failure(error));
+      }
+    );
+  };
+
+  function request() {
+    return { type: report_sentimentConstants.PATCH_REPORT_SENTIMENT_REQUEST };
+  }
+  function success(results) {
+    return {
+      type: report_sentimentConstants.PATCH_REPORT_SENTIMENT_SUCCESS,
+      results
+    };
+  }
+  function failure(error) {
+    return {
+      type: report_sentimentConstants.PATCH_REPORT_SENTIMENT_FAILURE,
       error
     };
   }
@@ -196,7 +230,6 @@ function clearReportSentiment() {
 function getReportSentimentData(ids) {
   return dispatch => {
     dispatch(request());
-
     report_sentimentServices.getReportSentimentData(ids).then(
       response => {
         dispatch(success(response));

@@ -72,12 +72,6 @@ const LatestReports = ({
   }, [order]);
 
   useEffect(() => {
-    if (order == 1 && loaded) {
-      setOrder(0);
-    }
-  }, [loaded]);
-
-  useEffect(() => {
     if (order == 1) {
       setLoaded(!loading);
     }
@@ -123,8 +117,9 @@ const LatestReports = ({
                   <IconButton edge="end" size="small" onClick={dotsClick}>
                     <MoreVertIcon />
                   </IconButton>
+                  {/*TODO: Asegurar independencia entre los menus, actualmente no funcionan*/}
                   <Menu
-                    id="long-menu"
+                    id={"long-menu-"+report.id}
                     anchorEl={anchorEl}
                     keepMounted
                     open={open}
@@ -147,7 +142,7 @@ const LatestReports = ({
                     <MenuItem
                       key={1}
                       component={RouterLink}
-                      to={'admin/report_sentiments/edit/' + report.id}
+                      to={'/admin/report-basic/edit/' + report.id}
                     >
                       Editar
                     </MenuItem>

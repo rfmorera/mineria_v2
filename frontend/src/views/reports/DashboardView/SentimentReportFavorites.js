@@ -32,6 +32,7 @@ const SentimentReportFavorites = ({
   order,
   setOrder,
   getData,
+  clearData,
   data,
   ...rest
 }) => {
@@ -42,13 +43,10 @@ const SentimentReportFavorites = ({
     if (order == 0) {
       getFavorites();
     }
+    return function cleanup() {
+      clearData();
+    };
   }, []);
-
-  // useEffect(() => {
-  //   console.log("comp")
-  //   console.log(data.data_ratio)
-  //   console.log(typeof data.data_ratio)
-  // });
 
   useEffect(() => {
     if (order != 0) return;
@@ -119,6 +117,9 @@ function mapDispatchToProps(dispatch) {
     },
     getData: ids => {
       dispatch(report_sentimentActions.getReportSentimentData(ids));
+    },
+    clearData: () => {
+      dispatch(report_sentimentActions.clearReportSentiment());
     }
   };
 }

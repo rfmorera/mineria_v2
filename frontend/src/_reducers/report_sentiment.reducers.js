@@ -65,6 +65,26 @@ export function report_sentiments(state = initialState, action) {
         updatingReportSentimentErrorMessage: action.error
       };
 
+    // PATCH_REPORT_SENTIMENT
+    case report_sentimentConstants.PATCH_REPORT_SENTIMENT_REQUEST:
+      return {
+        ...state,
+        updatingReportSentiment: true,
+        updatingReportSentimentErrorMessage: ''
+      };
+    case report_sentimentConstants.PATCH_REPORT_SENTIMENT_SUCCESS:
+      return {
+        ...state,
+        updatingReportSentiment: false,
+        report_sentiment: action.results
+      };
+    case report_sentimentConstants.PATCH_REPORT_SENTIMENT_FAILURE:
+      return {
+        ...state,
+        updatingReportSentiment: false,
+        updatingReportSentimentErrorMessage: action.error
+      };
+
     // GET_REPORT_SENTIMENTS
     case report_sentimentConstants.GET_REPORT_SENTIMENTS_REQUEST:
       return {
