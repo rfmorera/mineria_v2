@@ -37,7 +37,7 @@ const ReportList = ({
       </Box>
       <Box>
         <Typography variant="p"></Typography>
-        Cantidad de reportes: <b>{total_reports}</b> | Fecha Inicio :{' '}
+        Cantidad de reportes: <b>{data.length}</b> | Fecha Inicio :{' '}
         <b>{start_date}</b> | Fecha Fin : <b>{end_date}</b>
       </Box>
       {data.length === 0 ? (
@@ -75,8 +75,8 @@ const ReportList = ({
               component="div"
               count={data.length}
               page={page}
-              rowsPerPage={5}
-              rowsPerPageOptions={5}
+              rowsPerPage={3}
+              rowsPerPageOptions={3}
             />
           </div>
         </Box>
