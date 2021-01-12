@@ -23,7 +23,7 @@ from rest_framework.authentication import BasicAuthentication
 from mineriaApp.views import SentimentView, ResumenView, EntryView, SourceView, EntityView, OpinionView, RegionView, \
     SuperRegionView
 from mineriaApp.views import UserGroupView
-from mineriaApp.views.Reports import SentimentReport
+from mineriaApp.views.Reports import SentimentReport, ReportAdvancedView
 
 router = routers.DefaultRouter()
 router.register(r'users', UserGroupView.UserViewSet)
@@ -31,6 +31,7 @@ router.register(r'groups', UserGroupView.GroupViewSet)
 router.register(r'permissions', UserGroupView.PermissionViewSet)
 router.register(r'clients', UserGroupView.ClientViewSet)
 router.register(r'report-sentiment', SentimentReport.ReportSentimentViewSet)
+router.register(r'report-advanced', ReportAdvancedView.ReportAdvancedViewSet)
 router.register(r'opinions', OpinionView.OpinionView)
 router.register(r'entries', EntryView.EntryView)
 router.register(r'entities', EntityView.EntityView)
