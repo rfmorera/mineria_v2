@@ -20,7 +20,9 @@ const initialState = {
     data_ratio: [],
     data_report_desc: [],
     total: '-',
-    total_opiniones: '-'
+    total_opiniones: '-',
+    min_date: '',
+    max_date: ''
   }
 };
 

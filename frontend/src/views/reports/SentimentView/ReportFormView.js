@@ -1,4 +1,4 @@
-import React, { useEffect, usePara, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { connect } from 'react-redux';
 import { report_sentimentActions } from '../../../_actions/report_sentiment.actions';
