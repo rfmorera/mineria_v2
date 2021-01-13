@@ -127,7 +127,7 @@ DJOSER = {
     'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
     'USER_CREATE_PASSWORD_RETYPE': True,
     'SERIALIZERS': {
-        'user': 'mineriaApp.serializers.user.UserSerializer',
+        'user': 'mineriaApp.serializers.user.DJOSERUserSerializer',
         'current_user': 'mineriaApp.serializers.user.CurrentUserSerializer',
     },
 }
