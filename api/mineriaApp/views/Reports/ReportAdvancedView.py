@@ -19,6 +19,6 @@ class ReportAdvancedViewSet(viewsets.ModelViewSet):
     @decorators.action(detail=False)
     def all(self, request, *args, **kwargs):
         self.pagination_class = None
-        result = super(ReportAdvancedView, self).list(request, *args, **kwargs)
+        result = super(ReportAdvancedViewSet, self).list(request, *args, **kwargs)
         self.pagination_class = api_settings.DEFAULT_PAGINATION_CLASS
         return result
