@@ -13,6 +13,8 @@ import SourceListView from 'src/views/source/index';
 import SourceFormView from 'src/views/source/SourceFormView';
 import ReportSentimentListView from 'src/views/reports/SentimentView/index';
 import ReportFormView from 'src/views/reports/SentimentView/ReportFormView';
+import ReportAdvancedListView from 'src/views/reports/AdvancedView/index';
+import ReportAdvancedFormView from 'src/views/reports/AdvancedView/ReportFormView';
 import EntryListView from 'src/views/entry/index';
 import EntryFormView from 'src/views/entry/EntryFormView';
 import Landing from 'src/views/landing/Landing';
@@ -27,6 +29,13 @@ const routes = [
   { path: '/report-basic/edit/:id', component: ReportFormView, layout: '/admin' },
   { path: '/report-basic/add', component: ReportFormView, layout: '/admin' },
   { path: '/report-basic/:pagen', component: ReportSentimentListView, layout: '/admin' },
+
+  // Reports Advanced
+  { path: '/report-advanced/edit/:id', component: ReportAdvancedFormView, layout: '/admin' },
+  { path: '/report-advanced/add', component: ReportAdvancedFormView, layout: '/admin' },
+  { path: '/report-advanced/:pagen', component: ReportAdvancedListView, layout: '/admin' },
+
+  // Report View
   { path: '/report-sentiment/:id', component: ReportSentiment, layout: '/admin' },
   { path: '/report-sentiment/:id', component: ReportSentiment, layout: '/auth' },
 

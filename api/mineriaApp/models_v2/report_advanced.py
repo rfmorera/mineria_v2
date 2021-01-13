@@ -10,7 +10,7 @@ class ReportAdvanced(Document):
     client = IntField(required=True)
     name = StringField(required=True)
     description = StringField(default="")
-    basic_reports = ListField(ReferenceField(ReportParam))
+    basic_reports = ListField(ReferenceField(ReportParam), required=True)
     created_on = DateTimeField(default=datetime.now())
     meta = {'allow_inheritance': True}
 
