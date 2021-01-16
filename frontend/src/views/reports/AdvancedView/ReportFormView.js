@@ -28,7 +28,7 @@ const ReportAdvancedFormView = props => {
       setUpdating(false);
     }
     getAllReportSentiment();
-  }, id);
+  }, [id]);
   id = id === 'add' ? undefined : id;
   return <ReportForm props={{ id, ...props }} />;
 };

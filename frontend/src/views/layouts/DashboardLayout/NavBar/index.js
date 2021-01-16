@@ -68,7 +68,7 @@ const NavBar = ({ onMobileClose, openMobile, logout, user }) => {
       perm: user.is_superuser || user.is_admin
     },
     {
-      href: '/admin/users',
+      href: '/admin/users/1',
       icon: UsersIcon,
       title: 'Usuarios',
       perm: user.is_superuser || user.is_admin
