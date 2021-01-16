@@ -3,6 +3,7 @@ import { sources } from './source.reducers';
 import { report_sentiments } from './report_sentiment.reducers';
 import { report_advanced } from './report_advanced.reducers';
 import { users } from './user.reducers';
+import { groups } from './group.reducers';
 import { entries } from './entry.reducers';
 import { entities } from './entity.reducers';
 import { regions } from './region.reducers';
@@ -16,6 +17,7 @@ const createRootReducer = history =>
     router: connectRouter(history),
     auth,
     users,
+    groups,
     sources,
     report_sentiments,
     report_advanced,
