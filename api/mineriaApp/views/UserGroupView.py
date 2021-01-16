@@ -1,6 +1,7 @@
 from django.contrib.auth.models import Group, Permission
 from rest_condition import Or
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
+from rest_framework.response import Response
 
 from mineriaApp.models import Client, User
 from mineriaApp.permissions.GroupsPermission import IsAdminGroup, IsSuperAdminGroup
@@ -16,6 +17,8 @@ class UserViewSet(viewsets.ModelViewSet):
     """
 
     queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated, Or(IsAdminGroup, IsSuperAdminGroup)]
 
     def get_queryset(self):
         """
@@ -25,8 +28,16 @@ class UserViewSet(viewsets.ModelViewSet):
         user = self.request.user
         return User.objects.filter(client=user.client).order_by('-date_joined')
 
-    serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated, Or(IsAdminGroup, IsSuperAdminGroup)]
+    def create(self, request, *args, **kwargs):
+        user = self.request.user
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        instance = User(**serializer.validated_data)
+        instance.client = user.client
+        self.perform_create(instance)
+        serializer = UserSerializer(instance)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class GroupViewSet(viewsets.ModelViewSet):

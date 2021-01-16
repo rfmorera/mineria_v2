@@ -13,7 +13,7 @@ class DJOSERUserSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['url', 'username', 'email', 'groups']
+        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'groups', 'last_login', 'is_active']
 
 
 class CurrentUserSerializer(serializers.ModelSerializer):
