@@ -58,10 +58,9 @@ const UserForm = ({ props, history }) => {
     clearUser,
     groupsList
   } = props;
-
   const [values, setValues] = useState(initial_state);
   useEffect(() => {
-    if (user !== undefined) {
+    if (user !== undefined && user.id !== undefined) {
       setValues({
         username: user.username,
         email: user.email,
@@ -71,6 +70,7 @@ const UserForm = ({ props, history }) => {
         groups: user.groups
       });
     } else if (id === undefined) {
+      console.log('segunda');
       setValues({
         ...values,
         groups: []
@@ -92,8 +92,8 @@ const UserForm = ({ props, history }) => {
       patchUser(id, values);
     } else {
       postUser(values);
-      setValues(initial_state);
-      clearUser();
+      // setValues(initial_state);
+      // clearUser();
     }
   };
   return (
@@ -187,7 +187,7 @@ const UserForm = ({ props, history }) => {
                     onBlur={handleBlur}
                     onChange={(e, v) => {
                       setFieldValue(
-                        'basic_reports',
+                        'groups',
                         v.map(item => item.id)
                       );
                     }}

@@ -2,6 +2,7 @@ import React, { useEffect, usePara, useState } from 'react';
 import { useParams } from 'react-router';
 import { connect } from 'react-redux';
 import { userActions } from '../../_actions/user.actions';
+import { groupActions } from '../../_actions/group.actions';
 import UserForm from './components/UserForm';
 const UserFormView = props => {
   let {
@@ -12,7 +13,9 @@ const UserFormView = props => {
     getUser,
     putUser,
     patchUser,
-    clearUser
+    clearUser,
+    groupsList,
+    getAllGroups
   } = props;
   let { id } = useParams();
   const [updating, setUpdating] = useState(false);
@@ -24,18 +27,20 @@ const UserFormView = props => {
     } else {
       setUpdating(false);
     }
-  }, id);
+    console.log("??????????????????????/")
+    console.log(id)
+    getAllGroups();
+  }, [id]);
   id = id === 'add' ? undefined : id;
-  return (
-    <UserForm props={{ id, groupsList: [{ id: 12, name: 'asd' }], ...props }} />
-  );
+  return <UserForm props={{ id, ...props }} />;
 };
 
-function mapStateToProps({ users }, ownProps) {
+function mapStateToProps({ users, groups }, ownProps) {
   return {
     creatingUser: users.creatingUser,
     user: users.user,
-    userErrorMessage: users.userErrorMessage
+    userErrorMessage: users.userErrorMessage,
+    groupsList: groups.groupsList
   };
 }
 
@@ -55,6 +60,9 @@ function mapDispatchToProps(dispatch) {
     },
     clearUser: () => {
       dispatch(userActions.clearUser());
+    },
+    getAllGroups: () => {
+      dispatch(groupActions.getGroupsList(1, false));
     }
   };
 }
