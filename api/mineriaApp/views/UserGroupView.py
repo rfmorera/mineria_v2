@@ -1,6 +1,8 @@
 from django.contrib.auth.models import Group, Permission
 from rest_condition import Or
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status, decorators
+from rest_framework.response import Response
+from rest_framework.settings import api_settings
 
 from mineriaApp.models import Client, User
 from mineriaApp.permissions.GroupsPermission import IsAdminGroup, IsSuperAdminGroup
@@ -16,6 +18,8 @@ class UserViewSet(viewsets.ModelViewSet):
     """
 
     queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated, Or(IsAdminGroup, IsSuperAdminGroup)]
 
     def get_queryset(self):
         """
@@ -25,8 +29,14 @@ class UserViewSet(viewsets.ModelViewSet):
         user = self.request.user
         return User.objects.filter(client=user.client).order_by('-date_joined')
 
-    serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated, Or(IsAdminGroup, IsSuperAdminGroup)]
+    def create(self, request, *args, **kwargs):
+        user = self.request.user
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.validated_data['client'] = user.client
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -36,6 +46,13 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [permissions.IsAuthenticated, Or(IsAdminGroup, IsSuperAdminGroup)]
+
+    @decorators.action(detail=False)
+    def all(self, request, *args, **kwargs):
+        self.pagination_class = None
+        result = super(GroupViewSet, self).list(request, *args, **kwargs)
+        self.pagination_class = api_settings.DEFAULT_PAGINATION_CLASS
+        return result
 
 
 class PermissionViewSet(viewsets.ModelViewSet):

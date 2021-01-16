@@ -4,10 +4,16 @@ from mineriaApp.models import User
 from mineriaApp.permissions.GroupsPermission import AppGroups
 
 
-class UserSerializer(serializers.ModelSerializer):
+class DJOSERUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['url', 'username', 'email', 'is_staff', 'groups']
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'groups', 'last_login', 'is_active']
 
 
 class CurrentUserSerializer(serializers.ModelSerializer):
