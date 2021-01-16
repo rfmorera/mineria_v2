@@ -9,6 +9,8 @@ import NotFoundView from 'src/views/errors/NotFoundView';
 import ProductListView from 'src/views/product/ProductListView';
 import RegisterView from 'src/views/auth/RegisterView';
 import SettingsView from 'src/views/settings/SettingsView';
+import UserListView from 'src/views/user/index';
+import UserFormView from 'src/views/user/UserFormView';
 import SourceListView from 'src/views/source/index';
 import SourceFormView from 'src/views/source/SourceFormView';
 import ReportSentimentListView from 'src/views/reports/SentimentView/index';
@@ -21,8 +23,12 @@ import Landing from 'src/views/landing/Landing';
 
 const routes = [
   // Users
+  { path: '/users/edit/:id', component: UserFormView, layout: '/admin' },
+  { path: '/users/add', component: UserFormView, layout: '/admin' },
+  { path: '/users/:pagen', component: UserListView, layout: '/admin' },
   { path: '/account', component: AccountView, layout: '/admin' },
-  { path: '/users', component: CustomerListView, layout: '/admin' },
+
+  // Products
   { path: '/products', component: ProductListView, layout: '/admin' },
 
   // Reports Basic
