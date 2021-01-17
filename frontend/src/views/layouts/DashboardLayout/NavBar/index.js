@@ -195,7 +195,7 @@ const NavBar = ({ onMobileClose, openMobile, logout, user }) => {
               ))
           )}
           <NavItem
-            href="/auth"
+            href="/auth/login"
             title="Salir"
             icon={InputIcon}
             onClick={e => {
