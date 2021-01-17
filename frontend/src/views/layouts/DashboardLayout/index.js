@@ -55,7 +55,7 @@ const DashboardLayout = ({ auth, loadUser, history, logout }) => {
   }, [auth]);
 
   const denyAccess = () => {
-    history.push('/auth');
+    history.push('/auth/login');
     toast.error('No posee los permisos suficientes para acceder a estos recursos');
   };
 

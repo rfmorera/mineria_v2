@@ -190,22 +190,18 @@ const LoginView = ({
                     Iniciar sesión
                   </Button>
                 </Box>
-                <Typography color="textSecondary" variant="body1">
-                  ¿No tiene cuenta?{' '}
-                  <Link component={RouterLink} to="/register" variant="h6">
-                    Registrese
-                  </Link>
-                </Typography>
-                <Typography color="textSecondary" variant="body1" align="right">
-                  ¿Olvidó su contraseña?{' '}
-                  <Link
-                    component={RouterLink}
-                    to="/auth/forgot-password"
-                    variant="h6"
-                  >
-                    Recuperar
-                  </Link>
-                </Typography>
+                <Grid className="d-flex" item form="maincomponent" xs>
+                  <Typography color="textSecondary" variant="body1">
+                    ¿Olvidó su contraseña?{' '}
+                    <Link
+                      component={RouterLink}
+                      to="/auth/forgot-password"
+                      variant="h6"
+                    >
+                      Recuperar
+                    </Link>
+                  </Typography>
+                </Grid>
               </form>
             )}
           </Formik>

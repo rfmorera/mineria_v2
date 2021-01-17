@@ -7,6 +7,7 @@ import ReportSentiment from 'src/views/reports/SentimentView/ReportSentiment';
 import LoginView from 'src/views/auth/LoginView';
 import ForgotPassword from 'src/views/auth/ForgotPassword';
 import PasswordResetSuccess from 'src/views/auth/PasswordResetSuccess';
+import PasswordReset from 'src/views/auth/PasswordReset';
 import NotFoundView from 'src/views/errors/NotFoundView';
 import ProductListView from 'src/views/product/ProductListView';
 import RegisterView from 'src/views/auth/RegisterView';
@@ -65,7 +66,8 @@ const routes = [
   // Auth
   { path: '/login', component: LoginView, layout: '/auth' },
   { path: '/forgot-password', component: ForgotPassword, layout: '/auth' },
-  { path: '/password-reset-success', component: PasswordResetSuccess, layout: '/auth' }
+  { path: '/password-reset-success', component: PasswordResetSuccess, layout: '/auth' },
+  { path: '/password-reset/:uid/:token', component: PasswordReset, layout: '/auth' }
 ];
 
 export default routes;
