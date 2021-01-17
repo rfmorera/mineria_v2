@@ -196,6 +196,16 @@ const LoginView = ({
                     Registrese
                   </Link>
                 </Typography>
+                <Typography color="textSecondary" variant="body1" align="right">
+                  ¿Olvidó su contraseña?{' '}
+                  <Link
+                    component={RouterLink}
+                    to="/auth/forgot-password"
+                    variant="h6"
+                  >
+                    Recuperar
+                  </Link>
+                </Typography>
               </form>
             )}
           </Formik>

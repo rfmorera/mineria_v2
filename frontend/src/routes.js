@@ -5,6 +5,8 @@ import CustomerListView from 'src/views/customer/CustomerListView';
 import DashboardView from 'src/views/reports/DashboardView';
 import ReportSentiment from 'src/views/reports/SentimentView/ReportSentiment';
 import LoginView from 'src/views/auth/LoginView';
+import ForgotPassword from 'src/views/auth/ForgotPassword';
+import PasswordResetSuccess from 'src/views/auth/PasswordResetSuccess';
 import NotFoundView from 'src/views/errors/NotFoundView';
 import ProductListView from 'src/views/product/ProductListView';
 import RegisterView from 'src/views/auth/RegisterView';
@@ -59,7 +61,11 @@ const routes = [
   { path: '/settings', component: SettingsView, layout: '/admin' },
   { path: '/error404', component: NotFoundView, layout: '/admin' },
   { path: '', component: DashboardView, layout: '/admin' },
-  { path: '/', component: LoginView, layout: '/auth' }
+
+  // Auth
+  { path: '/login', component: LoginView, layout: '/auth' },
+  { path: '/forgot-password', component: ForgotPassword, layout: '/auth' },
+  { path: '/password-reset-success', component: PasswordResetSuccess, layout: '/auth' }
 ];
 
 export default routes;
