@@ -84,7 +84,4 @@ python manage.py loaddata init_scripts\fixtures\client.json
 # Create default Users
 python manage.py createsuperuser
 admin
-
-Ciber*2019
-Ciber*2019
 ```
